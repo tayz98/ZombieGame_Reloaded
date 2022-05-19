@@ -7,6 +7,7 @@ Spielanleitung:
 
 
 Sonstiges: 
+.
 
 To-Do's: 
 * UML erstellen (Packages, Klassen, Methode etc. definieren) - Zuständigkeit: Alle
