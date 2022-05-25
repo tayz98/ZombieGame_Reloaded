@@ -1,24 +1,29 @@
-# Zombie Game   :japanese_ogre:
+# Zombie Game   <p style="text-align:right">:japanese_ogre:</p>
 
-# Inhaltsverzeichnis
+## Inhaltsverzeichnis
+<details>
+    <summary>Klick mich! </summary>
 
--
-    * [Autoren:](#autoren---p-)
-    * [Spielanleitung:](#spielanleitung-)
-    * [Sonstiges:](#sonstiges-)
-    * [To-Do's:](#to-do-s-)
+- [Zombie Game   <p style="text-align:right">:japanese_ogre:</p>](#zombie-game---japanese_ogre)
+  - [Inhaltsverzeichnis](#inhaltsverzeichnis)
+  - [Autoren](#autoren)
+  - [Spielanleitung](#spielanleitung)
+  - [Sonstiges](#sonstiges)
+  - [To-Do's](#to-dos)
+  
+</details>
 
-## Autoren:
+## Autoren
 Alexander Nachtigal<br>
 Sören Zacharias <br>
 Veronica Zylla </p>
 
-## Spielanleitung:
+## Spielanleitung
 
-## Sonstiges: 
+## Sonstiges
 .
 
-## To-Do's: 
+## To-Do's 
 * UML erstellen (Packages, Klassen, Methode etc. definieren) - Zuständigkeit: Alle
 * Javadoc erstellen - Zuständigkeit: TBA
 * <em>hier weitere Tasks hinzufügen... </em>
