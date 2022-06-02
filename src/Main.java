@@ -8,11 +8,13 @@
  * @description This file is the start point of the program. For more information about the program: see the README.MD file
  */
 
-import processing.core.PApplet;
+import processing.core.PApplet; // test
 
 
 public class Main {
     public static void main(String[] args) {
+
+        // test
     String[] appletArgs = new String[] {"Sketch"};
         PApplet.main(appletArgs);
     }
