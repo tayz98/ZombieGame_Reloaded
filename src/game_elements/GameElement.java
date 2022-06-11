@@ -3,12 +3,25 @@ package game_elements;
 public abstract class GameElement {
     private int xPosition;
     private int yPosition;
-    enum color {
-        RED, BLUE, GREEN
+
+    public int getxPosition() {
+        return xPosition;
     }
 
-    enum Symbol {
-
+    public void setxPosition(int xPosition) {
+        this.xPosition = xPosition;
     }
 
+    public int getyPosition() {
+        return yPosition;
+    }
+
+    public void setyPosition(int yPosition) {
+        this.yPosition = yPosition;
+    }
+
+    public GameElement(int xPosition, int yPosition) {
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
+    }
 }
