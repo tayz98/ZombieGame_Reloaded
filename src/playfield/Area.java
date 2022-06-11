@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 public class Area extends  PApplet {
     // ArrayList<Integer> x = new ArrayList<>(), y= new ArrayList<>();
-    String Survivor = "#";
 
 
     public void settings() {
