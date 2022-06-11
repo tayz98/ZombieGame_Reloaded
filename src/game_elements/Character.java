@@ -11,4 +11,10 @@ package game_elements;
 
 public abstract class Character extends GameElement {
 
+    boolean alive;
+
+    public void move () {
+
+    }
+
 }

@@ -8,7 +8,7 @@
  * @description This file is the start point of the program. For more information about the program: see the README.MD file
  */
 
-//import processing.core.PApplet; // test
+import processing.core.PApplet; // test
 import game_elements.Zombie;
 import playfield.Board;
 import java.awt.Point;
@@ -28,9 +28,10 @@ public class ZombieGame {
     public static final int BOARD_WIDTH = 36;
 
     public static void main(String[] args) throws Exception {
-
+        PApplet.main("playfield.Area");
         // Am Anfang wird eine Willkommensnachricht ausgegeben, die dem Spieler erklärt, wie das Spiel funktioniert
         printWelcomeMessage();
+
 
         Settings settings = new Settings();
         Board board = new Board(36, 12);
