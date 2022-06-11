@@ -9,6 +9,8 @@
  */
 
 //import processing.core.PApplet; // test
+import game_elements.GameElement;
+import game_elements.Survivor;
 import game_elements.Zombie;
 import playfield.Board;
 import java.awt.Point;
@@ -30,15 +32,20 @@ public class ZombieGame {
     public static void main(String[] args) throws Exception {
 
         // Am Anfang wird eine Willkommensnachricht ausgegeben, die dem Spieler erklärt, wie das Spiel funktioniert
-        printWelcomeMessage();
+        //printWelcomeMessage();
 
-        Settings settings = new Settings();
+        //Settings settings = new Settings(); // Konstruktor für das Settings-Objekt: hier werden gleichzeitig noch die Settings abgefragt und gesetzt -> siehe Klasse "Settings"
         Board board = new Board(36, 12);
         Scanner sc = new Scanner(System.in);
 
-        Zombie zombie = new Zombie();
+        Zombie zombie1 = new Zombie(2, 2);
+        Survivor survivor1 = new Survivor(1, 1);
+        List<GameElement> allGameElements = new ArrayList<>();
+        allGameElements.add(zombie1);
+        allGameElements.add(survivor1);
+        System.out.println(zombie1.getxPosition());
+        board.drawBoard(allGameElements);
         /*
-        Settings settings = new Settings(); // Konstruktor für das Settings-Objekt: hier werden gleichzeitig noch die Settings abgefragt und gesetzt -> siehe Klasse "Settings"
 
         String input; // Variable zum Verarbeiten der User-Eingabe
         int pickedRemedies = 0; // Variable zum tracken, wie viele Heilmittel aufgenommen wurden

@@ -1,7 +1,9 @@
 package playfield;
 
+import game_elements.GameElement;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class Board {
     private int width;
@@ -20,8 +22,13 @@ public class Board {
         return height;
     }
 
-    public void drawBoard() {
-
+    public void drawBoard(final List<GameElement> allElements) {
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j < this.width; j++) {
+                System.out.print("-");
+            }
+            System.out.println();
+        }
     }
 
     // Methode zur Ausgabe einer Willkommensnachricht

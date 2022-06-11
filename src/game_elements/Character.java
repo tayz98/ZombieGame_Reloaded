@@ -11,4 +11,10 @@ package game_elements;
 
 public abstract class Character extends GameElement {
 
+    public Character(int xPosition, int yPosition) {
+        super(xPosition, yPosition);
+    }
+
+    public abstract void move();
+
 }
