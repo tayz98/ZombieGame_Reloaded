@@ -7,8 +7,8 @@
  * @description abstract class for all characters in this game.
  */
 
-package game_object;
+package game_elements;
 
-public abstract class Characters {
+public abstract class Character extends GameElement {
 
 }

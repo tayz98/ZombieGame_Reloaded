@@ -1,8 +1,8 @@
 package playfield;
 
-import processing.core.PApplet;
+// import processing.core.PApplet;
 
-
+/*
 public class Area extends  PApplet {
     public void settings() {
         size(500, 500);
@@ -12,3 +12,4 @@ public class Area extends  PApplet {
         ellipse(mouseX,mouseY,20,20);
     }
 }
+*/
