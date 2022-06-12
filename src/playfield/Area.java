@@ -4,6 +4,8 @@ import processing.core.PApplet;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 // Documentation: https://processing.org/reference
 // good examples: http://learningprocessing.com/examples/
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 - Hauptmenü (+ Hintergrundbild)
 - Grid wurde erstellt
 - Points hinzufügen und auf Grid skalieren.
-
+- Kindklassen erstellen für Grid usw.?
 
  */
 
@@ -26,6 +28,7 @@ public class Area extends  PApplet {
 
     // Number of columns and rows in our system
     int cols, rows;
+    List<Point> field = new ArrayList<>();
 
     public void settings() {
         size(640, 480);
@@ -53,13 +56,19 @@ public class Area extends  PApplet {
                 stroke(0); // schwarze Linien.
                 // For every column and row, a rectangle is drawn at an (x,y) location scaled and sized by videoScale.
                 rect(x, y, videoScale, videoScale);
-
-                fill(0);
-                textSize(20);
-                text("Score: ", 20, 25);
-                text("Highscore: ", 400, 25);
-
+                Point tmp = new Point();
+                tmp.setLocation(x,y);
+                field.add(tmp);
             }
         }
+        textSize(20);
+        fill(124,252,0);
+        for (Point point : field) {
+            text('.', (float) point.getX(), (float) point.getY());
+        }
+        fill(0);
+        textSize(20);
+        text("Score: ", 20, 25);
+        text("Highscore: ", 400, 25);
     }
 }
