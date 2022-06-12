@@ -24,7 +24,7 @@ public class Area extends  PApplet {
     // Size of each cell in the grid, ratio of window size to video size
 // 80 * 8 = 640
 // 60 * 8 = 480
-    int videoScale = 8;
+    int videoScale = 16;
 
     // Number of columns and rows in our system
     int cols, rows;
@@ -61,10 +61,10 @@ public class Area extends  PApplet {
                 field.add(tmp);
             }
         }
-        textSize(20);
+        textSize(30);
         fill(124,252,0);
         for (Point point : field) {
-            text('.', (float) point.getX(), (float) point.getY());
+            text('.', (float) ((float) point.getX()+ 5), (float) ((float) point.getY()+ 10));
         }
         fill(0);
         textSize(20);
