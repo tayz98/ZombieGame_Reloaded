@@ -9,9 +9,7 @@
  */
 
 //import processing.core.PApplet; // test
-import game_elements.GameElement;
-import game_elements.Survivor;
-import game_elements.Zombie;
+import game_elements.*;
 import playfield.Board;
 import java.awt.Point;
 import java.io.PrintStream;
@@ -40,19 +38,25 @@ public class ZombieGame {
 
         Zombie zombie1 = new Zombie(2, 2);
         Survivor survivor1 = new Survivor(1, 1);
+        Exit exit = new Exit(0, 0);
+        Remedy remedy1 = new Remedy(3, 3);
+
         List<GameElement> allGameElements = new ArrayList<>();
         allGameElements.add(zombie1);
         allGameElements.add(survivor1);
-        System.out.println(zombie1.getxPosition());
+        allGameElements.add(exit);
+        allGameElements.add(remedy1);
+
         board.drawBoard(allGameElements);
-        /*
 
         String input; // Variable zum Verarbeiten der User-Eingabe
-        int pickedRemedies = 0; // Variable zum tracken, wie viele Heilmittel aufgenommen wurden
-        int steps = 0; // variable für das Tracken von gemachten Schritten
         boolean isValid; // Variabel zum Überprüfen, ob zugelassene Zeichen zum Bewegen etc. eingegeben wurden
-        boolean hasRemedy = false; // Variable zum Überprüfen, ob das Heilmittel eingesammelt wurde
         boolean hasWon = false; // Variable zum Überprüfen, ob gewonnen wurde
+        /*
+
+        // int pickedRemedies = 0; // Variable zum tracken, wie viele Heilmittel aufgenommen wurden
+        // int steps = 0; // variable für das Tracken von gemachten Schritten
+        // boolean hasRemedy = false; // Variable zum Überprüfen, ob das Heilmittel eingesammelt wurde
 
         List<Point> objects = new ArrayList<>(); // Liste mit allen Objekten
         List<Point> zombies = new ArrayList<>(); // Liste mit Zombies

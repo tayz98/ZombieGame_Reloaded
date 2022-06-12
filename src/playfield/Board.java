@@ -23,9 +23,17 @@ public class Board {
     }
 
     public void drawBoard(final List<GameElement> allElements) {
+        PrintStream printStream = new PrintStream(System.out, true, StandardCharsets.UTF_8);
+        String sign = "-";
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
-                System.out.print("-");
+                for (GameElement elem : allElements) {
+                    if (elem.getxPosition() == j && elem.getyPosition() == i) {
+                        sign = elem.toString();
+                    }
+                }
+                printStream.print(sign);
+                sign = "-";
             }
             System.out.println();
         }

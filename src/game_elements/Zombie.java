@@ -10,4 +10,9 @@ public class Zombie extends Character {
     public void move() {
 
     }
+
+    @Override
+    public String toString() {
+        return "Z";
+    }
 }
