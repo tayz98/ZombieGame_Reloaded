@@ -16,10 +16,6 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import static playfield.Board.printWelcomeMessage;
-import static playfield.Board.printWinMessage;
-import static playfield.Board.printLoseMessage;
-
 public class ZombieGame {
 
 
@@ -297,5 +293,8 @@ public class ZombieGame {
             System.err.println("Something went wrong!");
         }
         return false;
+    }
+
+    public static class test {
     }
 }

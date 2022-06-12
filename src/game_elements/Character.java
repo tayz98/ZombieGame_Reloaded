@@ -10,6 +10,7 @@
 package game_elements;
 
 public abstract class Character extends GameElement {
+    public boolean alive;
 
     public Character(int xPosition, int yPosition, String color, boolean alive) {
         super(xPosition, yPosition, color);
@@ -17,6 +18,15 @@ public abstract class Character extends GameElement {
     }
 
     public abstract void move();
-    public boolean alive;
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+
 }
 

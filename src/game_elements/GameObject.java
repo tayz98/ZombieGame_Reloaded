@@ -1,7 +1,7 @@
 package game_elements;
 
-public abstract class Object extends GameElement {
-    public Object(int xPosition, int yPosition, String color, boolean isCollectible) {
+public abstract class GameObject extends GameElement {
+    public GameObject(int xPosition, int yPosition, String color, boolean isCollectible) {
         super(xPosition, yPosition, color);
         this.isCollectible = isCollectible;
     }

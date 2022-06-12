@@ -5,7 +5,7 @@ package game_elements;
     What happens if the zombies goes over the Portal? (exception handling maybe)
     Unicode:
  */
-public class Portal extends Object{
+public class Portal extends GameObject {
     public Portal(int xPosition, int yPosition, String color, boolean isCollectible) {
         super(xPosition, yPosition, color, isCollectible);
     }

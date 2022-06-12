@@ -5,6 +5,17 @@ public class Survivor extends Character {
     private int pickedRemedies;
     private int steps;
     private boolean hasRemedy;
+    private int remedyCount;
+
+    public int getRemedyCount() {
+        return remedyCount;
+    }
+
+    public void setRemedyCount(int remedyCount) {
+        this.remedyCount = remedyCount;
+    }
+
+
 
     public Survivor(int xPosition, int yPosition, String color, boolean alive) {
         super(xPosition, yPosition, color, alive);

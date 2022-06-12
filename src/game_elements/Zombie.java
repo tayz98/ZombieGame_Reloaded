@@ -13,7 +13,8 @@ public class Zombie extends Character {
 
     }
     public void attack() {
-
+    // wenn der zombie in der gleichen Position wie der Survivor ist, wird ein Attack ausgeführt.
+        // jedoch kann der Spieler einen Angriff überleben, wenn dieser z. B. ein Schild hat.
     }
 
     @Override

@@ -6,45 +6,60 @@ import java.awt.*;
 import java.util.ArrayList;
 
 // Documentation: https://processing.org/reference
+// good examples: http://learningprocessing.com/examples/
 
 /* Ideen und Anmerkungen:
 - Hauptmenü (+ Hintergrundbild)
-- Elemente als Text darstellen könnte schwierig werden, da die Zeichen eine unterschiedliche Größe haben und sich überlappen können..
-- usw.
+- Grid wurde erstellt
+- Points hinzufügen und auf Grid skalieren.
 
 
  */
 
 public class Area extends  PApplet {
-    // ArrayList<Integer> x = new ArrayList<>(), y= new ArrayList<>();
+// Example 16-6: Drawing a grid of squares
 
+    // Size of each cell in the grid, ratio of window size to video size
+// 80 * 8 = 640
+// 60 * 8 = 480
+    int videoScale = 8;
+
+    // Number of columns and rows in our system
+    int cols, rows;
 
     public void settings() {
-     size(1280,720); // Fenstergröße
+        size(640, 480);
+
+        // Initialize columns and rows
+        cols = width / videoScale;
+        rows = height / videoScale;
     }
 
-    public void setup() {
-        fill(255,255,255); // Farbe des Texts
-        textSize(50); // Größe der Punkte auf dem Spiel
-        background(0);
-
+    public void drawTest() {
+        text("#", 3,3);
     }
-
 
     public void draw() {
-        // nur ein Test, lässt sich sicherlich auch in einer for Schleife umsetzen...
-    for(int i= 0; i<500;i++) {
-        text("-", 350+i, 100);
-    }
-    for (int j=0; j<300;j++) {
-        text("-", 350, 100+j);
-    }
-        for (int k=0; k<500;k++) {
-            text("-", 350+k, 400);
-        }
 
-        for (int l=0; l<300;l++) {
-            text("-", 850, 100+l);
-        }
+        // Begin loop for columns
+        for (int i = 5; i < cols-5; i++) {
+            // Begin loop for rows
+            for (int j = 5; j < rows-5; j++) {
+
+                // Scaling up to draw a rectangle at (x,y)
+                int x = i * videoScale;
+                int y = j * videoScale;
+                fill(255); // das Board bekommt einen weißen Hintergrund
+                stroke(0); // schwarze Linien.
+                // For every column and row, a rectangle is drawn at an (x,y) location scaled and sized by videoScale.
+                rect(x, y, videoScale, videoScale);
+
+                fill(0);
+                textSize(20);
+                text("Score: ", 20, 25);
+                text("Highscore: ", 400, 25);
+
+            }
         }
     }
+}
