@@ -4,5 +4,14 @@ package game_elements;
     Gun kills a random or specific (maybe the nearest/most dangerous) zombie
     Symbol has the unicode:
  */
-public class Gun {
+public class Gun extends Object {
+
+    public Gun(int xPosition, int yPosition, String color, boolean isCollectible) {
+        super(xPosition, yPosition, color, isCollectible);
+    }
+
+    @Override
+    public String ToString() {
+        return "\uD83D\uDD2B"; // https://unicode-table.com/de/1F52B/
+    }
 }

@@ -36,16 +36,16 @@ public class ZombieGame {
         Board board = new Board(36, 12);
         Scanner sc = new Scanner(System.in);
 
-        Zombie zombie1 = new Zombie(2, 2);
-        Survivor survivor1 = new Survivor(1, 1);
-        Exit exit = new Exit(0, 0);
-        Remedy remedy1 = new Remedy(3, 3);
+        //Zombie zombie1 = new Zombie(2, 2, "red", true);
+        //Survivor survivor1 = new Survivor(1, 1, "red");
+        // Exit exit = new Exit(0, 0);
+        //Remedy remedy1 = new Remedy(3, 3, "blue");
 
         List<GameElement> allGameElements = new ArrayList<>();
-        allGameElements.add(zombie1);
-        allGameElements.add(survivor1);
-        allGameElements.add(exit);
-        allGameElements.add(remedy1);
+        //allGameElements.add(zombie1);
+        //allGameElements.add(survivor1);
+        //allGameElements.add(exit);
+        //allGameElements.add(remedy1);
 
         board.drawBoard(allGameElements);
 

@@ -6,8 +6,8 @@ public class Survivor extends Character {
     private int steps;
     private boolean hasRemedy;
 
-    public Survivor(int xPosition, int yPosition) {
-        super(xPosition, yPosition);
+    public Survivor(int xPosition, int yPosition, String color, boolean alive) {
+        super(xPosition, yPosition, color, alive);
         this.pickedRemedies = 0;
         this.steps = 0;
     }
@@ -40,9 +40,8 @@ public class Survivor extends Character {
     public void move() {
 
     }
-
     @Override
-    public String toString() {
+    public String ToString() {
         return "S";
     }
 }
