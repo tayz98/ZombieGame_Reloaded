@@ -1,5 +1,7 @@
 package game_elements;
 
+import java.util.List;
+
 public class Survivor extends Character {
 
     private int pickedRemedies;
@@ -7,20 +9,17 @@ public class Survivor extends Character {
     private boolean hasRemedy;
     private int remedyCount;
 
-    public int getRemedyCount() {
-        return remedyCount;
+    public Survivor(List<Survivor> survivors, List<GameElement> allElements, int width, int height) {
+        super(allElements, width, height);
+        survivors.add(this);
     }
 
-    public void setRemedyCount(int remedyCount) {
-        this.remedyCount = remedyCount;
-    }
-
-
-
-    public Survivor(int xPosition, int yPosition, String color, boolean alive) {
+    public Survivor(int xPosition, int yPosition, String color, boolean alive, List<GameElement> survivors, List<GameElement> allElements) {
         super(xPosition, yPosition, color, alive);
         this.pickedRemedies = 0;
         this.steps = 0;
+        survivors.add(this);
+        allElements.add(this);
     }
 
     public int getPickedRemedies() {
@@ -52,7 +51,17 @@ public class Survivor extends Character {
 
     }
     @Override
-    public String ToString() {
+    public String toString() {
+        return GameElementEnums.SURVIVOR.toString();
+    }
+
+    @Override
+    public String toBoard() {
         return "S";
+    }
+
+    @Override
+    public int calculateDistanceToExit(Exit exit) {
+        return (int) (Math.abs(exit.getX() - this.getX()) + Math.abs(exit.getY() - this.getY()));
     }
 }

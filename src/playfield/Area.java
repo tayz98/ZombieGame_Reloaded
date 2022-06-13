@@ -1,6 +1,6 @@
 package playfield;
 
-import processing.core.PApplet;
+// import processing.core.PApplet;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -18,6 +18,7 @@ import java.util.List;
 
  */
 
+/*
 public class Area extends  PApplet {
 // Example 16-6: Drawing a grid of squares
 
@@ -71,4 +72,4 @@ public class Area extends  PApplet {
         text("Score: ", 20, 25);
         text("Highscore: ", 400, 25);
     }
-}
+} */

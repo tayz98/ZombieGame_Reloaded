@@ -3,6 +3,8 @@ import java.util.Scanner;
 // In dieser Klasse werden die Einstellung (settings) für das Spiel angepasst.
 
 public class Settings {
+    public int numExits;
+    public int numPlayers;
     public int numRemedies;
     public int numZombies;
     public int zombieSleep = 0;
@@ -10,6 +12,18 @@ public class Settings {
     public boolean hasPortals;
     public boolean hasRandomSpawns;
     public boolean hasSleepMode;
+
+    public Settings(int numExits, int numPlayers, int numRemedies, int numZombies, int zombieSleep, boolean hasCustomSettings, boolean hasPortals, boolean hasRandomSpawns, boolean hasSleepMode) {
+        this.numExits = numExits;
+        this.numPlayers = numPlayers;
+        this.numRemedies = numRemedies;
+        this.numZombies = numZombies;
+        this.zombieSleep = zombieSleep;
+        this.hasCustomSettings = hasCustomSettings;
+        this.hasPortals = hasPortals;
+        this.hasRandomSpawns = hasRandomSpawns;
+        this.hasSleepMode = hasSleepMode;
+    }
 
     // Konstruktor + fragt den Benutzer zusätzlich nach den Einstellungen.
     public Settings() {

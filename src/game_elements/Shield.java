@@ -10,8 +10,13 @@ public class Shield extends GameObject {
     }
 
     @Override
-    public String ToString() {
+    public String toString() {
         return "\uD83D\uDEE1"; // https://emojipedia.org/shield/
+    }
+
+    @Override
+    public String toBoard() {
+        return null;
     }
 
     public void protectSurvior() {

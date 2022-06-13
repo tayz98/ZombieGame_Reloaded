@@ -9,12 +9,23 @@
 
 package game_elements;
 
+import java.util.List;
+import java.util.Random;
+
 public abstract class Character extends GameElement {
     public boolean alive;
 
     public Character(int xPosition, int yPosition, String color, boolean alive) {
-        super(xPosition, yPosition, color);
+        //super(xPosition, yPosition, color);
         this.alive = alive;
+    }
+
+    public Character(List<GameElement> allElements, int width, int height) {
+        super(allElements, width, height);
+    }
+
+    public Character() {
+
     }
 
     public abstract void move();
@@ -27,6 +38,9 @@ public abstract class Character extends GameElement {
         this.alive = alive;
     }
 
+    public abstract String toBoard();
 
+    public abstract int calculateDistanceToExit(Exit exit);
 }
+
 

@@ -11,9 +11,15 @@ public class Gun extends GameObject {
     }
 
     @Override
-    public String ToString() {
+    public String toString() {
         return "\uD83D\uDD2B"; // https://unicode-table.com/de/1F52B/
     }
+
+    @Override
+    public String toBoard() {
+        return null;
+    }
+
     public void shoot() {
         // kill the nearest zombie
     }

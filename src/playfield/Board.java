@@ -28,8 +28,8 @@ public class Board {
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
                 for (GameElement elem : allElements) {
-                    if (elem.getxPosition() == j && elem.getyPosition() == i) {
-                        sign = elem.toString();
+                    if (elem.getX() == j && elem.getY() == i) {
+                        sign = elem.toBoard();
                     }
                 }
                 printStream.print(sign);

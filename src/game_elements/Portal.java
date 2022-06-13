@@ -11,8 +11,13 @@ public class Portal extends GameObject {
     }
 
     @Override
-    public String ToString() {
+    public String toString() {
         return "\uD83C\uDF00"; // https://emojipedia.org/cyclone/
+    }
+
+    @Override
+    public String toBoard() {
+        return null;
     }
 
     public void teleport() {

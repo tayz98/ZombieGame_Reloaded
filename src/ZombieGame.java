@@ -18,7 +18,6 @@ import java.util.*;
 
 public class ZombieGame {
 
-
     // hier werden Konstanten für die Spielfeldgröße definiert
     public static final int BOARD_HEIGHT = 12;
     public static final int BOARD_WIDTH = 36;
@@ -26,23 +25,23 @@ public class ZombieGame {
     public static void main(String[] args) throws Exception {
 
         // Am Anfang wird eine Willkommensnachricht ausgegeben, die dem Spieler erklärt, wie das Spiel funktioniert
-        //printWelcomeMessage();
+        // Board.printWelcomeMessage();
 
         //Settings settings = new Settings(); // Konstruktor für das Settings-Objekt: hier werden gleichzeitig noch die Settings abgefragt und gesetzt -> siehe Klasse "Settings"
-        Board board = new Board(36, 12);
+        Settings settings1 = new Settings(1, 1, 1, 1, 0, true, false, false, false);
+        Board board = new Board(BOARD_WIDTH, BOARD_HEIGHT);
         Scanner sc = new Scanner(System.in);
 
-        //Zombie zombie1 = new Zombie(2, 2, "red", true);
-        //Survivor survivor1 = new Survivor(1, 1, "red");
-        // Exit exit = new Exit(0, 0);
-        //Remedy remedy1 = new Remedy(3, 3, "blue");
+        List<Survivor> survivors = new ArrayList<>();        // Liste mit Survivors
+        List<Zombie> zombies = new ArrayList<>();          // Liste mit Zombies
+        List<Remedy> remedies = new ArrayList<>();         // Liste mit Heilmitteln
+        List<Exit> exits = new ArrayList<>();
+        //List<GameElement> portals = new ArrayList<>();          // Liste mit Portalen
+        List<GameElement> allGameElements = new ArrayList<>();  // Liste mit allen Game Elementen
 
-        List<GameElement> allGameElements = new ArrayList<>();
-        //allGameElements.add(zombie1);
-        //allGameElements.add(survivor1);
-        //allGameElements.add(exit);
-        //allGameElements.add(remedy1);
 
+        // Initialisierung der Zombies und Festlegung der Fixed Spawns
+        setupGame(allGameElements, zombies, survivors, exits, remedies, settings1);
         board.drawBoard(allGameElements);
 
         String input; // Variable zum Verarbeiten der User-Eingabe
@@ -54,23 +53,13 @@ public class ZombieGame {
         // int steps = 0; // variable für das Tracken von gemachten Schritten
         // boolean hasRemedy = false; // Variable zum Überprüfen, ob das Heilmittel eingesammelt wurde
 
-        List<Point> objects = new ArrayList<>(); // Liste mit allen Objekten
-        List<Point> zombies = new ArrayList<>(); // Liste mit Zombies
-        List<Point> remedies = new ArrayList<>(); // Liste mit Heilmitteln
-        List<Point> portals = new ArrayList<>(); // Liste mit Portalen
+
 
         // Initialisierung des Survivors (Spieler) und des Ausgangs
         Point survivor = new Point(5, 5); // Der Standort bzw. Punkt für den Spieler wird auf die angegebenen Koordinaten festgelegt
         objects.add(survivor);
         Point exit = new Point(2, 2); // Der Standort bzw. Punkt für den Ausgang wird auf die angegebenen Koordinaten festgelegt
         objects.add(exit);
-
-        // Initialisierung der Zombies und Festlegung der Fixed Spawns
-        for (int i = 0; i < settings.numZombies; i++) {
-            Point tmp = new Point(i + 20, i + 1);
-            objects.add(tmp);
-            zombies.add(tmp);
-        }
 
         // Initialisierung der Heilmittel und Festlegung der Fixed Spawns
         for (int i = 0; i < settings.numRemedies; i++) {
@@ -295,6 +284,47 @@ public class ZombieGame {
         return false;
     }
 
-    public static class test {
+    // Methode zum Aufsetzen eines "gewinnbaren" Spiels
+    public static void setupGame(List<GameElement> allElements, List<Zombie> zombies, List<Survivor> survivors, List<Exit> exits, List<Remedy> remedies, Settings settings) {
+
+        do {
+            allElements.clear();
+            zombies.clear();
+            survivors.clear();
+            exits.clear();
+            System.out.println("Berechne Spiel...");
+            for (int i = 0; i < settings.numZombies; i++) {
+                Zombie tmp = new Zombie(zombies, allElements, BOARD_WIDTH, BOARD_HEIGHT);
+            }
+
+            for (int i = 0; i < settings.numPlayers; i++) {
+                Survivor tmp = new Survivor(survivors, allElements, BOARD_WIDTH, BOARD_HEIGHT);
+            }
+
+            for (int i = 0; i < settings.numExits; i++) {
+                Exit tmp = new Exit(exits, allElements, BOARD_WIDTH, BOARD_HEIGHT);
+            }
+
+            for (int i = 0; i < settings.numRemedies; i++) {
+                Remedy tmp = new Remedy(remedies, allElements, BOARD_WIDTH, BOARD_HEIGHT);
+            }
+        } while(!isWinnableGame(survivors, zombies, exits));
+    }
+
+    public static boolean isWinnableGame(List<Survivor> survivors, List<Zombie> zombies, List<Exit> exits) {
+        int minDistancePlayer = 0, minDistanceZombie = 0;
+        for (Exit e : exits) {
+            for (Survivor s : survivors) {
+                if (minDistancePlayer == 0 || s.calculateDistanceToExit(e) < minDistancePlayer) {
+                    minDistancePlayer = s.calculateDistanceToExit(e);
+                }
+            }
+            for (Zombie z : zombies) {
+                if (minDistanceZombie == 0 || z.calculateDistanceToExit(e) < minDistanceZombie) {
+                    minDistanceZombie = z.calculateDistanceToExit(e);
+                }
+            }
+        }
+        return minDistanceZombie >= minDistancePlayer;
     }
 }
