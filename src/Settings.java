@@ -10,10 +10,9 @@ public class Settings {
     public int zombieSleep = 0;
     public boolean hasCustomSettings;
     public boolean hasPortals;
-    public boolean hasRandomSpawns;
     public boolean hasSleepMode;
 
-    public Settings(int numExits, int numPlayers, int numRemedies, int numZombies, int zombieSleep, boolean hasCustomSettings, boolean hasPortals, boolean hasRandomSpawns, boolean hasSleepMode) {
+    public Settings(int numExits, int numPlayers, int numRemedies, int numZombies, int zombieSleep, boolean hasCustomSettings, boolean hasPortals, boolean hasSleepMode) {
         this.numExits = numExits;
         this.numPlayers = numPlayers;
         this.numRemedies = numRemedies;
@@ -21,7 +20,6 @@ public class Settings {
         this.zombieSleep = zombieSleep;
         this.hasCustomSettings = hasCustomSettings;
         this.hasPortals = hasPortals;
-        this.hasRandomSpawns = hasRandomSpawns;
         this.hasSleepMode = hasSleepMode;
     }
 
@@ -45,7 +43,6 @@ public class Settings {
                 isValid = (inputInt == 1 || inputInt == 2);
                 //  Falls der User "1" in die Konsole eingibt, werden folgende Einstellungen für den easy Mode angepasst.
                 if (isValid && inputInt == 1) {
-                    this.hasRandomSpawns = false;
                     this.numRemedies = 1;
                     this.numZombies = 1;
                     this.zombieSleep = 0;
@@ -69,7 +66,7 @@ public class Settings {
                     // Einstellung für Spawns.
                     isValid = (inputInt == 1 || inputInt == 2);
                     if (isValid && inputInt == 2) {
-                        this.hasRandomSpawns = true;
+                        // this.hasRandomSpawns = true;
                     }
                 } while (!isValid);
 

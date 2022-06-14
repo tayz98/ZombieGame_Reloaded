@@ -1,5 +1,7 @@
 package game_elements;
 
+import playfield.Board;
+
 import java.util.List;
 
 public class Remedy extends GameObject {
@@ -7,9 +9,10 @@ public class Remedy extends GameObject {
         super(xPosition, yPosition, color, isCollectible);
     }
 
-    public Remedy(List<Remedy> remedies, List<GameElement> allElements, int width, int height) {
-        super(allElements, width, height);
+    public Remedy(List<Remedy> remedies, List<GameElement> allElements, List<GameElement> fixedObjects, Board board) {
+        super(allElements, board);
         remedies.add(this);
+        fixedObjects.add(this);
     }
 
     @Override
@@ -19,7 +22,7 @@ public class Remedy extends GameObject {
 
     @Override
     public String toBoard() {
-        return null;
+        return "\u2695";
     }
 }
 

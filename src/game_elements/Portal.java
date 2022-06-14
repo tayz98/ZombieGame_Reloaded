@@ -1,5 +1,9 @@
 package game_elements;
 
+import playfield.Board;
+
+import java.util.List;
+
 /*
     Ports the survivor to the corresponding other portal.
     What happens if the zombies goes over the Portal? (exception handling maybe)
@@ -10,6 +14,12 @@ public class Portal extends GameObject {
         super(xPosition, yPosition, color, isCollectible);
     }
 
+    public Portal(List<Portal> portals, List<GameElement> allElements, List<GameElement> fixedObjects, Board board) {
+        super(allElements, board);
+        portals.add(this);
+        fixedObjects.add(this);
+    }
+
     @Override
     public String toString() {
         return "\uD83C\uDF00"; // https://emojipedia.org/cyclone/
@@ -17,7 +27,7 @@ public class Portal extends GameObject {
 
     @Override
     public String toBoard() {
-        return null;
+        return "o";
     }
 
     public void teleport() {

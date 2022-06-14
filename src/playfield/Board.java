@@ -1,6 +1,9 @@
 package playfield;
 
 import game_elements.GameElement;
+import game_elements.Survivor;
+import game_elements.Zombie;
+
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -22,16 +25,29 @@ public class Board {
         return height;
     }
 
-    public void drawBoard(final List<GameElement> allElements) {
+    public void drawBoard(final List<GameElement> fixedObjects, final List<Survivor> survivors, final List<Zombie> zombies) {
         PrintStream printStream = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         String sign = "-";
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
-                for (GameElement elem : allElements) {
+                for (GameElement elem : fixedObjects) {
                     if (elem.getX() == j && elem.getY() == i) {
                         sign = elem.toBoard();
                     }
                 }
+
+                for (Survivor s : survivors) {
+                    if (s.getX() == j && s.getY() == i) {
+                        sign = s.toBoard();
+                    }
+                }
+
+                for (Zombie z : zombies) {
+                    if (z.getX() == j && z.getY() == i) {
+                        sign = z.toBoard();
+                    }
+                }
+
                 printStream.print(sign);
                 sign = "-";
             }

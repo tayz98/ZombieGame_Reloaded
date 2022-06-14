@@ -1,5 +1,7 @@
 package game_elements;
 
+import playfield.Board;
+
 import java.util.List;
 
 public abstract class GameObject extends GameElement {
@@ -17,8 +19,8 @@ public abstract class GameObject extends GameElement {
         // set isCollectible to false. and make the object disappear.
     }
 
-    public GameObject(List<GameElement> allElements, int width, int height) {
-        super(allElements, width, height);
+    public GameObject(List<GameElement> allElements, Board board) {
+        super(allElements, board);
     }
 
 }

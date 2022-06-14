@@ -1,5 +1,7 @@
 package game_elements;
 
+import playfield.Board;
+
 import java.awt.*;
 import java.util.List;
 import java.util.Random;
@@ -7,8 +9,8 @@ import java.util.Random;
 public abstract class GameElement extends Point {
     private String color;
 
-    public GameElement(List<GameElement> allElements, int width, int height) {
-        this.setRandomLocation(width, height, allElements);
+    public GameElement(List<GameElement> allElements, Board board) {
+        this.setRandomLocation(board, allElements);
         allElements.add(this);
     }
 
@@ -51,14 +53,14 @@ public abstract class GameElement extends Point {
 
     public abstract String toBoard();
 
-    public void setRandomLocation(final int width, final int height, final List<GameElement> allElements) {
+    public void setRandomLocation(Board board, final List<GameElement> allElements) {
         int x, y;
         try {
             Random rand = new Random();
             boolean isValid = true;
             do {
-                x = rand.nextInt(width - 1);
-                y = rand.nextInt(height - 1);
+                x = rand.nextInt(board.getWidth() - 1);
+                y = rand.nextInt(board.getHeight() - 1);
                 this.setLocation(x, y);
                 for (GameElement elem : allElements) {
                     if (elem.equals(this) && !(elem == this)) {
