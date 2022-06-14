@@ -11,6 +11,7 @@ import java.util.List;
 public class Board {
     private int width;
     private int height;
+    private int score = 100;
 
     public Board(final int width, final int height) {
         this.width = width;
@@ -25,7 +26,16 @@ public class Board {
         return height;
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public void increaseScore(int points) {
+        this.score += points;
+    }
+
     public void drawBoard(final List<GameElement> fixedObjects, final List<Survivor> survivors, final List<Zombie> zombies) {
+        System.out.println("Statuszeile---- Punkte: " + this.getScore());
         PrintStream printStream = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         String sign = "-";
         for (int i = 0; i < this.height; i++) {
@@ -73,22 +83,20 @@ public class Board {
     }
 
     // Methode zur Ausgabe einer Gewinner-Nachricht
-    public static void printWinMessage() {
-        System.out.println("***********************************");
-        System.out.println("*                                 *");
-        System.out.println("*       CONGRATS! YOU WON!        *");
-        System.out.println("*   YOU ESCAPED FROM THE ZOMBIE   *");
-        System.out.println("*                                 *");
-        System.out.println("***********************************");
+    public void printWinMessage() {
+        System.out.println("********************************");
+        System.out.println(" CONGRATS! YOU WON!");
+        System.out.println(" YOU ESCAPED FROM THE ZOMBIE(S)");
+        System.out.println(" YOUR SCORE: " + this.getScore());
+        System.out.println("********************************");
     }
 
     // Methode zur Ausgabe einer Verlierer-Nachricht
-    public static void printLoseMessage() {
-        System.out.println("***********************************");
-        System.out.println("*                                 *");
-        System.out.println("*               OH NO!            *");
-        System.out.println("* THE ZOMBIE HAS A DELICIOUS MEAL *");
-        System.out.println("*                                 *");
-        System.out.println("***********************************");
+    public void printLoseMessage() {
+        System.out.println("********************************");
+        System.out.println(" OH NO!");
+        System.out.println(" THE ZOMBIE HAS A DELICIOUS MEAL");
+        System.out.println(" THE SURVIVORS LOST");
+        System.out.println("********************************");
     }
 }

@@ -1,5 +1,6 @@
 package game_elements;
 
+import enums.Direction;
 import playfield.Board;
 
 import java.util.List;
@@ -10,19 +11,29 @@ public class Survivor extends GameCharacter {
     private int allPickedRemedies;
     private int steps = 0;
     private boolean hasRemedy;
-    private int remedyCount;
+    private String playerName;
 
-    public Survivor(List<Survivor> survivors, List<GameElement> allElements, Board board) {
+    public Survivor(List<Survivor> survivors, List<GameElement> allElements, Board board, String playerName) {
         super(allElements, board);
         survivors.add(this);
+        this.playerName = playerName;
     }
 
-    public Survivor(int xPosition, int yPosition, String color, boolean alive, List<GameElement> survivors, List<GameElement> allElements) {
+    public Survivor(int xPosition, int yPosition, String color, boolean alive, List<GameElement> survivors, List<GameElement> allElements, String playerName) {
         super(xPosition, yPosition, color, alive);
         this.pickedRemedies = 0;
         this.steps = 0;
+        this.playerName = playerName;
         survivors.add(this);
         allElements.add(this);
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
     public void increasePickedRemedies() {
@@ -51,40 +62,33 @@ public class Survivor extends GameCharacter {
         this.hasRemedy = hasRemedy;
     }
 
-    public boolean move(String input, Board board) throws Exception {
+    public void move(Direction direction, Board board) throws Exception {
         try {
-            switch (input) {
+            switch (direction) {
                 // Wenn der Survivor auf den Spielfeldrand trifft, bleibt er stehen (über Min- und Max-Methode!)
-                case "a" -> {
+                case LEFT -> {
                     this.setLocation(Math.max(this.getX() - 1, 0), this.getY());
                     this.increaseSteps();
-                    return true;
                 }
-                case "s" -> {
+                case DOWN -> {
                     this.setLocation(this.getX(), Math.min(this.getY() + 1, board.getHeight() - 1));
                     this.increaseSteps();
-                    return true;
                 }
-                case "d" -> {
+                case RIGHT -> {
                     this.setLocation(Math.min(this.getX() + 1, board.getWidth() - 1), this.getY());
                     this.increaseSteps();
-                    return true;
                 }
-                case "w" -> {
+                case UP -> {
                     this.setLocation(this.getX(), Math.max(this.getY() - 1, 0));
                     this.increaseSteps();
-                    return true;
                 }
-                case "q" -> System.out.println("Exit game...");
                 default -> {
                     System.out.println("Wrong input");
-                    return false;
                 }
             }
         } catch (Exception e) {
             System.err.println("Something went wrong!");
         }
-        return false;
     }
 
     public boolean ateByZombies(List<Zombie> zombies) throws Exception {

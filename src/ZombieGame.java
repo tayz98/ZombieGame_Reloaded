@@ -9,6 +9,7 @@
  */
 
 //import processing.core.PApplet; // test
+import enums.Direction;
 import game_elements.*;
 import playfield.Board;
 import java.awt.Point;
@@ -54,10 +55,54 @@ public class ZombieGame {
             board.drawBoard(fixedObjects, survivors, zombies);
             // Hier wird geprüft, ob ein zugelassenes Zeichen eingegeben wurde -> falls nicht, so lange wiederholen, bis etwas Zugelassenes eingegeben wurde
             do {
-                System.out.println("What is your next move? [w = move up | a = move left | s = move down | d = move right | q = exit | Confirm input with ENTER]");
-                input = sc.nextLine();
                 for (Survivor s : survivors) {
-                    isValid = s.move(input, board);
+                    System.out.println(s.getPlayerName() + ", what is your next move? [w = move up | a = move left | s = move down | d = move right | q = exit | Confirm input with ENTER]");
+                    input = sc.nextLine();
+                    switch(input) {
+                        case "w": {
+                            s.move(Direction.UP, board);
+                            if (areZombiesAlive(zombies)) {
+                                board.increaseScore(10);
+                            }
+                            isValid = true;
+                            break;
+                        }
+                        case "a": {
+                            s.move(Direction.LEFT, board);
+                            if (areZombiesAlive(zombies)) {
+                                board.increaseScore(10);
+                            }
+                            isValid = true;
+                            break;
+                        }
+                        case "s": {
+                            s.move(Direction.DOWN, board);
+                            if (areZombiesAlive(zombies)) {
+                                board.increaseScore(10);
+                            }
+                            isValid = true;
+                            break;
+                        }
+                        case "d": {
+                            s.move(Direction.RIGHT, board);
+                            if (areZombiesAlive(zombies)) {
+                                board.increaseScore(10);
+                            }
+                            isValid = true;
+                            break;
+                        }
+                        case "q": {
+                            System.exit(42);
+                            isValid = true;
+                            break;
+                        }
+                        case "e": {
+                            // TO-DO usePowerUp
+                            isValid = true;
+                            break;
+                        }
+                        default: isValid = false;
+                    }
                 }
             } while (!isValid);
 
@@ -66,6 +111,7 @@ public class ZombieGame {
                     if (r.getLocation().equals(s.getLocation())) {
                         for (Survivor su : survivors) {
                             su.increaseAllPickedRemedies();
+                            board.increaseScore(50);
                         }
                         s.increasePickedRemedies();
                         r.setLocation(-1, -1);
@@ -113,18 +159,19 @@ public class ZombieGame {
                 for (Exit e : exits) {
                     if (s.getLocation().equals(e.getLocation()) && s.hasRemedy()) {
                         hasWon = true;
+                        board.increaseScore(100);
                         board.drawBoard(fixedObjects, survivors, zombies);
-                        Board.printWinMessage();
+                        board.printWinMessage();
                     } else if (s.ateByZombies(zombies)) {
                         board.drawBoard(fixedObjects, survivors, zombies);
-                        Board.printLoseMessage();
+                        board.printLoseMessage();
                         System.exit(42);
                     } else if (s.getLocation().equals(e.getLocation()) && !s.hasRemedy()) {
                         System.out.println("Oh no, there's something missing...");
                     }
                 }
             }
-        } while (!input.equals("q") && !hasWon);
+        } while (!hasWon);
     }
 
     // Methode zum Aufsetzen eines "gewinnbaren" Spiels
@@ -142,7 +189,7 @@ public class ZombieGame {
             }
 
             for (int i = 0; i < settings.numPlayers; i++) {
-                Survivor tmp = new Survivor(survivors, allElements, board);
+                Survivor tmp = new Survivor(survivors, allElements, board, "Player 1");
             }
 
             for (int i = 0; i < settings.numExits; i++) {
@@ -177,5 +224,14 @@ public class ZombieGame {
             }
         }
         return minDistanceZombie >= minDistancePlayer;
+    }
+
+    public static boolean areZombiesAlive(List<Zombie> zombies) {
+        for (Zombie z : zombies) {
+            if (z.isAlive()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

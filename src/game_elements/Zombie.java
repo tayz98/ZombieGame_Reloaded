@@ -6,6 +6,9 @@ import java.util.List;
 
 public class Zombie extends GameCharacter {
 
+    private boolean isAlive = true; // if the zombies dies (because of an item), it will disappear from the board.
+    private boolean isSleeping;
+
     // kann weg?
     public Zombie(int xPosition, int yPosition, String color, boolean alive, List<GameElement> zombies, List<GameElement> allElements) {
         super(xPosition, yPosition, color, alive);
@@ -17,10 +20,6 @@ public class Zombie extends GameCharacter {
         super(allElements, board);
         zombies.add(this);
     }
-
-    private boolean isAlive; // if the zombies dies (because of an item), it will disappear from the board.
-    private boolean isSleeping;
-
 
     public void attack() {
     // wenn der zombie in der gleichen Position wie der Survivor ist, wird ein Attack ausgeführt.
@@ -93,35 +92,6 @@ public class Zombie extends GameCharacter {
     public void setSleeping(boolean sleeping) {
         isSleeping = sleeping;
     }
+
+
 }
-
-/*
-    public static void moveZombies(final Point survivor, final List<Point> zombies) throws Exception {
-        // Der Zombie bewegt sich immer in Richtung der x- und y-Koordinate des Spielers
-        // da er diagonal gehen kann, werden beide Richtungen ausgewertet
-        try {
-            for (Point z : zombies) {
-                int x = (int) z.getX();
-                int y = (int) z.getY();
-
-                // Bewegung in x-Richtung
-                if (x < survivor.getX()) {
-                    x++;
-                } else if (x > survivor.getX()) {
-                    x--;
-                }
-                // Bewegung in y-Richtung
-                if (y < survivor.getY()) {
-                    y++;
-                } else if (y > survivor.getY()) {
-                    y--;
-                }
-                z.setLocation(x, y);
-            }
-        } catch (Exception e) {
-            System.err.println("Something went wrong!");
-        }
-
-    }
-
- */
