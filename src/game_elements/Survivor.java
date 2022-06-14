@@ -10,6 +10,8 @@ public class Survivor extends GameCharacter {
     private int pickedRemedies;
     private int allPickedRemedies;
     private int steps = 0;
+    private Item activatableItem;
+    private int passiveItemRoundsLeft = 0;
     private boolean hasRemedy;
     private String playerName;
 
@@ -19,21 +21,12 @@ public class Survivor extends GameCharacter {
         this.playerName = playerName;
     }
 
-    public Survivor(int xPosition, int yPosition, String color, boolean alive, List<GameElement> survivors, List<GameElement> allElements, String playerName) {
-        super(xPosition, yPosition, color, alive);
-        this.pickedRemedies = 0;
-        this.steps = 0;
-        this.playerName = playerName;
-        survivors.add(this);
-        allElements.add(this);
+    public void setActivatableItem(Item activatableItem) {
+        this.activatableItem = activatableItem;
     }
 
     public String getPlayerName() {
         return playerName;
-    }
-
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
     }
 
     public void increasePickedRemedies() {
@@ -102,11 +95,6 @@ public class Survivor extends GameCharacter {
             System.err.println("Something went wrong!");
         }
         return false;
-    }
-
-    @Override
-    public String toString() {
-        return GameElementEnums.SURVIVOR.toString();
     }
 
     @Override

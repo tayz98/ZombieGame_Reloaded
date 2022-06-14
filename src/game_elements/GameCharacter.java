@@ -13,23 +13,9 @@ import playfield.Board;
 import java.util.List;
 
 public abstract class GameCharacter extends GameElement {
-    public boolean alive;
-
-    public GameCharacter(int xPosition, int yPosition, String color, boolean alive) {
-        //super(xPosition, yPosition, color);
-        this.alive = alive;
-    }
 
     public GameCharacter(List<GameElement> allElements, Board board) {
         super(allElements, board);
-    }
-
-    public boolean isAlive() {
-        return alive;
-    }
-
-    public void setAlive(boolean alive) {
-        this.alive = alive;
     }
 
     public abstract String toBoard();

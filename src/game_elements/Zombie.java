@@ -9,13 +9,6 @@ public class Zombie extends GameCharacter {
     private boolean isAlive = true; // if the zombies dies (because of an item), it will disappear from the board.
     private boolean isSleeping;
 
-    // kann weg?
-    public Zombie(int xPosition, int yPosition, String color, boolean alive, List<GameElement> zombies, List<GameElement> allElements) {
-        super(xPosition, yPosition, color, alive);
-        zombies.add(this);
-        allElements.add(this);
-    }
-
     public Zombie(List<Zombie> zombies, List<GameElement> allElements, Board board) {
         super(allElements, board);
         zombies.add(this);
@@ -28,11 +21,6 @@ public class Zombie extends GameCharacter {
 
     public int distanceToSurvivor(Survivor survivor) {
         return (int) Math.max(Math.abs(this.getX() - survivor.getX()), Math.abs(this.getY() - survivor.getY()));
-    }
-
-    @Override
-    public String toString() {
-        return GameElementEnums.ZOMBIE.toString();
     }
 
     public boolean isAlive() {
@@ -84,14 +72,4 @@ public class Zombie extends GameCharacter {
     public int calculateDistanceToExit(Exit exit) {
         return (int) Math.max(Math.abs(exit.getX() - this.getX()), Math.abs(exit.getY() - this.getY()));
     }
-
-    public boolean isSleeping() {
-        return isSleeping;
-    }
-
-    public void setSleeping(boolean sleeping) {
-        isSleeping = sleeping;
-    }
-
-
 }

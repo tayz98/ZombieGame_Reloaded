@@ -1,6 +1,7 @@
 package playfield;
 
 import game_elements.GameElement;
+import game_elements.Item;
 import game_elements.Survivor;
 import game_elements.Zombie;
 
@@ -11,11 +12,16 @@ import java.util.List;
 public class Board {
     private int width;
     private int height;
-    private int score = 100;
+    private int score = 0;
+    private Item activatableItem;
 
     public Board(final int width, final int height) {
         this.width = width;
         this.height = height;
+    }
+
+    public void setActivatableItem(Item activatableItem) {
+        this.activatableItem = activatableItem;
     }
 
     public int getWidth() {
@@ -34,8 +40,17 @@ public class Board {
         this.score += points;
     }
 
+    public void drawStatusBar() {
+        System.out.println("Punkte: " + this.getScore());
+        String item = "-";
+        if (this.activatableItem != null) {
+            item = this.activatableItem.getType().name();
+        }
+        System.out.println("Aktivierbares Item: " + item);
+    }
+
     public void drawBoard(final List<GameElement> fixedObjects, final List<Survivor> survivors, final List<Zombie> zombies) {
-        System.out.println("Statuszeile---- Punkte: " + this.getScore());
+        this.drawStatusBar();
         PrintStream printStream = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         String sign = "-";
         for (int i = 0; i < this.height; i++) {

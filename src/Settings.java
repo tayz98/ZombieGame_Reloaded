@@ -8,16 +8,19 @@ public class Settings {
     public int numRemedies;
     public int numZombies;
     public int zombieSleep = 0;
+    public int numItems;
     public boolean hasCustomSettings;
     public boolean hasPortals;
     public boolean hasSleepMode;
 
-    public Settings(int numExits, int numPlayers, int numRemedies, int numZombies, int zombieSleep, boolean hasCustomSettings, boolean hasPortals, boolean hasSleepMode) {
+    public Settings(int numExits, int numPlayers, int numRemedies, int numZombies, int zombieSleep, int numItems,
+                    boolean hasCustomSettings, boolean hasPortals, boolean hasSleepMode) {
         this.numExits = numExits;
         this.numPlayers = numPlayers;
         this.numRemedies = numRemedies;
         this.numZombies = numZombies;
         this.zombieSleep = zombieSleep;
+        this.numItems = numItems;
         this.hasCustomSettings = hasCustomSettings;
         this.hasPortals = hasPortals;
         this.hasSleepMode = hasSleepMode;

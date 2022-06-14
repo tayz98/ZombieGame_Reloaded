@@ -10,6 +10,7 @@
 
 //import processing.core.PApplet; // test
 import enums.Direction;
+import enums.ItemTypes;
 import game_elements.*;
 import playfield.Board;
 import java.awt.Point;
@@ -21,8 +22,8 @@ import java.util.*;
 public class ZombieGame {
 
     // hier werden Konstanten für die Spielfeldgröße definiert
-    public static final int BOARD_HEIGHT = 12;
-    public static final int BOARD_WIDTH = 36;
+    public static final int BOARD_HEIGHT = 5;
+    public static final int BOARD_WIDTH = 10;
 
     public static void main(String[] args) throws Exception {
 
@@ -30,7 +31,7 @@ public class ZombieGame {
         // Board.printWelcomeMessage();
 
         //Settings settings = new Settings(); // Konstruktor für das Settings-Objekt: hier werden gleichzeitig noch die Settings abgefragt und gesetzt -> siehe Klasse "Settings"
-        Settings settings = new Settings(1, 1, 1, 1, 0, false, true, false);
+        Settings settings = new Settings(1, 1, 1, 1, 20, 1, false, false, true);
         Board board = new Board(BOARD_WIDTH, BOARD_HEIGHT);
         Scanner sc = new Scanner(System.in);
 
@@ -39,11 +40,12 @@ public class ZombieGame {
         List<Remedy> remedies = new ArrayList<>();              // Liste mit Heilmitteln
         List<Exit> exits = new ArrayList<>();                   // Liste mit Ausgängen
         List<Portal> portals = new ArrayList<>();               // Liste mit Portalen
+        List<Item> items = new ArrayList<>();                   // Liste mit Items
         List<GameElement> fixedObjects = new ArrayList<>();     // Liste mit allen Objekten, die sich nicht bewegen
         List<GameElement> allGameElements = new ArrayList<>();  // Liste mit allen Game Elementen
 
         // Initialisierung der Spielelemente und Festlegung der Spawns
-        setupGame(allGameElements, fixedObjects, zombies, survivors, exits, remedies, portals, settings, board);
+        setupGame(allGameElements, fixedObjects, zombies, survivors, exits, remedies, portals, items, settings, board);
 
         String input; // Variable zum Verarbeiten der User-Eingabe
         boolean isValid = false; // Variabel zum Überprüfen, ob zugelassene Zeichen zum Bewegen etc. eingegeben wurden
@@ -131,6 +133,17 @@ public class ZombieGame {
                 }
             }
 
+            // Einsammeln von Items
+            for (Survivor s : survivors) {
+                for (Item i : items) {
+                    if (i.getLocation().equals(s.getLocation())) {
+                        s.setActivatableItem(i);
+                        board.setActivatableItem(i);
+                        i.setLocation(-1, -1);
+                    }
+                }
+            }
+
             // Überprüfung, ob der Spieler, alle Heilmittel eingesammelt hat.
             for (Survivor s : survivors) {
                 if (s.getAllPickedRemedies() == settings.numRemedies) {
@@ -175,13 +188,16 @@ public class ZombieGame {
     }
 
     // Methode zum Aufsetzen eines "gewinnbaren" Spiels
-    public static void setupGame(List<GameElement> allElements, List<GameElement> fixedObjects, List<Zombie> zombies, List<Survivor> survivors, List<Exit> exits, List<Remedy> remedies, List<Portal> portals, Settings settings, Board board) {
+    public static void setupGame(List<GameElement> allElements, List<GameElement> fixedObjects, List<Zombie> zombies,
+                                 List<Survivor> survivors, List<Exit> exits, List<Remedy> remedies,
+                                 List<Portal> portals, List<Item> items, Settings settings, Board board) {
 
         do {
             allElements.clear();
             zombies.clear();
             survivors.clear();
             exits.clear();
+            items.clear();
             fixedObjects.clear();
             System.out.println("Berechne Spiel...");
             for (int i = 0; i < settings.numZombies; i++) {
@@ -203,6 +219,12 @@ public class ZombieGame {
             if (settings.hasPortals) {
                 for (int i = 0; i < 2; i++) {
                     Portal tmp = new Portal(portals, allElements, fixedObjects, board);
+                }
+            }
+
+            if (settings.numItems > 0) {
+                for (int i = 0; i < settings.numItems; i++) {
+                    Item tmp = new Item(items, allElements, fixedObjects, board);
                 }
             }
 
