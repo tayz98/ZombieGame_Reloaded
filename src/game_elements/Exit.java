@@ -5,10 +5,6 @@ import playfield.Board;
 import java.util.List;
 
 public class Exit extends GameObject {
-    public Exit(int xPosition, int yPosition, String color, boolean isCollectible) {
-        super(xPosition, yPosition, color, isCollectible);
-    }
-
     public Exit(List<Exit> exits, List<GameElement> allElements, List<GameElement> fixedObjects, Board board) {
         super(allElements, board);
         exits.add(this);

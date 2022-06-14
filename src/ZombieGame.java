@@ -31,7 +31,7 @@ public class ZombieGame {
         // Board.printWelcomeMessage();
 
         //Settings settings = new Settings(); // Konstruktor für das Settings-Objekt: hier werden gleichzeitig noch die Settings abgefragt und gesetzt -> siehe Klasse "Settings"
-        Settings settings = new Settings(1, 1, 1, 1, 20, 1, false, false, true);
+        Settings settings = new Settings(1, 1, 1, 1, 3, 1, false, false);
         Board board = new Board(BOARD_WIDTH, BOARD_HEIGHT);
         Scanner sc = new Scanner(System.in);
 
@@ -151,18 +151,10 @@ public class ZombieGame {
                 }
             }
 
-            // Wenn der Sleep-Modus aktiviert wurde, wird der Zombie in einen "Schlafmodus" gesetzt, bis eine bestimmte Anzahl von Schritten erreicht wurde.
-            if (settings.hasSleepMode) {
-                for (Survivor s : survivors) {
-                    if (s.getSteps() >= settings.zombieSleep) {
-                        for (Zombie z : zombies) {
-                            z.move(survivors);
-                        }
-                    }
-                }
-                // ansonsten ist der Zombie direkt von Anfang an wach.
-            } else {
-                for (Zombie z : zombies) {
+            for (Zombie z : zombies) {
+                if (z.getRoundsToNextMove() > 0) {
+                    z.decreaseRoundsToNextMove();
+                } else {
                     z.move(survivors);
                 }
             }
@@ -201,7 +193,7 @@ public class ZombieGame {
             fixedObjects.clear();
             System.out.println("Berechne Spiel...");
             for (int i = 0; i < settings.numZombies; i++) {
-                Zombie tmp = new Zombie(zombies, allElements, board);
+                Zombie tmp = new Zombie(zombies, allElements, board, settings.zombieSleep);
             }
 
             for (int i = 0; i < settings.numPlayers; i++) {

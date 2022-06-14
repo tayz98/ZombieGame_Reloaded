@@ -11,10 +11,10 @@ public class Settings {
     public int numItems;
     public boolean hasCustomSettings;
     public boolean hasPortals;
-    public boolean hasSleepMode;
+    public boolean hasSleepMode = false;
 
     public Settings(int numExits, int numPlayers, int numRemedies, int numZombies, int zombieSleep, int numItems,
-                    boolean hasCustomSettings, boolean hasPortals, boolean hasSleepMode) {
+                    boolean hasCustomSettings, boolean hasPortals) {
         this.numExits = numExits;
         this.numPlayers = numPlayers;
         this.numRemedies = numRemedies;
@@ -23,7 +23,9 @@ public class Settings {
         this.numItems = numItems;
         this.hasCustomSettings = hasCustomSettings;
         this.hasPortals = hasPortals;
-        this.hasSleepMode = hasSleepMode;
+        if (zombieSleep > 0) {
+            this.hasSleepMode = true;
+        }
     }
 
     // Konstruktor + fragt den Benutzer zusätzlich nach den Einstellungen.

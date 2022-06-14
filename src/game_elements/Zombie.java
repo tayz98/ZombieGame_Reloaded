@@ -7,11 +7,13 @@ import java.util.List;
 public class Zombie extends GameCharacter {
 
     private boolean isAlive = true; // if the zombies dies (because of an item), it will disappear from the board.
-    private boolean isSleeping;
+    private int roundsToNextMove = 0;
 
-    public Zombie(List<Zombie> zombies, List<GameElement> allElements, Board board) {
+
+    public Zombie(List<Zombie> zombies, List<GameElement> allElements, Board board, int roundsToNextMove) {
         super(allElements, board);
         zombies.add(this);
+        this.setRoundsToNextMove(roundsToNextMove);
     }
 
     public void attack() {
@@ -23,12 +25,24 @@ public class Zombie extends GameCharacter {
         return (int) Math.max(Math.abs(this.getX() - survivor.getX()), Math.abs(this.getY() - survivor.getY()));
     }
 
+    public int getRoundsToNextMove() {
+        return roundsToNextMove;
+    }
+
+    public void setRoundsToNextMove(int roundsToNextMove) {
+        this.roundsToNextMove = roundsToNextMove;
+    }
+
     public boolean isAlive() {
         return isAlive;
     }
 
     public void setAlive(boolean alive) {
         isAlive = alive;
+    }
+
+    public void decreaseRoundsToNextMove() {
+        this.roundsToNextMove--;
     }
 
     public void move(List<Survivor> survivors) throws Exception {
