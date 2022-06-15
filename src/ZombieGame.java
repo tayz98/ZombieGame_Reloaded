@@ -28,7 +28,7 @@ public class ZombieGame {
         // Board.printWelcomeMessage();
 
         //Settings settings = new Settings(); // Konstruktor für das Settings-Objekt: hier werden gleichzeitig noch die Settings abgefragt und gesetzt -> siehe Klasse "Settings"
-        Settings settings = new Settings(1, 1, 1, 1, 3, 1, false, false);
+        Settings settings = new Settings(1, 1, 1, 1, 30, 1, false, true);
         Board board = new Board(BOARD_WIDTH, BOARD_HEIGHT);
         Scanner sc = new Scanner(System.in);
 
@@ -124,10 +124,11 @@ public class ZombieGame {
                 }
                 // Portale
                 if (settings.hasPortals) {
-                    if (s.getLocation().equals(portals.get(0).getLocation())) {
-                        s.setLocation(portals.get(1).getLocation());
-                    } else if (s.getLocation().equals(portals.get(1).getLocation())) {
-                        s.setLocation(portals.get(0).getLocation());
+                    for (Portal p : portals) {
+                        if (s.getLocation().equals(p.getLocation())) {
+                            p.teleport(s, portals);
+                            break;
+                        }
                     }
                 }
                 // Items
@@ -185,6 +186,7 @@ public class ZombieGame {
             exits.clear();
             items.clear();
             fixedObjects.clear();
+            portals.clear();
             for (int i = 0; i < settings.numZombies; i++) {
                 Zombie tmp = new Zombie(zombies, allElements, board, settings.zombieSleep);
             }

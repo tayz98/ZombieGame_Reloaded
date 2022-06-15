@@ -4,11 +4,6 @@ import playfield.Board;
 
 import java.util.List;
 
-/*
-    Ports the survivor to the corresponding other portal.
-    What happens if the zombies goes over the Portal? (exception handling maybe)
-    Unicode:
- */
 public class Portal extends GameObject {
     public Portal(List<Portal> portals, List<GameElement> allElements, List<GameElement> fixedObjects, Board board) {
         super(allElements, board);
@@ -26,7 +21,14 @@ public class Portal extends GameObject {
         return "o";
     }
 
-    public void teleport() {
-
+    // Methode zum Teleportieren eines Spielers
+    public void teleport(Survivor s, List<Portal> portals) {
+        System.out.println(portals.get(0).getLocation());
+        System.out.println(portals.get(1).getLocation());
+        if (s.getLocation().equals(portals.get(0).getLocation())) {
+            s.setLocation(portals.get(1).getLocation());
+        } else {
+            s.setLocation(portals.get(0).getLocation());
+        }
     }
 }

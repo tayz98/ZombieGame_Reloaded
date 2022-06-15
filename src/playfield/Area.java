@@ -1,5 +1,5 @@
 package playfield;
-
+/*
 import game_elements.*;
 import org.w3c.dom.Text;
 import processing.core.PApplet;
@@ -19,7 +19,7 @@ import java.util.Scanner;
 - Points hinzufügen und auf Grid skalieren.
 - Kindklassen erstellen für Grid usw.?
 
- */
+
 
 
 public class Area extends  PApplet {
@@ -73,7 +73,7 @@ public class Area extends  PApplet {
                 grid[i][j].display();
                 /* Point tmp = new Point();
                 tmp.setLocation(i*80, j*80);
-                field.add(tmp);*/
+                field.add(tmp);
             }
         }
         for (Zombie z : zombies) {
@@ -111,5 +111,6 @@ public class Area extends  PApplet {
         }
     }
 }
+*/
 
 
