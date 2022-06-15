@@ -12,6 +12,7 @@
 import enums.Direction;
 import enums.ItemTypes;
 import game_elements.*;
+import playfield.Area;
 import playfield.Board;
 import java.awt.Point;
 import java.io.PrintStream;
@@ -34,7 +35,7 @@ public class ZombieGame {
         Settings settings = new Settings(1, 1, 1, 1, 3, 1, false, false);
         Board board = new Board(BOARD_WIDTH, BOARD_HEIGHT);
         Scanner sc = new Scanner(System.in);
-
+        Area ar = new Area();
         List<Survivor> survivors = new ArrayList<>();           // Liste mit Survivors
         List<Zombie> zombies = new ArrayList<>();               // Liste mit Zombies
         List<Remedy> remedies = new ArrayList<>();              // Liste mit Heilmitteln
@@ -54,56 +55,51 @@ public class ZombieGame {
         // Schleife, solange das Spiel nicht gewonnen oder verloren wurde
         do {
             //drawBoard(BOARD_WIDTH, BOARD_HEIGHT, survivor, zombies, exit, remedies, portals, settings);
-            board.drawBoard(fixedObjects, survivors, zombies);
+            //board.drawBoard(fixedObjects, survivors, zombies);
+            //ar.draw();
             // Hier wird geprüft, ob ein zugelassenes Zeichen eingegeben wurde -> falls nicht, so lange wiederholen, bis etwas Zugelassenes eingegeben wurde
             do {
                 for (Survivor s : survivors) {
                     System.out.println(s.getPlayerName() + ", what is your next move? [w = move up | a = move left | s = move down | d = move right | q = exit | Confirm input with ENTER]");
                     input = sc.nextLine();
-                    switch(input) {
-                        case "w": {
+                    switch (input) {
+                        case "w" -> {
                             s.move(Direction.UP, board);
                             if (areZombiesAlive(zombies)) {
                                 board.increaseScore(10);
                             }
                             isValid = true;
-                            break;
                         }
-                        case "a": {
+                        case "a" -> {
                             s.move(Direction.LEFT, board);
                             if (areZombiesAlive(zombies)) {
                                 board.increaseScore(10);
                             }
                             isValid = true;
-                            break;
                         }
-                        case "s": {
+                        case "s" -> {
                             s.move(Direction.DOWN, board);
                             if (areZombiesAlive(zombies)) {
                                 board.increaseScore(10);
                             }
                             isValid = true;
-                            break;
                         }
-                        case "d": {
+                        case "d" -> {
                             s.move(Direction.RIGHT, board);
                             if (areZombiesAlive(zombies)) {
                                 board.increaseScore(10);
                             }
                             isValid = true;
-                            break;
                         }
-                        case "q": {
+                        case "q" -> {
                             System.exit(42);
                             isValid = true;
-                            break;
                         }
-                        case "e": {
+                        case "e" -> {
                             // TO-DO usePowerUp
                             isValid = true;
-                            break;
                         }
-                        default: isValid = false;
+                        default -> isValid = false;
                     }
                 }
             } while (!isValid);

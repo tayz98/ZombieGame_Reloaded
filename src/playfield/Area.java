@@ -1,13 +1,14 @@
 package playfield;
 
+import game_elements.*;
 import org.w3c.dom.Text;
 import processing.core.PApplet;
 import processing.core.PImage;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.*;
 import java.util.List;
+import java.util.Scanner;
 
 // Documentation: https://processing.org/reference
 // good examples: http://learningprocessing.com/examples/
@@ -24,22 +25,21 @@ import java.util.List;
 public class Area extends  PApplet {
 
 
-// Example 16-6: Drawing a grid of squares
 
-    // Size of each cell in the grid, ratio of window size to video size
-// 80 * 8 = 640
-// 60 * 8 = 480
-
+    // images of the game elements
     PImage zombie;
     PImage powerUp;
-    Cell[][] grid;
+    PImage remedy;
+    PImage door;
+
+    Cell[][] grid; // 2D array of the board of type Cell
+    Board board = new Board(10,10);
+
+    // amount of cols and rows on the board
     int cols = 10;
     int rows = 10;
 
-
-    // Number of columns and rows in our system
-
-    List<Point> field = new ArrayList<>();
+    List<Point> field = new ArrayList<>(); // list of our points aka game elements
 
     public void settings() {
         size(800, 800);
@@ -48,7 +48,9 @@ public class Area extends  PApplet {
     public void setup() {
         // pictures
         zombie = loadImage("https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/zombie_1f9df.png");
-        powerUp = loadImage("https://x-up.ws/i/8fe170f20458.jpg");
+        powerUp = loadImage("https://x-up.ws/i/e2d34a1a6a48.jpg");
+        remedy = loadImage("https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/sony/336/medical-symbol_2695-fe0f.png");
+        door = loadImage("https://emojigraph.org/media/apple/door_1f6aa.png");
         // Initialize columns and rows
         grid = new Cell[cols][rows];
         for (int i = 0; i < cols; i++) {
@@ -69,11 +71,21 @@ public class Area extends  PApplet {
             for (int j = 1; j < rows-1; j++) {
                 // Display each object
                 grid[i][j].display();
-                Point tmp = new Point();
+                /* Point tmp = new Point();
                 tmp.setLocation(i*80, j*80);
-                field.add(tmp);
+                field.add(tmp);*/
             }
         }
+        for (Zombie z : zombies) {
+            image(zombie, (float) z.getX(), (float) z.getY(), 75,75);
+        }
+        fill(192,192,192);
+        textSize(30);
+        text("Score: "+ board.getScore(),20,50);
+        textSize(30);
+        text("Highscore: ",400,50);
+        text("Powerups: ", 20, 750);
+        image(powerUp, 180, 730, 70, 70);
     }
 
 
@@ -96,16 +108,6 @@ public class Area extends  PApplet {
             stroke(255);
             fill(0);
             rect(x, y, w, h);
-            fill(192,192,192);
-            textSize(30);
-            text("Score: ", 20,50);
-            textSize(30);
-            text("Highscore: ", 400,50);
-            text("Powerups: ", 20, 750);
-            image(powerUp, 180, 730, 70, 70);
-            for (Point point : field) {
-                image(zombie, (float) point.getX(), (float) point.getY(), 75,75);
-            }
         }
     }
 }
