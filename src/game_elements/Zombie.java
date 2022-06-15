@@ -2,7 +2,6 @@ package game_elements;
 
 import enums.ZombieTypes;
 import playfield.Board;
-
 import java.util.List;
 
 public class Zombie extends GameCharacter {
@@ -39,16 +38,28 @@ public class Zombie extends GameCharacter {
         // jedoch kann der Spieler einen Angriff überleben, wenn dieser z. B. ein Schild hat.
     }
 
-    public ZombieTypes getType() {
-        return type;
-    }
-
     public void setType(ZombieTypes type) {
         this.type = type;
     }
 
+    // übleradene Funktion
     public int distanceToSurvivor(Survivor survivor) {
         return (int) Math.max(Math.abs(this.getX() - survivor.getX()), Math.abs(this.getY() - survivor.getY()));
+    }
+
+    // übleradene Funktion
+    public int distanceToSurvivor(Survivor survivor, String direction) {
+        switch(direction) {
+            case "x" -> {
+                return (int) Math.abs(this.getX() - survivor.getX());
+            }
+            case "y" -> {
+                return (int) Math.abs(this.getY() - survivor.getY());
+            }
+            default -> {
+                return 0;
+            }
+        }
     }
 
     public int getRoundsToNextMove() {
@@ -63,15 +74,20 @@ public class Zombie extends GameCharacter {
         return isAlive;
     }
 
-    public void setAlive(boolean alive) {
-        isAlive = alive;
-    }
-
     public void decreaseRoundsToNextMove() {
         this.roundsToNextMove--;
     }
 
-    public void move(List<Survivor> survivors) throws Exception {
+    private boolean isValidMove(int x, int y, List<GameElement> fixedObjects) {
+        for (GameElement e : fixedObjects) {
+            if (e.getX() == x && e.getY() == y) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void move(List<Survivor> survivors, List<GameElement> fixedObjects) throws Exception {
         Survivor nearestSurvivor = null;
         int distance = 0, x, y;
         try {
@@ -87,6 +103,10 @@ public class Zombie extends GameCharacter {
 
             switch (this.type) {
                 case NORMAL -> {
+                    int numPossibilities = 1;
+                    if (this.distanceToSurvivor(nearestSurvivor, "x") > 0 && this.distanceToSurvivor(nearestSurvivor, "y") > 0) {
+                        numPossibilities = 3;
+                    }
                     // Bewegung in x-Richtung
                     if (x < nearestSurvivor.getX()) {
                         x++;
@@ -99,24 +119,60 @@ public class Zombie extends GameCharacter {
                     } else if (y > nearestSurvivor.getY()) {
                         y--;
                     }
-                    this.setLocation(x, y);
-                }
-                case JUMPER -> {
-                    int xDistance = (int) (nearestSurvivor.getX() - this.getX());
-                    int yDistance = (int) (nearestSurvivor.getY() - this.getY());
-                    if (Math.abs(xDistance) > Math.abs(yDistance)) {
-                        if (xDistance < 0) {
-                            this.translate(Math.max(-3, xDistance), 0);
-                        } else {
-                            this.translate(Math.min(3, xDistance), 0);
-                        }
-                    } else {
-                        if (yDistance < 0) {
-                            this.translate(0, Math.max(-3, yDistance));
-                        } else {
-                            this.translate(0, Math.min(3, yDistance));
+                    if (isValidMove(x, y, fixedObjects)) {
+                        this.setLocation(x, y);
+                        break;
+                    } else if (numPossibilities > 1) {
+                        if (isValidMove(x, (int) this.getY(), fixedObjects)) {
+                            this.setLocation(x, (int) this.getY());
+                            break;
+                        } else if (numPossibilities > 2) {
+                            if (isValidMove((int) this.getX(), y, fixedObjects)) {
+                                this.setLocation((int) this.getX(), y);
+                                break;
+                            }
                         }
                     }
+                }
+                case JUMPER -> {
+                    int deltaX = (int) (nearestSurvivor.getX() - this.getX());
+                    int deltaY = (int) (nearestSurvivor.getY() - this.getY());
+
+                    do {
+                        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                            if (deltaX < 0) {
+                                if (isValidMove((int) this.getX() + Math.max(-3, deltaX), (int) this.getY(), fixedObjects)) {
+                                    this.translate(Math.max(-3, deltaX), 0);
+                                    break;
+                                } else {
+                                    deltaX++;
+                                }
+                            } else {
+                                if (isValidMove((int) this.getX() + Math.min(3, deltaX), (int) this.getY(), fixedObjects)) {
+                                    this.translate(Math.min(3, deltaX), 0);
+                                    break;
+                                } else {
+                                    deltaX--;
+                                }
+                            }
+                        } else {
+                            if (deltaY < 0) {
+                                if (isValidMove((int) this.getX(), (int) this.getY() + Math.max(-3, deltaY), fixedObjects)) {
+                                    this.translate(0, Math.max(-3, deltaY));
+                                    break;
+                                } else {
+                                    deltaY++;
+                                }
+                            } else {
+                                if (isValidMove((int) this.getX(), (int) this.getY() + Math.min(3, deltaY), fixedObjects)) {
+                                    this.translate(0, Math.min(3, deltaY));
+                                    break;
+                                } else {
+                                    deltaY--;
+                                }
+                            }
+                        }
+                    } while(deltaX != 0 || deltaY != 0);
                     this.roundsToNextMove = 1;
                 }
             }

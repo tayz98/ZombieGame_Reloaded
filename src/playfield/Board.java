@@ -74,12 +74,21 @@ public class Board {
         }
     }
 
+    private void drawHorizontalLine(String symbol) {
+        for (int i = 0; i < this.getWidth() + 2; i++) {
+            System.out.print(symbol + "\t");
+        }
+        System.out.println();
+    }
+
     public void drawBoard(final List<GameElement> fixedObjects, final List<Survivor> survivors, final List<Zombie> zombies) {
         this.decreaseActiveRounds();
         this.drawStatusBar();
+        this.drawHorizontalLine("*");
         PrintStream printStream = new PrintStream(System.out, true, StandardCharsets.UTF_8);
-        String sign = "-";
+        String sign = "";
         for (int i = 0; i < this.height; i++) {
+            System.out.print("*\t");
             for (int j = 0; j < this.width; j++) {
                 for (GameElement elem : fixedObjects) {
                     if (elem.getX() == j && elem.getY() == i) {
@@ -100,44 +109,62 @@ public class Board {
                 }
 
                 printStream.print(sign + "\t");
-                sign = "-";
+                sign = "";
             }
+            System.out.print("*\t");
             System.out.println();
         }
+        this.drawHorizontalLine("*");
     }
 
     // Methode zur Ausgabe einer Willkommensnachricht
-    public static void printWelcomeMessage() {
+    public void printWelcomeMessage() {
         PrintStream printStream = new PrintStream(System.out, true, StandardCharsets.UTF_8); // wird benötigt, um medizinisches Zeichen anzuzeigen
-        System.out.println("***********************************");
-        System.out.println("*                                 *");
-        System.out.println("*       WELCOME IN ZOMBIELAND     *");
-        System.out.println("*          TRY TO SURVIVE         *");
-        System.out.println("*                                 *");
-        System.out.println("*     [S] = Survivor              *");
-        System.out.println("*     [Z] = Zombie                *");
-        System.out.println("*     [#] = Exit                  *");
-        printStream.println("*     [" + "\u2695" + "] = Remedy                *");
-        System.out.println("*     [o] = Portal                *");
-        System.out.println("*                                 *");
-        System.out.println("***********************************");
+        this.drawHorizontalLine("-");
+        System.out.println(" WELCOME IN ZOMBIELAND");
+        System.out.println(" TRY TO SURVIVE");
+        System.out.println();
+        System.out.println(" [S]\t= Survivor");
+        System.out.println(" [Z]\t= Normal Zombie");
+        System.out.println(" [ZJ]\t= Jumper Zombie");
+        System.out.println(" [#]\t= Exit");
+        printStream.println(" [" + "\u2695" + "]\t= Remedy");
+        System.out.println(" [o]\t= Portal");
+        System.out.println(" [F]\t= Item Flash");
+        System.out.println(" [X]\t= Obstacle");
+        System.out.println("(* see manual for further information)");
+        System.out.println();
+        this.drawHorizontalLine("-");
     }
 
     // Methode zur Ausgabe einer Gewinner-Nachricht
     public void printWinMessage() {
-        System.out.println("********************************");
-        System.out.println(" CONGRATS! YOU WON!");
-        System.out.println(" YOU ESCAPED FROM THE ZOMBIE(S)");
-        System.out.println(" YOUR SCORE: " + this.getScore());
-        System.out.println("********************************");
+        this.drawHorizontalLine("-");
+        System.out.println(" * CONGRATS! YOU WON!");
+        System.out.println(" * YOU ESCAPED FROM THE ZOMBIE(S)");
+        System.out.println(" * YOUR SCORE: " + this.getScore());
+        this.drawHorizontalLine("-");
     }
 
     // Methode zur Ausgabe einer Verlierer-Nachricht
     public void printLoseMessage() {
-        System.out.println("********************************");
-        System.out.println(" OH NO!");
-        System.out.println(" THE ZOMBIE HAS A DELICIOUS MEAL");
-        System.out.println(" THE SURVIVORS LOST");
-        System.out.println("********************************");
+        this.drawHorizontalLine("-");
+        System.out.println(" * OH NO!");
+        System.out.println(" * THE ZOMBIE HAS A DELICIOUS MEAL");
+        System.out.println(" * THE SURVIVORS LOST");
+        this.drawHorizontalLine("-");
+    }
+
+    public void printAdjustSettings() {
+        this.drawHorizontalLine("-");
+        System.out.println();
+        System.out.println("Pick your difficulty (* see manual for further information)");
+        System.out.println();
+        System.out.println(" [1] EASY");
+        System.out.println(" [2] MEDIUM");
+        System.out.println(" [3] HARD");
+        System.out.println(" [4] CUSTOM");
+        System.out.println();
+        this.drawHorizontalLine("-");
     }
 }

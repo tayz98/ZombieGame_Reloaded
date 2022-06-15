@@ -2,15 +2,14 @@ package game_elements;
 
 import enums.Direction;
 import playfield.Board;
-
 import java.util.List;
 
 public class Survivor extends GameCharacter {
 
     private int pickedRemedies;
     private int allPickedRemedies;
-    private int steps = 0;
     private int speed = 1;
+    private int steps = 0;
     private int roundsActive = 0;
     private Item activatableItem;
     private boolean hasRemedy;
@@ -134,6 +133,22 @@ public class Survivor extends GameCharacter {
             this.setActivatableItem(null);
             return true;
         }
+    }
+
+    public boolean isValidMove(int deltaX, int deltaY, Board board, List<Obstacle> obstacles) {
+        int xPosition = (int) (this.getX() + deltaX);
+        int yPosition = (int) (this.getY() + deltaY);
+
+        if (xPosition < 0 || xPosition >= board.getWidth() || yPosition < 0 || yPosition >= board.getHeight()) {
+            return false;
+        } else {
+            for (Obstacle o : obstacles) {
+                if (o.getX() == this.getX() + deltaX && o.getY() == this.getY() + deltaY) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override

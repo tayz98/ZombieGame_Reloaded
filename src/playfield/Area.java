@@ -1,5 +1,5 @@
 package playfield;
-/*
+
 import game_elements.*;
 import org.w3c.dom.Text;
 import processing.core.PApplet;
@@ -13,15 +13,16 @@ import java.util.Scanner;
 // Documentation: https://processing.org/reference
 // good examples: http://learningprocessing.com/examples/
 
-/* Ideen und Anmerkungen:
+/*
+- Ideen und Anmerkungen:
 - Hauptmenü (+ Hintergrundbild)
 - Grid wurde erstellt
 - Points hinzufügen und auf Grid skalieren.
 - Kindklassen erstellen für Grid usw.?
+*/
 
 
-
-
+/*
 public class Area extends  PApplet {
 
 
@@ -110,7 +111,4 @@ public class Area extends  PApplet {
             rect(x, y, w, h);
         }
     }
-}
-*/
-
-
+} */
