@@ -12,11 +12,6 @@ public class Remedy extends GameObject {
     }
 
     @Override
-    public String toString() {
-        return "\u2695";
-    }
-
-    @Override
     public String toBoard() {
         return "\u2695";
     }

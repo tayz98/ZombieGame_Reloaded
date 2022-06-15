@@ -13,7 +13,9 @@ public class Board {
     private int width;
     private int height;
     private int score = 0;
+    private int roundsActive = 0;
     private Item activatableItem;
+    private Item activeItem;
 
     public Board(final int width, final int height) {
         this.width = width;
@@ -22,6 +24,17 @@ public class Board {
 
     public void setActivatableItem(Item activatableItem) {
         this.activatableItem = activatableItem;
+    }
+
+    public void activatePowerUp() {
+        this.roundsActive = 3;
+        this.activeItem = this.activatableItem;
+        this.activatableItem = null;
+    }
+
+    public void activateItem() {
+
+        this.activatePowerUp();
     }
 
     public int getWidth() {
@@ -47,9 +60,22 @@ public class Board {
             item = this.activatableItem.getType().name();
         }
         System.out.println("Aktivierbares Item: " + item);
+        if (this.activeItem != null) {
+            System.out.println("Active item " + this.activeItem.getType() + " for " + this.roundsActive + " rounds left.");
+        }
+    }
+
+    public void decreaseActiveRounds() {
+        if (this.roundsActive == 1) {
+            this.roundsActive--;
+            this.activeItem = null;
+        } else if (this.roundsActive > 0) {
+            this.roundsActive--;
+        }
     }
 
     public void drawBoard(final List<GameElement> fixedObjects, final List<Survivor> survivors, final List<Zombie> zombies) {
+        this.decreaseActiveRounds();
         this.drawStatusBar();
         PrintStream printStream = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         String sign = "-";
@@ -73,7 +99,7 @@ public class Board {
                     }
                 }
 
-                printStream.print(sign);
+                printStream.print(sign + "\t");
                 sign = "-";
             }
             System.out.println();

@@ -30,11 +30,12 @@ public abstract class GameElement extends Point {
             Random rand = new Random();
             boolean isValid = true;
             do {
+                isValid = true;
                 x = rand.nextInt(board.getWidth() - 1);
                 y = rand.nextInt(board.getHeight() - 1);
                 this.setLocation(x, y);
                 for (GameElement elem : allElements) {
-                    if (elem.equals(this) && !(elem == this)) {
+                    if (elem.getLocation().equals(this.getLocation())) { //&& !(elem == this)) {
                         isValid = false;
                         break;
                     }

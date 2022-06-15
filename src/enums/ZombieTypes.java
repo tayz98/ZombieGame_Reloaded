@@ -1,20 +1,20 @@
 package enums;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public enum ItemTypes {
-    FLASH;
-    //SHIELD,
-    //STUN_GUN,
-    //FIRE_GUN;
+public enum ZombieTypes {
+    NORMAL,
+    JUMPER;
 
-    private static final List<ItemTypes> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
+    private static final List<ZombieTypes> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
     private static final int SIZE = VALUES.size();
     private static final Random RANDOM = new Random();
 
-    public static ItemTypes randomItemType()  {
+    public static ZombieTypes randomItemType()  {
         return VALUES.get(RANDOM.nextInt(SIZE));
     }
 }
+

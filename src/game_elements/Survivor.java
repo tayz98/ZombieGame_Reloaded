@@ -10,8 +10,9 @@ public class Survivor extends GameCharacter {
     private int pickedRemedies;
     private int allPickedRemedies;
     private int steps = 0;
+    private int speed = 1;
+    private int roundsActive = 0;
     private Item activatableItem;
-    private int passiveItemRoundsLeft = 0;
     private boolean hasRemedy;
     private String playerName;
 
@@ -23,6 +24,34 @@ public class Survivor extends GameCharacter {
 
     public void setActivatableItem(Item activatableItem) {
         this.activatableItem = activatableItem;
+    }
+
+    public int getRoundsActive() {
+        return roundsActive;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public void setRoundsActive(int roundsActive) {
+        this.roundsActive = roundsActive;
+    }
+
+    public void decreaseRoundsActive() {
+        if (this.roundsActive > 0) {
+            this.roundsActive--;
+        }
+    }
+
+    public void decreaseSpeedIfNeeded() {
+        if (this.getSpeed() > 1 && this.getRoundsActive() == 0) {
+            this.setSpeed(1);
+        }
     }
 
     public String getPlayerName() {
@@ -43,10 +72,6 @@ public class Survivor extends GameCharacter {
         return this.hasRemedy;
     }
 
-    public int getSteps() {
-        return steps;
-    }
-
     public void increaseSteps() {
         this.steps++;
     }
@@ -60,25 +85,24 @@ public class Survivor extends GameCharacter {
             switch (direction) {
                 // Wenn der Survivor auf den Spielfeldrand trifft, bleibt er stehen (über Min- und Max-Methode!)
                 case LEFT -> {
-                    this.setLocation(Math.max(this.getX() - 1, 0), this.getY());
-                    this.increaseSteps();
+                    this.setLocation(Math.max(this.getX() - this.getSpeed(), 0), this.getY());
                 }
                 case DOWN -> {
-                    this.setLocation(this.getX(), Math.min(this.getY() + 1, board.getHeight() - 1));
-                    this.increaseSteps();
+                    this.setLocation(this.getX(), Math.min(this.getY() + this.getSpeed(), board.getHeight() - 1));
                 }
                 case RIGHT -> {
-                    this.setLocation(Math.min(this.getX() + 1, board.getWidth() - 1), this.getY());
-                    this.increaseSteps();
+                    this.setLocation(Math.min(this.getX() + this.getSpeed(), board.getWidth() - 1), this.getY());
                 }
                 case UP -> {
-                    this.setLocation(this.getX(), Math.max(this.getY() - 1, 0));
-                    this.increaseSteps();
+                    this.setLocation(this.getX(), Math.max(this.getY() - this.getSpeed(), 0));
                 }
                 default -> {
                     System.out.println("Wrong input");
                 }
             }
+            this.increaseSteps();
+            this.decreaseRoundsActive();
+            this.decreaseSpeedIfNeeded();
         } catch (Exception e) {
             System.err.println("Something went wrong!");
         }
@@ -95,6 +119,21 @@ public class Survivor extends GameCharacter {
             System.err.println("Something went wrong!");
         }
         return false;
+    }
+
+    public boolean activatePowerUp() {
+        if (this.activatableItem == null) {
+            return false;
+        } else {
+            switch(this.activatableItem.type) {
+                case FLASH -> {
+                    this.setSpeed(2);
+                    this.setRoundsActive(3);
+                }
+            }
+            this.setActivatableItem(null);
+            return true;
+        }
     }
 
     @Override

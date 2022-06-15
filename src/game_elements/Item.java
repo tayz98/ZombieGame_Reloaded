@@ -15,6 +15,13 @@ public class Item extends GameObject {
         this.setType(ItemTypes.randomItemType());
     }
 
+    public Item(List<Item> items, List<GameElement> allElements, List<GameElement> fixedObjects, Board board, ItemTypes type) {
+        super(allElements, board);
+        items.add(this);
+        fixedObjects.add(this);
+        this.setType(type);
+    }
+
     public ItemTypes getType() {
         return type;
     }
@@ -24,25 +31,21 @@ public class Item extends GameObject {
     }
 
     @Override
-    public String toString() {
-        return null;
-    }
-
-    @Override
     public String toBoard() {
         switch (this.type) {
+            /*
             case STUN_GUN -> {
                 return "G";
-            }
-            case SHIELD -> {
+            } */
+            /* case SHIELD -> {
                 return  "O";
-            }
+            } */
             case FLASH -> {
                 return "F";
             }
-            case FIRE_GUN -> {
+            /* case FIRE_GUN -> {
                 return "W";
-            }
+            } */
             default -> {
                 return "";
             }

@@ -10,19 +10,16 @@
 
 //import processing.core.PApplet; // test
 import enums.Direction;
-import enums.ItemTypes;
+import enums.ZombieTypes;
 import game_elements.*;
 import playfield.Board;
-import java.awt.Point;
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-import java.sql.Array;
+
 import java.util.*;
 
 public class ZombieGame {
 
     // hier werden Konstanten für die Spielfeldgröße definiert
-    public static final int BOARD_HEIGHT = 5;
+    public static final int BOARD_HEIGHT = 10;
     public static final int BOARD_WIDTH = 10;
 
     public static void main(String[] args) throws Exception {
@@ -99,8 +96,13 @@ public class ZombieGame {
                             break;
                         }
                         case "e": {
-                            // TO-DO usePowerUp
-                            isValid = true;
+                            if (s.activatePowerUp()) {
+                                board.activatePowerUp();
+                                isValid = false;
+                            } else {
+                                System.out.println("There is no item...");
+                                isValid = false;
+                            }
                             break;
                         }
                         default: isValid = false;
@@ -108,8 +110,9 @@ public class ZombieGame {
                 }
             } while (!isValid);
 
-            for (Remedy r : remedies) {
-                for (Survivor s : survivors) {
+            for (Survivor s : survivors) {
+                // Heilmittel
+                for (Remedy r : remedies) {
                     if (r.getLocation().equals(s.getLocation())) {
                         for (Survivor su : survivors) {
                             su.increaseAllPickedRemedies();
@@ -119,33 +122,24 @@ public class ZombieGame {
                         r.setLocation(-1, -1);
                     }
                 }
-            }
-
-            // Falls Portale aktiviert wurden:
-            if (settings.hasPortals) {
-                for (Survivor s : survivors) {
-                    // Falls die Position des Spielers der Position eines Portales entspricht, wird der Spieler zu der Position des anderen Portals teleportiert.
-                    if (s.getLocation().equals(portals.get(0).getLocation()))  {
+                // Portale
+                if (settings.hasPortals) {
+                    if (s.getLocation().equals(portals.get(0).getLocation())) {
                         s.setLocation(portals.get(1).getLocation());
                     } else if (s.getLocation().equals(portals.get(1).getLocation())) {
                         s.setLocation(portals.get(0).getLocation());
                     }
                 }
-            }
-
-            // Einsammeln von Items
-            for (Survivor s : survivors) {
+                // Items
                 for (Item i : items) {
                     if (i.getLocation().equals(s.getLocation())) {
                         s.setActivatableItem(i);
                         board.setActivatableItem(i);
+                        board.increaseScore(25);
                         i.setLocation(-1, -1);
                     }
                 }
-            }
-
-            // Überprüfung, ob der Spieler, alle Heilmittel eingesammelt hat.
-            for (Survivor s : survivors) {
+                // Überprüfung, ob alle Heilmittel eingesammelt wurden
                 if (s.getAllPickedRemedies() == settings.numRemedies) {
                     s.setHasRemedy(true);
                 }
@@ -191,7 +185,6 @@ public class ZombieGame {
             exits.clear();
             items.clear();
             fixedObjects.clear();
-            System.out.println("Berechne Spiel...");
             for (int i = 0; i < settings.numZombies; i++) {
                 Zombie tmp = new Zombie(zombies, allElements, board, settings.zombieSleep);
             }

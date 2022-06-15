@@ -12,11 +12,6 @@ public class Exit extends GameObject {
     }
 
     @Override
-    public String toString() {
-        return "#";
-    }
-
-    @Override
     public String toBoard() {
         return "#";
     }
