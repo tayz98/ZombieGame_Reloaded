@@ -1,6 +1,7 @@
 package Game;
 
 import enums.Direction;
+import exceptions.UnsupportedInput;
 import game_elements.*;
 import playfield.Board;
 
@@ -33,7 +34,7 @@ public class ZGame {
         System.out.println("Press [1] to continue");
         String input = sc.nextLine();
         if (!Objects.equals(input, "1")) {
-            System.exit(42);
+            throw new UnsupportedInput("Wrong input, please enter '1' next time.");
         }
         board.printAdjustSettings();
         input = sc.nextLine();
@@ -51,7 +52,7 @@ public class ZGame {
                 this.settings = new Settings();
             }
             default -> {
-                System.exit(42);
+                throw new UnsupportedInput("Wrong input. Program is going to shutdown. cya");
             }
         }
     }
@@ -281,7 +282,7 @@ public class ZGame {
                 }
             } while (!hasWon);
         } catch (Exception e) {
-
+            System.err.println("for some reason, an error happened. Please inform us, how to reproduce it.");
         }
     }
 }

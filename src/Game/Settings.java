@@ -2,8 +2,7 @@ package Game;
 
 import java.util.Scanner;
 
-// In dieser Klasse werden die Einstellung (settings) für das Spiel angepasst.
-
+// this class contains the settings of the game.
 public class Settings {
     public int numExits;
     public int numPlayers;
