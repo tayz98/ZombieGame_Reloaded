@@ -16,7 +16,7 @@ import java.util.List;
 public class Exit extends GameObject {
 
     /**
-     * Constructor. By calling it, it adds the item to every list of the following params.
+     * Exit Constructor. By calling it, it adds itself to every list of the following params.
      * @param exits
      * @param allElements
      * @param fixedObjects

@@ -21,7 +21,7 @@ public abstract class GameElement extends Point {
     private String color; // kann raus.
 
     /**
-     * The constructor gets a list of all instanciated elements and the board
+     * The constructor gets a list of all instantiated elements and the board
      * @params: List<GameElement> allElements, Board board
      */
     public GameElement(List<GameElement> allElements, Board board) {
@@ -32,11 +32,11 @@ public abstract class GameElement extends Point {
 
     public String getColor() { // kann raus
         return color;
-    }
+    } // kann raus
 
     public void setColor(String color) { // kann raus
         this.color = color;
-    }
+    } // kann raus
 
     public abstract String toBoard(); // kann raus
 
