@@ -1,3 +1,12 @@
+/**
+ * @package game_elements
+ * @file Obstacle.java
+ * @version 1.0
+ * @authors Veronica Zylla, Sören Zacharias, Alexander Nachtigal
+ * @email veronica.zylla@student.fh-kiel.de, soeren.zacharias@student.fh-kiel.de, alexander.nachtigal@student.fh-kiel.de
+ * @description: The Obstalce class is represented as a point which prevents the player and zombie going through it.
+ */
+
 package game_elements;
 
 import playfield.Board;
@@ -12,7 +21,7 @@ public class Obstacle extends GameObject{
     }
 
     @Override
-    public String toBoard() {
+    public String toBoard() { // kann raus
         return "X";
     }
 }
