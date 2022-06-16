@@ -1,3 +1,12 @@
+/**
+ * @package game_elements
+ * @file Survivor.java
+ * @version 1.0
+ * @authors Veronica Zylla, Sören Zacharias, Alexander Nachtigal
+ * @email veronica.zylla@student.fh-kiel.de, soeren.zacharias@student.fh-kiel.de, alexander.nachtigal@student.fh-kiel.de
+ * @description: The Survivor Class is represented as a point which is used by the player.
+ */
+
 package game_elements;
 
 import enums.Direction;
@@ -6,7 +15,8 @@ import java.util.List;
 
 public class Survivor extends GameCharacter {
 
-    private int pickedRemedies;
+
+    private int amountOfPickedRemedies;
     private int allPickedRemedies;
     private int speed = 1;
     private int steps = 0;
@@ -15,11 +25,20 @@ public class Survivor extends GameCharacter {
     private boolean hasRemedy;
     private String playerName;
 
+    /**
+     * Survivor Constructor. The Survivor object adds itself to the list of survivors.
+     * @param survivors
+     * @param allElements
+     * @param board
+     * @param playerName
+     */
     public Survivor(List<Survivor> survivors, List<GameElement> allElements, Board board, String playerName) {
         super(allElements, board);
         survivors.add(this);
         this.playerName = playerName;
     }
+
+    // getter and setter methods:
 
     public void setActivatableItem(Item activatableItem) {
         this.activatableItem = activatableItem;
@@ -58,7 +77,7 @@ public class Survivor extends GameCharacter {
     }
 
     public void increasePickedRemedies() {
-        this.pickedRemedies++;
+        this.amountOfPickedRemedies++;
     }
 
     public void increaseAllPickedRemedies() {
@@ -79,10 +98,15 @@ public class Survivor extends GameCharacter {
         this.hasRemedy = hasRemedy;
     }
 
-    public void move(Direction direction, Board board) throws Exception {
+    /**
+     * This method uses the enum (direction) and moves the survivor according to his input.
+     * @param direction
+     * @param board
+     */
+    public void move(Direction direction, Board board) {
         try {
             switch (direction) {
-                // Wenn der Survivor auf den Spielfeldrand trifft, bleibt er stehen (über Min- und Max-Methode!)
+                // When the survivor hits the edge of the field, he stops (via min and max method!)
                 case LEFT -> {
                     this.setLocation(Math.max(this.getX() - this.getSpeed(), 0), this.getY());
                 }
@@ -96,31 +120,42 @@ public class Survivor extends GameCharacter {
                     this.setLocation(this.getX(), Math.max(this.getY() - this.getSpeed(), 0));
                 }
                 default -> {
-                    System.out.println("Wrong input");
+                    System.out.println("Wrong input"); // evtl. einen rekursiven Aufruf einbauen, sodass der Benutzer nochmal eine Eingabe tätigen kann?
                 }
             }
             this.increaseSteps();
             this.decreaseRoundsActive();
             this.decreaseSpeedIfNeeded();
         } catch (Exception e) {
-            System.err.println("Something went wrong!");
+            System.err.println("Something went wrong!"); // kann mMn. raus. Wir haben beim switch doch ein default.
+
         }
     }
 
-    public boolean ateByZombies(List<Zombie> zombies) throws Exception {
+    /**
+     * This method checks if the zombie can eat the survivor by comparing the positions.
+     * @param zombies
+     * @return true if the position is the same, else false.
+     */
+    public boolean ateByZombies(List<Zombie> zombies) {
         try {
             for (Zombie z : zombies) {
                 if (z.getLocation().equals(this.getLocation())) {
+                    // weitere Abfrage einbauen, ob der Survivor ein Schild bzw. Schutz hat?
                     return true;
                 }
             }
         } catch (Exception e) {
-            System.err.println("Something went wrong!");
+            System.err.println("Something went wrong!"); // notwendig? mir fällt spontan kein Szenario ein, welche Fehler beim Try entstehen könnten.
         }
         return false;
     }
 
-    public boolean activatePowerUp() {
+    /**
+     * CHANGE ME
+     * @return
+     */
+    public boolean activatePowerUp() { // eine Methode namens "activate" sollte mMn. ein Void sein oder eine andere Methode aufrufen.
         if (this.activatableItem == null) {
             return false;
         } else {
@@ -135,8 +170,16 @@ public class Survivor extends GameCharacter {
         }
     }
 
-    public boolean isValidMove(int deltaX, int deltaY, Board board, List<Obstacle> obstacles) {
-        int xPosition = (int) (this.getX() + deltaX);
+    /**
+     * This method checks, if the move of the survivor is possible by comparing the position of the survivor with the positions of obstacles.
+     * @param deltaX
+     * @param deltaY
+     * @param board
+     * @param obstacles
+     * @return CHANGE ME
+     */
+    public boolean isValidMove(int deltaX, int deltaY, Board board, List<Obstacle> obstacles) { // vielleicht noch Zombies hinzufügen?
+        int xPosition = (int) (this.getX() + deltaX); // needs explanation
         int yPosition = (int) (this.getY() + deltaY);
 
         if (xPosition < 0 || xPosition >= board.getWidth() || yPosition < 0 || yPosition >= board.getHeight()) {
@@ -152,10 +195,15 @@ public class Survivor extends GameCharacter {
     }
 
     @Override
-    public String toBoard() {
+    public String toBoard() { // kann raus
         return "S";
     }
 
+    /**
+     * Calculates the amount of needed rounds for reaching the exit.
+     * @param exit
+     * @return the amount of needed rounds for reaching the exit.
+     */
     @Override
     public int calculateDistanceToExit(Exit exit) {
         return (int) (Math.abs(exit.getX() - this.getX()) + Math.abs(exit.getY() - this.getY()));
