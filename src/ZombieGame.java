@@ -19,10 +19,6 @@ public class ZombieGame {
 
     public static void main(String[] args) throws Exception {
 
-        // Am Anfang wird eine Willkommensnachricht ausgegeben, die dem Spieler erklärt, wie das Spiel funktioniert
-        // Board.printWelcomeMessage();
-        // Settings settings = new Game.Settings(); // Konstruktor für das Game.Settings-Objekt: hier werden gleichzeitig noch die Game.Settings abgefragt und gesetzt -> siehe Klasse "Game.Settings"
-
         Board board = new Board(BOARD_WIDTH, BOARD_HEIGHT);
         ZGame ZombieGame = new ZGame(board);
         ZombieGame.adjustGame();

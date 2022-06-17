@@ -16,17 +16,8 @@ public class GameBoard extends PApplet {
 
     }
 
-    public void draw(Point p) {
-        for (int i = 0; i < 20; i++) {
-            for (int j = 0; j < 20; j++) {
-                if (p.getX() == i && p.getY() == j) {
-                    fill(200);
-                } else {
-                    fill(100);
-                }
-                rect(i*20,j*20,20, 20);
-            }
-        }
+    public void draw() {
+        rect(1,1,498,200);
     }
 
     public static void main(String[] args) {
