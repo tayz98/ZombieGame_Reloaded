@@ -1,4 +1,4 @@
-# Zombie Game   <span align="right">:japanese_ogre:</span>
+# Zombie game   <span align="right">:japanese_ogre:</span>
 
 
 ## Autoren:

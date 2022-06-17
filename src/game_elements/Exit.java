@@ -13,7 +13,7 @@ import playfield.Board;
 
 import java.util.List;
 
-public class Exit extends GameObject {
+public class Exit extends GameElement {
 
     /**
      * Exit Constructor. By calling it, it adds itself to every list of the following params.

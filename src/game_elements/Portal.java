@@ -13,7 +13,7 @@ import playfield.Board;
 
 import java.util.List;
 
-public class Portal extends GameObject {
+public class Portal extends GameElement {
 
     /**
      * Portal constructor. It adds itself to the list of portals and GameObjects.

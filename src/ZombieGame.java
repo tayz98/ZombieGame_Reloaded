@@ -8,9 +8,7 @@
  * @description This file is the start point of the program. For more information about the program: see the README.MD file
  */
 
-import processing.core.PApplet;
-import Game.Settings;
-import Game.ZGame;
+import game.ZGame;
 import playfield.Board;
 
 public class ZombieGame {

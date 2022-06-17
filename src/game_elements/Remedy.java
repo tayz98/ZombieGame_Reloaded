@@ -13,7 +13,7 @@ import playfield.Board;
 
 import java.util.List;
 
-public class Remedy extends GameObject {
+public class Remedy extends GameElement {
 
     /**
      * Remedy Constructor. It adds itself to the list of remedies and GameObjects.

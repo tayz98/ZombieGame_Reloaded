@@ -18,8 +18,6 @@ import java.util.Random;
 
 public abstract class GameElement extends Point {
 
-    private String color; // kann raus.
-
     /**
      * The constructor gets a list of all instantiated elements and the board
      * @params: List<GameElement> allElements, Board board
@@ -29,16 +27,7 @@ public abstract class GameElement extends Point {
         allElements.add(this);
     }
 
-
-    public String getColor() { // kann raus
-        return color;
-    } // kann raus
-
-    public void setColor(String color) { // kann raus
-        this.color = color;
-    } // kann raus
-
-    public abstract String toBoard(); // kann raus
+    public abstract String toBoard();
 
     /**
      * With the help of the Random class, all game elements are assigned a random X and Y coordinate.

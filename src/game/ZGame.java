@@ -1,5 +1,6 @@
-package Game;
+package game;
 
+import enums.Difficulties;
 import enums.Direction;
 import exceptions.UnsupportedInput;
 import game_elements.*;
@@ -40,13 +41,13 @@ public class ZGame {
         input = sc.nextLine();
         switch(input) {
             case "1" -> {
-                this.settings = new Settings(1, 1, 1, 1, 0, 1, 5, false, true);
+                this.settings = new Settings(Difficulties.EASY);
             }
             case "2" -> {
-                this.settings = new Settings(1, 1, 2, 2, 5, 2, 10, false, true);
+                this.settings = new Settings(Difficulties.MEDIUM);
             }
             case "3" -> {
-                this.settings = new Settings(1, 1, 3, 3, 10, 3, 15, false, true);
+                this.settings = new Settings(Difficulties.HARD);
             }
             case "4" -> {
                 this.settings = new Settings();
@@ -67,36 +68,36 @@ public class ZGame {
             this.fixedObjects.clear();
             this.portals.clear();
             this.obstacles.clear();
-            for (int i = 0; i < this.settings.numZombies; i++) {
-                Zombie tmp = new Zombie(this.zombies, this.allGameElements, this.board, this.settings.zombieSleep);
+            for (int i = 0; i < this.settings.getNumZombies(); i++) {
+                Zombie tmp = new Zombie(this.zombies, this.allGameElements, this.board, this.settings.getZombieSleep());
             }
 
-            for (int i = 0; i < this.settings.numPlayers; i++) {
+            for (int i = 0; i < this.settings.getNumPlayers(); i++) {
                 Survivor tmp = new Survivor(this.survivors, this.allGameElements, this.board, "Player 1");
             }
 
-            for (int i = 0; i < this.settings.numExits; i++) {
+            for (int i = 0; i < this.settings.getNumExits(); i++) {
                 Exit tmp = new Exit(this.exits, this.allGameElements, this.fixedObjects, this.board);
             }
 
-            for (int i = 0; i < this.settings.numRemedies; i++) {
+            for (int i = 0; i < this.settings.getNumRemedies(); i++) {
                 Remedy tmp = new Remedy(this.remedies, this.allGameElements, this.fixedObjects, this.board);
             }
 
-            if (this.settings.hasPortals) {
+            if (this.settings.hasPortals()) {
                 for (int i = 0; i < 2; i++) {
                     Portal tmp = new Portal(this.portals, this.allGameElements, this.fixedObjects, this.board);
                 }
             }
 
-            if (this.settings.numItems > 0) {
-                for (int i = 0; i < this.settings.numItems; i++) {
+            if (this.settings.getNumItems() > 0) {
+                for (int i = 0; i < this.settings.getNumItems(); i++) {
                     Item tmp = new Item(this.items, this.allGameElements, this.fixedObjects, this.board);
                 }
             }
 
-            if (this.settings.numObstacles > 0) {
-                for (int i = 0; i < this.settings.numObstacles; i++) {
+            if (this.settings.getNumObstacles() > 0) {
+                for (int i = 0; i < this.settings.getNumObstacles(); i++) {
                     Obstacle tmp = new Obstacle(this.obstacles, this.allGameElements, this.fixedObjects, this.board);
                 }
             }
@@ -142,7 +143,7 @@ public class ZGame {
 
             do {
                 //drawBoard(BOARD_WIDTH, BOARD_HEIGHT, survivor, zombies, exit, remedies, portals, settings);
-                this.board.drawBoard(this.fixedObjects, this.survivors, this.zombies);
+                this.board.drawBoard(this.fixedObjects, this.survivors, this.zombies, true);
                 // Hier wird geprüft, ob ein zugelassenes Zeichen eingegeben wurde -> falls nicht, so lange wiederholen, bis etwas Zugelassenes eingegeben wurde
                 do {
                     isValid = false;
@@ -206,6 +207,7 @@ public class ZGame {
                             case "e": {
                                 if (s.activatePowerUp()) {
                                     this.board.activatePowerUp();
+                                    this.board.drawBoard(this.fixedObjects, this.survivors, this.zombies, false);
                                     isValid = false;
                                 } else {
                                     System.out.println("There is no item...");
@@ -232,7 +234,7 @@ public class ZGame {
                         }
                     }
                     // Portale
-                    if (this.settings.hasPortals) {
+                    if (this.settings.hasPortals()) {
                         for (Portal p : this.portals) {
                             if (s.getLocation().equals(p.getLocation())) {
                                 p.teleport(s, this.portals);
@@ -250,7 +252,7 @@ public class ZGame {
                         }
                     }
                     // Überprüfung, ob alle Heilmittel eingesammelt wurden
-                    if (s.getAllPickedRemedies() == this.settings.numRemedies) {
+                    if (s.getAllPickedRemedies() == this.settings.getNumRemedies()) {
                         s.setHasRemedy(true);
                     }
                 }
@@ -269,10 +271,10 @@ public class ZGame {
                         if (s.getLocation().equals(e.getLocation()) && s.hasRemedy()) {
                             hasWon = true;
                             this.board.increaseScore(100);
-                            this.board.drawBoard(fixedObjects, survivors, zombies);
+                            this.board.drawBoard(fixedObjects, survivors, zombies, true);
                             this.board.printWinMessage();
                         } else if (s.ateByZombies(this.zombies)) {
-                            this.board.drawBoard(this.fixedObjects, this.survivors, this.zombies);
+                            this.board.drawBoard(this.fixedObjects, this.survivors, this.zombies, true);
                             this.board.printLoseMessage();
                             System.exit(42);
                         } else if (s.getLocation().equals(e.getLocation()) && !s.hasRemedy()) {

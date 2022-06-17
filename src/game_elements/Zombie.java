@@ -50,11 +50,6 @@ public class Zombie extends GameCharacter {
         }
     }
 
-    public void attack() {
-    // wenn der zombie in der gleichen Position wie der Survivor ist, wird ein Attack ausgeführt.
-        // jedoch kann der Spieler einen Angriff überleben, wenn dieser z. B. ein Schild hat.
-    }
-
     // getter and setter methods:
     public void setType(ZombieTypes type) {
         this.type = type;
@@ -77,7 +72,6 @@ public class Zombie extends GameCharacter {
     }
 
     // overloading Functions:
-
     /**
      * @param survivor
      * @return the amount of turns needed to reach the survivor.

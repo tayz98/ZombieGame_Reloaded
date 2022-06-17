@@ -1,19 +1,20 @@
-package Game;
+package game;
 
+import enums.Difficulties;
 import java.util.Scanner;
 
 // this class contains the settings of the game.
 public class Settings {
-    public int numExits;
-    public int numPlayers;
-    public int numRemedies;
-    public int numZombies;
-    public int zombieSleep = 0;
-    public int numItems;
-    public int numObstacles;
-    public boolean hasCustomSettings;
-    public boolean hasPortals;
-    public boolean hasSleepMode = false;
+
+    private int numExits;
+    private int numPlayers;
+    private int numRemedies;
+    private int numZombies;
+    private int zombieSleep = 0;
+    private int numItems;
+    private int numObstacles;
+    private boolean hasCustomSettings;
+    private boolean portals;
 
     public Settings(int numExits, int numPlayers, int numRemedies, int numZombies, int zombieSleep, int numItems, int numObstacles,
                     boolean hasCustomSettings, boolean hasPortals) {
@@ -25,9 +26,55 @@ public class Settings {
         this.numItems = numItems;
         this.numObstacles = numObstacles;
         this.hasCustomSettings = hasCustomSettings;
-        this.hasPortals = hasPortals;
-        if (zombieSleep > 0) {
-            this.hasSleepMode = true;
+        this.portals = hasPortals;
+    }
+
+    public Settings(Difficulties difficulty) {
+        switch (difficulty) {
+            case EASY -> {
+                this.numExits = 1;
+                this.numPlayers = 1;
+                this.numRemedies = 1;
+                this.numZombies = 1;
+                this.zombieSleep = 0;
+                this.numItems = 1;
+                this.numObstacles = 5;
+                this.hasCustomSettings = false;
+                this.portals = true;
+            }
+            case MEDIUM -> {
+                this.numExits = 1;
+                this.numPlayers = 1;
+                this.numRemedies = 2;
+                this.numZombies = 2;
+                this.zombieSleep = 5;
+                this.numItems = 2;
+                this.numObstacles = 10;
+                this.hasCustomSettings = false;
+                this.portals = true;
+            }
+            case HARD -> {
+                this.numExits = 1;
+                this.numPlayers = 1;
+                this.numRemedies = 3;
+                this.numZombies = 3;
+                this.zombieSleep = 10;
+                this.numItems = 3;
+                this.numObstacles = 15;
+                this.hasCustomSettings = false;
+                this.portals = true;
+            }
+            default -> {
+                this.numExits = 1;
+                this.numPlayers = 1;
+                this.numRemedies = 1;
+                this.numZombies = 1;
+                this.zombieSleep = 0;
+                this.numItems = 0;
+                this.numObstacles = 0;
+                this.hasCustomSettings = false;
+                this.portals = false;
+            }
         }
     }
 
@@ -111,7 +158,7 @@ public class Settings {
                     // Einstellung für Portale
                     isValid = (inputInt == 1 || inputInt == 2);
                     if (isValid && inputInt == 2) {
-                        this.hasPortals = true;
+                        this.portals = true;
                     }
                 } while (!isValid);
 
@@ -127,7 +174,6 @@ public class Settings {
                     isValid = (inputInt >= 0 && inputInt <= 99);
                     if (isValid) {
                         this.zombieSleep = inputInt;
-                        this.hasSleepMode = true;
                     }
                 } while (!isValid);
             }
@@ -135,5 +181,37 @@ public class Settings {
             System.err.println("Wrong input, program ends here!");
             System.exit(2);
         }
+    }
+
+    public int getNumExits() {
+        return numExits;
+    }
+
+    public int getNumPlayers() {
+        return numPlayers;
+    }
+
+    public int getNumRemedies() {
+        return numRemedies;
+    }
+
+    public int getNumZombies() {
+        return numZombies;
+    }
+
+    public int getZombieSleep() {
+        return zombieSleep;
+    }
+
+    public int getNumItems() {
+        return numItems;
+    }
+
+    public int getNumObstacles() {
+        return numObstacles;
+    }
+
+    public boolean hasPortals() {
+        return portals;
     }
 }

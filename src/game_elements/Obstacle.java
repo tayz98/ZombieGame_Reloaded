@@ -13,7 +13,7 @@ import playfield.Board;
 
 import java.util.List;
 
-public class Obstacle extends GameObject{
+public class Obstacle extends GameElement {
     public Obstacle(List<Obstacle> obstacles, List<GameElement> allElements, List<GameElement> fixedObjects, Board board) {
         super(allElements, board);
         obstacles.add(this);

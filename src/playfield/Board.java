@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class Board {
+
     private int width;
     private int height;
     private int score = 0;
@@ -30,11 +31,6 @@ public class Board {
         this.roundsActive = 3;
         this.activeItem = this.activatableItem;
         this.activatableItem = null;
-    }
-
-    public void activateItem() {
-
-        this.activatePowerUp();
     }
 
     public int getWidth() {
@@ -81,8 +77,10 @@ public class Board {
         System.out.println();
     }
 
-    public void drawBoard(final List<GameElement> fixedObjects, final List<Survivor> survivors, final List<Zombie> zombies) {
-        this.decreaseActiveRounds();
+    public void drawBoard(final List<GameElement> fixedObjects, final List<Survivor> survivors, final List<Zombie> zombies, boolean nextRound) {
+        if (nextRound) {
+            this.decreaseActiveRounds();
+        }
         this.drawStatusBar();
         this.drawHorizontalLine("*");
         PrintStream printStream = new PrintStream(System.out, true, StandardCharsets.UTF_8);

@@ -14,7 +14,7 @@ import enums.ItemTypes;
 import playfield.Board;
 import java.util.List;
 
-public class Item extends GameObject {
+public class Item extends GameElement {
 
     /**
      * * An Item can have these types:
@@ -31,13 +31,6 @@ public class Item extends GameObject {
         items.add(this);
         fixedObjects.add(this);
         this.setType(ItemTypes.randomItemType());
-    }
-
-    public Item(List<Item> items, List<GameElement> allElements, List<GameElement> fixedObjects, Board board, ItemTypes type) {
-        super(allElements, board);
-        items.add(this);
-        fixedObjects.add(this);
-        this.setType(type);
     }
 
     // getter and setter methods:
