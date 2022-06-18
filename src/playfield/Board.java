@@ -1,5 +1,6 @@
 package playfield;
 
+import enums.PlayType;
 import game_elements.GameElement;
 import game_elements.Item;
 import game_elements.Survivor;
@@ -17,8 +18,9 @@ public class Board {
     private int roundsActive = 0;
     private Item activatableItem;
     private Item activeItem;
+    private PlayType playType;
 
-    public Board(final int width, final int height) {
+    public Board(final int width, final int height, final PlayType playType) {
         this.width = width;
         this.height = height;
     }

@@ -72,7 +72,7 @@ public class Area extends  PApplet {
             for (int j = 1; j < rows-1; j++) {
                 // Display each object
                 grid[i][j].display();
-                /* Point tmp = new Point();
+                Point tmp = new Point();
                 tmp.setLocation(i*80, j*80);
                 field.add(tmp);
             }
