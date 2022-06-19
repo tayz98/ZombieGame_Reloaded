@@ -6,6 +6,29 @@ Sören Zacharias <br>
 Veronica Zylla </p>
 ___
 ## Natürlich sprachliche Beschreibung des Programms
+Im nachfolgenden werden wir den Ablauf des Programmes im Fenstermodus mit grafischer Oberfläche erklären:
+Das Spiel wird durch die main-Methode aus der "GameBoard"-Klasse gestartet.
+Die Variablen sind außerhalb der main-Methode deklariert und teils instantiiert, damit sie in den Methoden von Processing zur Verfügung stehen.
+Dort wird zunächst eine Instanz vom Board-Objekt mit den Maßen für das Spielfeld erstellt.
+Dieses wird dann an die Instanz vom ZGame-Objekt übergeben und dort als Attribut geführt.
+Mit der Instanz vom ZGame-Objekt wird das Spiel definiert.
+In diesem Objekt werden auch die Settings, das Board und die ganzen Spielelemente geführt.
+Nun wird beim Start des Spieles zunächst einmal ein Intro-Bildschirm präsentiert, bei dem man durch Menüführung die Informationen zu den Spielelementen und der Steuerung präsentiert und den Schwierigkeitsgrad einstellen kann.
+Man kann zwischen _Leicht_, _Mittel_ und _Schwierig_ (Easy, Medium und Hard) wählen.
+Nach Bestätigen des Schwierigkeitsgrades wird dann auch die Instanz des Settings-Objektes erstellt und somit festgelegt, wie schwer das Spiel für den Spieler sein soll.
+Das wird definiert durch beispielsweise Anzahl der Heilmittel, die eingesammelt werden müssen oder Anzahl an Zombies (Genauere Informationen dazu in der Spielanleitung).
+Anhand dieser Einstellungen wird ein Spielfeld generiert, das alle Spielelemente so positioniert, dass keine Elemente kollidieren und das Spiel für den Spieler gewinnbar ist. <p>
+
+Nun befinden wir uns im Spiel, bei dem der Spieler seine Figur mithilfe der Tastatureingabe steuern kann und versucht das Spiel zu gewinnen.
+Nach jedem Zug werden die Zombies bewegt (sofern sie nicht mehr schlafen) und überprüft, ob der Spieler das Ziel mit allen Heilmitteln erreicht oder ein Zombie seine Position erreicht hat.
+Es wird zusätzlich überprüft, ob der Spieler einen legitimen Spielzug machen möchte.
+Tut er dies nicht (zum Beispiel beim Laufen gegen ein Hindernis oder beim Erreichen des Spielfeldrandes), so wird keine Bewegung durchgeführt.
+Weiterhin wird überprüft, ob die Position des Spielers mit Portalen oder Items übereinstimmt und dann gegebenenfalls Portale benutzt oder Items aufgesammelt.
+Die Informationen über die Items stehen dem Spieler oberhalb des Spielfeldes zur Verfügung, wo auch seine Punktezahl dargestellt wird, die sich nach den Regeln aus der Spielanleitung berrechnen.
+Nutzt der Spieler zum Beispiel ein Item, so wird seine Geschwindigkeit für 3 Runden auf 2 Felder pro Zug erhöht, was ebenfalls im Infobereich über dem Spielfeld angezeigt wird.
+
+Durch Processing wird das Spielfeld permanent neu gezeichnet. Durch die Variable _gameState_ wird bestimmt, in welchem Stadium des Spiels man sich befindet.
+Gewinnt oder verliert man das Spiel, erscheint eine Nachricht auf dem Bildschirm und das Spiel ist vorbei. Man hat dort nun die Möglichkeit, das Programm zu beenden oder das Spiel von vorne zu starten.
 ___
 ## Spielanleitung
 siehe externe Datei **_Spielanleitung_**.
