@@ -44,21 +44,21 @@ ___
 ### Grafisch: 
 
 * Survivor: 
-![Survivor](/playfield/images/survivor.png)
+![Survivor](src/playfield/images/survivor.png)
 * Zombie:
-![Zombie](/playfield/images/zombieNormal.png)
+![Zombie](src/playfield/images/zombieNormal.png)
 * Jumper: 
-![Jumper](/playfield/images/ZombieJumper.png)
+![Jumper](src/playfield/images/ZombieJumper.png)
 * Remedy: 
-![Remedy](/playfield/images/remedy.png)
+![Remedy](src/playfield/images/remedy.png)
 * Exit: 
-![Exit](/playfield/images/exit.png)
+![Exit](src/playfield/images/exit.png)
 * Portal:
-![Portal](/playfield/images/portal.png)
+![Portal](src/playfield/images/portal.png)
 * Flash:
-![Flash](/playfield/images/flash.png)
+![Flash](src/playfield/images/flash.png)
 * Obstacle:
-![Obstacle](/playfield/images/obstacle.png)
+![Obstacle](src/playfield/images/obstacle.png)
 
 
 
