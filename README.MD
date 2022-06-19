@@ -6,8 +6,8 @@ Sören Zacharias <br>
 Veronica Zylla </p>
 ___
 ## Natürlich sprachliche Beschreibung des Programms
-Im nachfolgenden werden wir den Ablauf des Programmes im Fenstermodus mit grafischer Oberfläche erklären:
-Das Spiel wird durch die main-Methode aus der "GameBoard"-Klasse gestartet.
+Im Nachfolgenden werden wir den Ablauf des Programmes im Fenstermodus mit grafischer Oberfläche erklären:
+Das Spiel wird durch die main-Methode aus der "GameBoard"-Klasse gestartet (Alternativ als Konsolen-Anwendung in der "ZombieGame"-Klasse).
 Die Variablen sind außerhalb der main-Methode deklariert und teils instantiiert, damit sie in den Methoden von Processing zur Verfügung stehen.
 Dort wird zunächst eine Instanz vom Board-Objekt mit den Maßen für das Spielfeld erstellt.
 Dieses wird dann an die Instanz vom ZGame-Objekt übergeben und dort als Attribut geführt.
