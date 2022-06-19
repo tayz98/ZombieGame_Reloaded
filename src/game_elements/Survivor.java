@@ -199,6 +199,11 @@ public class Survivor extends GameCharacter {
         return "S";
     }
 
+    @Override
+    public String toGameBoard() {
+        return "Survivor";
+    }
+
     /**
      * Calculates the amount of needed rounds for reaching the exit.
      * @param exit

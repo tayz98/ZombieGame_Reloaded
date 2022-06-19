@@ -24,9 +24,35 @@ public class ZGame {
     private List<Obstacle> obstacles = new ArrayList<>();           // Liste mit Hindernissen
     private List<GameElement> fixedObjects = new ArrayList<>();     // Liste mit allen Objekten, die sich nicht bewegen
     private List<GameElement> allGameElements = new ArrayList<>();  // Liste mit allen Game Elementen
+    private boolean hasWon = false;
+    private boolean hasLost = false;
 
     public ZGame(Board board) {
         this.board = board;
+    }
+
+    public List<Zombie> getZombies() {
+        return zombies;
+    }
+
+    public List<Survivor> getSurvivors() {
+        return survivors;
+    }
+
+    public List<GameElement> getFixedObjects() {
+        return fixedObjects;
+    }
+
+    public List<Obstacle> getObstacles() {
+        return obstacles;
+    }
+
+    public boolean isHasWon() {
+        return hasWon;
+    }
+
+    public boolean isHasLost() {
+        return hasLost;
     }
 
     public void adjustGame() {
@@ -50,6 +76,26 @@ public class ZGame {
                 this.settings = new Settings(Difficulties.HARD);
             }
             case "4" -> {
+                this.settings = new Settings();
+            }
+            default -> {
+                throw new UnsupportedInput("Wrong input. Program is going to shutdown. cya");
+            }
+        }
+    }
+
+    public void adjustGame(int difficulty) {
+        switch(difficulty) {
+            case 1 -> {
+                this.settings = new Settings(Difficulties.EASY);
+            }
+            case 2 -> {
+                this.settings = new Settings(Difficulties.MEDIUM);
+            }
+            case 3 -> {
+                this.settings = new Settings(Difficulties.HARD);
+            }
+            case 4 -> {
                 this.settings = new Settings();
             }
             default -> {
@@ -103,7 +149,6 @@ public class ZGame {
             }
 
         } while(!isWinnableGame());
-        System.out.println("Game created!");
     }
 
     private boolean isWinnableGame() {
@@ -132,15 +177,78 @@ public class ZGame {
         return false;
     }
 
+    public void nextRound() throws Exception {
+        board.setMessage("");
+        board.decreaseActiveRounds();
+        if (this.areZombiesAlive()) {
+            this.board.increaseScore(10);
+        }
+
+        for (Survivor s : this.survivors) {
+            // Heilmittel
+            for (Remedy r : this.remedies) {
+                if (r.getLocation().equals(s.getLocation())) {
+                    for (Survivor su : this.survivors) {
+                        su.increaseAllPickedRemedies();
+                        this.board.increaseScore(50);
+                    }
+                    s.increasePickedRemedies();
+                    r.setLocation(-1, -1);
+                }
+            }
+            // Portale
+            if (this.settings.hasPortals()) {
+                for (Portal p : this.portals) {
+                    if (s.getLocation().equals(p.getLocation())) {
+                        p.teleport(s, this.portals);
+                        break;
+                    }
+                }
+            }
+            // Items
+            for (Item i : this.items) {
+                if (i.getLocation().equals(s.getLocation())) {
+                    s.setActivatableItem(i);
+                    this.board.setActivatableItem(i);
+                    this.board.increaseScore(25);
+                    i.setLocation(-1, -1);
+                }
+            }
+            // Überprüfung, ob alle Heilmittel eingesammelt wurden
+            if (s.getAllPickedRemedies() == this.settings.getNumRemedies()) {
+                s.setHasRemedy(true);
+            }
+        }
+
+        for (Zombie z : this.zombies) {
+            if (z.getRoundsToNextMove() > 0) {
+                z.decreaseRoundsToNextMove();
+            } else {
+                z.move(this.survivors, this.fixedObjects);
+            }
+        }
+
+        // Hier wird die Gewinnbedingung überprüft. Der Spieler muss alle Heilmittel eingesammelt haben UND sich in der Position des Ausgangs befinden.
+        for (Survivor s : this.survivors) {
+            for (Exit e : this.exits) {
+                if (s.getLocation().equals(e.getLocation()) && s.hasRemedy()) {
+                    this.hasWon = true;
+                    this.board.increaseScore(100);
+                } else if (s.ateByZombies(this.zombies)) {
+                    this.hasLost = true;
+                } else if (s.getLocation().equals(e.getLocation()) && !s.hasRemedy()) {
+                    board.setMessage("Oh no, there is something missing");
+                }
+            }
+        }
+    }
+
     public void startGame() throws Exception {
         Scanner sc = new Scanner(System.in);
         String input; // Variable zum Verarbeiten der User-Eingabe
         boolean isValid = false; // Variabel zum Überprüfen, ob zugelassene Zeichen zum Bewegen etc. eingegeben wurden
-        boolean hasWon = false; // Variable zum Überprüfen, ob gewonnen wurde
 
         try {
-
-
             do {
                 //drawBoard(BOARD_WIDTH, BOARD_HEIGHT, survivor, zombies, exit, remedies, portals, settings);
                 this.board.drawBoard(this.fixedObjects, this.survivors, this.zombies, true);
@@ -269,7 +377,7 @@ public class ZGame {
                 for (Survivor s : this.survivors) {
                     for (Exit e : this.exits) {
                         if (s.getLocation().equals(e.getLocation()) && s.hasRemedy()) {
-                            hasWon = true;
+                            this.hasWon = true;
                             this.board.increaseScore(100);
                             this.board.drawBoard(fixedObjects, survivors, zombies, true);
                             this.board.printWinMessage();
@@ -282,7 +390,7 @@ public class ZGame {
                         }
                     }
                 }
-            } while (!hasWon);
+            } while (!this.hasWon);
         } catch (Exception e) {
             System.err.println("for some reason, an error happened. Please inform us, how to reproduce it.");
         }

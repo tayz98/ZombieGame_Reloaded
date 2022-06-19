@@ -55,6 +55,10 @@ public class Zombie extends GameCharacter {
         this.type = type;
     }
 
+    public ZombieTypes getType() {
+        return type;
+    }
+
     public int getRoundsToNextMove() {
         return roundsToNextMove;
     }
@@ -231,6 +235,11 @@ public class Zombie extends GameCharacter {
                 return "";
             }
         }
+    }
+
+    @Override
+    public String toGameBoard() {
+        return "Zombie";
     }
 
     /**

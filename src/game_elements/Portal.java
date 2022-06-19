@@ -38,6 +38,11 @@ public class Portal extends GameElement {
         return "o";
     }
 
+    @Override
+    public String toGameBoard() {
+        return "Portal";
+    }
+
     // methods:
 
 
@@ -47,8 +52,6 @@ public class Portal extends GameElement {
      * @param portals
      */
     public void teleport(Survivor s, List<Portal> portals) {
-        System.out.println(portals.get(0).getLocation()); // println kann raus
-        System.out.println(portals.get(1).getLocation());
         // if the survivor position equals the position of portal 1, port to portal 0.
         if (s.getLocation().equals(portals.get(0).getLocation())) { // was ist, wenn die survivor position == portals.get(1) position ist?
             s.setLocation(portals.get(1).getLocation());

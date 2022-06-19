@@ -32,6 +32,11 @@ public class Remedy extends GameElement {
     public String toBoard() { // kann raus
         return "\u2695";
     }
+
+    @Override
+    public String toGameBoard() {
+        return "Remedy";
+    }
 }
 
 

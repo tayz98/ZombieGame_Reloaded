@@ -1,13 +1,16 @@
 package playfield;
 
+import enums.Direction;
 import enums.PlayType;
+import enums.ZombieTypes;
 import game.ZGame;
+import game_elements.GameElement;
+import game_elements.Survivor;
+import game_elements.Zombie;
 import processing.core.PApplet;
 import processing.core.PImage;
-
-import java.awt.*;
 import java.util.ArrayList;
-
+import java.util.List;
 
 public class GameBoard extends PApplet {
 
@@ -17,8 +20,8 @@ public class GameBoard extends PApplet {
     Board board = new Board(BOARD_WIDTH, BOARD_HEIGHT, PlayType.WINDOW);
     ZGame ZombieGame = new ZGame(board);
 
-    // 0 = start, 1 = info, 2 = setup, 3 = game, 4 = game over
-    int gameState = 1;
+    // 0 = start, 1 = info, 2 = setup, 3 = game, 4 = game lost, 5 = game won
+    int gameState = 0;
     int xSize = board.getWidth();
     int ySize = board.getHeight();
     int xField = 30;
@@ -28,10 +31,11 @@ public class GameBoard extends PApplet {
     int boxBotHeight = 100;
     int gridHeight = ySize * yField;
     int gridWidth = xSize * xField;
-    ArrayList<PImage> images = new ArrayList<>();
-    Point p = new Point(1, 1);
+    int difficulty = 1;
+    int difficultyOffset = 0;
 
-    PImage zombieImg;
+    PImage zombieNormalImg;
+    PImage zombieJumperImg;
     PImage flashImg;
     PImage exitImg;
     PImage remedyImg;
@@ -39,59 +43,134 @@ public class GameBoard extends PApplet {
     PImage obstacleImg;
     PImage portalImg;
 
-    public void clearBoard() {
+    private void clearBoard() {
         background(20);
     }
 
-    public void drawContinue() {
+    private void drawContinue() {
         fill(100, 50);
         textSize(20);
         textAlign(RIGHT);
         text("[ENTER] to continue", width - 20, height - 20);
     }
 
-    public void drawExit() {
+    private void drawExit() {
         fill(100, 50);
         textSize(20);
         textAlign(LEFT);
         text("[ESC] to exit", 20, 30);
     }
 
-    public void drawBack() {
+    private void drawBack() {
         fill(100, 50);
         textSize(20);
         textAlign(LEFT);
         text("[BACKSPACE] to go back", 20, height - 20);
     }
 
-    public void drawBoard() {
+    private void drawBoard(List<Zombie> zombies, List<Survivor> survivors, List<GameElement> fixedObjects) {
         fill(20);
         stroke(40);
         for (int i = 0; i < ySize; i++) {
             for (int j = 0; j < xSize; j++) {
                 rect(margin + j * xField, margin + boxTopHeight + i * xField, xField, yField);
-                if (p.getX() == j && p.getY() == i) {
-                    image(survivorImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
+                
+                for (GameElement e : fixedObjects) {
+                    if (e.getX() == j && e.getY() == i) {
+                        switch (e.toGameBoard()) {
+                            case "Exit" -> {
+                                image(exitImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
+                            }
+                            case "Item" -> {
+                                image(flashImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
+                            }
+                            case "Obstacle" -> {
+                                image(obstacleImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
+                            }
+                            case "Portal" -> {
+                                image(portalImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
+                            }
+                            case "Remedy" -> {
+                                image(remedyImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
+                            }
+                            default -> {
+                            }
+                        }
+                    }
+                }
+                
+                for (Survivor s : survivors) {
+                    if (s.getX() == j && s.getY() == i) {
+                        image(survivorImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
+                    }
+                }
+
+                for (Zombie z : zombies) {
+                    if (z.getX() == j && z.getY() == i) {
+                        if (z.getType() == ZombieTypes.NORMAL) {
+                            image(zombieNormalImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
+                        } else {
+                            image(zombieJumperImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
+                        }
+
+                    }
                 }
             }
         }
+        drawExit();
     }
 
-    public void drawStatusBar() {
+    private void drawStatusBar() {
         stroke(0,0,0,0);
         fill(20);
         rect(margin, margin, gridWidth, boxTopHeight);
+
+        textSize(30);
+        fill(100, 100);
+        textAlign(LEFT);
+        // Score
+        text("Score: " + board.getScore(), width - margin - 150, margin + boxTopHeight / 2f);
+
+        // Activatable item
+
+        text("Item ready", margin, margin + 25);
+
+        // Active item
+        text("Active item", margin, margin + 75);
+        fill(20);
+        stroke(100);
+        rect(margin + 150, margin, 30, 30, 10);
+        rect(margin + 150, margin + 50, 30, 30, 10);
+        if (board.getActivatableItem() != null) {
+            image(flashImg, margin + 150, margin, 30, 30);
+            textSize(30);
+            fill(100, 100);
+            textAlign(LEFT);
+            text("[E] to activate", margin + 200, margin + 25);
+        }
+
+        if (board.getActiveItem() != null) {
+            image(flashImg, margin + 150, margin + 50, 30, 30);
+            textSize(30);
+            fill(100, 100);
+            textAlign(LEFT);
+            text(board.getRoundsActive() + " rounds left", margin + 200, margin + 75);
+        }
     }
 
-    public void drawBottomBar() {
+    private void drawBottomBar() {
         stroke(0,0,0,0);
         fill(20);
         rect(margin, margin + boxTopHeight + gridHeight, gridWidth, boxBotHeight);
+        fill(100, 100);
+        textSize(30);
+        textAlign(CENTER);
+        text(board.getMessage(), width / 2f, margin + boxTopHeight + gridHeight + 50);
     }
 
-    public void drawMainMenu() {
+    private void drawMainMenu() {
         background(20);
-        fill(255, random(100));
+        fill(255, random(50));
         textSize(64);
         textAlign(CENTER);
         text("Welcome to Zombieland", width / 2f, height / 2f);
@@ -99,7 +178,7 @@ public class GameBoard extends PApplet {
         drawExit();
     }
 
-    public void drawInfo() {
+    private void drawInfo() {
         background(20);
         int size = xField;
         int listHeight = height - 100;
@@ -119,8 +198,8 @@ public class GameBoard extends PApplet {
         textSize(25);
         textAlign(LEFT, TOP);
         image(survivorImg, imgStart, heightPerItem + yOffset, size, size);
-        image(zombieImg, imgStart, 2 * heightPerItem + yOffset, size, size);
-        image(zombieImg, imgStart, 3 * heightPerItem + yOffset, size, size);
+        image(zombieNormalImg, imgStart, 2 * heightPerItem + yOffset, size, size);
+        image(zombieJumperImg, imgStart, 3 * heightPerItem + yOffset, size, size);
         image(exitImg, imgStart, 4 * heightPerItem + yOffset, size, size);
         image(remedyImg, imgStart, 5 * heightPerItem + yOffset, size, size);
         image(portalImg, imgStart, 6 * heightPerItem + yOffset, size, size);
@@ -148,11 +227,46 @@ public class GameBoard extends PApplet {
         drawExit();
     }
 
-    public void drawDifficulty() {
+    private void drawDifficulty() {
         background(20);
+        fill(100, 100);
+        textSize(50);
+        textAlign(CENTER);
+        text("choose difficulty", width / 2f, 60);
+        textSize(20);
+        text("(see manual for details, choose with UP and DOWN)", width / 2f, 85);
+
+        fill(100, 100);
+        stroke(0,0,0,0);
+        triangle(width / 2f - 50, 170 + difficultyOffset, width / 2f - 50, 200 + difficultyOffset, width / 2f - 20, 185 + difficultyOffset);
+
+        textSize(50);
+        textAlign(LEFT);
+        text("EASY", width / 2f, 200);
+        text("MEDIUM", width / 2f, 300);
+        text("HARD", width / 2f, 400);
         drawContinue();
         drawBack();
         drawExit();
+    }
+
+    private void drawEndMessage() {
+        fill(20, 10);
+        rect(0,0,width, height);
+        fill(255, 10);
+        textSize(100);
+        textAlign(CENTER);
+        String message = "";
+        if (gameState == 4) {
+            message = "OH NO, YOU LOST...";
+        } else if (gameState == 5) {
+            message = "YOU WON! " + board.getScore() + " Points!";
+        } else {
+            message = "ERROR";
+        }
+        text(message, width / 2f, height / 2f);
+        textSize(50);
+        text("Press [ESC] to exit or [ENTER] to start new game!", width / 2f, height / 2f + 100);
     }
 
     public void settings() {
@@ -163,7 +277,8 @@ public class GameBoard extends PApplet {
 
     public void setup() {
         background(20);
-        zombieImg = loadImage("playfield/images/zombieNormal.png");
+        zombieNormalImg = loadImage("playfield/images/zombieNormal.png");
+        zombieJumperImg = loadImage("playfield/images/zombieJumper.png");
         flashImg = loadImage("playfield/images/flash.png");
         exitImg = loadImage("playfield/images/exit.png");
         remedyImg = loadImage("playfield/images/remedy.png");
@@ -184,13 +299,14 @@ public class GameBoard extends PApplet {
                 drawDifficulty();
             }
             case 3 -> {
+                ckeckWinCondition();
                 clearBoard();
                 drawStatusBar();
                 drawBottomBar();
-                drawBoard();
+                drawBoard(ZombieGame.getZombies(), ZombieGame.getSurvivors(), ZombieGame.getFixedObjects());
             }
-            case 4 -> {
-
+            case 4, 5 -> {
+                drawEndMessage();
             }
         }
     }
@@ -200,31 +316,127 @@ public class GameBoard extends PApplet {
     }
 
     public void keyPressed() {
-        switch (keyCode) {
-            case 10 -> gameState++;
-            case 8 -> gameState--;
-        }
-        /*
-        if (gameState == 1) {
-            switch (keyCode) {
-                case 65 -> {p.setLocation(p.getX() - 1, p.getY());}     // A
-                case 68 -> {p.setLocation(p.getX() + 1, p.getY());}    // D
-                case 83 -> {p.setLocation(p.getX(), p.getY() + 1);}     // S
-                case 87 -> {p.setLocation(p.getX(), p.getY() - 1);}     // W
-                case 27 -> {System.exit(42);}                       // ESC
-                case 69 -> {// ITEM}                                        // E
+        switch (gameState) {
+            case 0 -> {
+                switch (keyCode) {
+                    case 10 -> gameState++;
+                    case 27 -> {System.exit(42);}
                 }
             }
-        } else {
-            switch (keyCode) {
-                case 10 -> {
-                    gameState = 1;
+            case 1 -> {
+                switch (keyCode) {
+                    case 10 -> gameState++;
+                    case 8 -> gameState--;
+                    case 27 -> {System.exit(42);}
                 }
             }
-            println("not ingame");
+            case 2 -> {
+                switch (keyCode) {
+                    case 10 -> {
+                        gameState++;
+                        ZombieGame.adjustGame(difficulty);
+                        ZombieGame.setupGame();
+                    }
+                    case 8 -> gameState--;
+                    case 27 -> {System.exit(42);}
+                    case 38 -> {
+                        if (difficulty > 1) {
+                            difficulty--;
+                            difficultyOffset = (difficulty - 1) * 100;
+                        }
+                    }
+                    case 40 -> {
+                        if (difficulty < 3) {
+                            difficulty++;
+                            difficultyOffset = (difficulty - 1) * 100;
+                        }
+                    }
+                }
+            }
+            case 3 -> {
+                switch (keyCode) {
+                    case 65 -> {
+                        for (Survivor s : ZombieGame.getSurvivors()) {
+                            if (s.isValidMove(-1, 0, board, ZombieGame.getObstacles())) {
+                                s.move(Direction.LEFT, this.board);
+                                try {
+                                    ZombieGame.nextRound();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            break;
+                        }
+                    }     // A
+                    case 68 -> {
+                        for (Survivor s : ZombieGame.getSurvivors()) {
+                            if (s.isValidMove(1, 0, board, ZombieGame.getObstacles())) {
+                                s.move(Direction.RIGHT, this.board);
+                                try {
+                                    ZombieGame.nextRound();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            break;
+                        }
+                    }    // D
+                    case 83 -> {
+                        for (Survivor s : ZombieGame.getSurvivors()) {
+                            if (s.isValidMove(0, 1, board, ZombieGame.getObstacles())) {
+                                s.move(Direction.DOWN, this.board);
+                                try {
+                                    ZombieGame.nextRound();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            break;
+                        }
+                    }     // S
+                    case 87 -> {
+                        for (Survivor s : ZombieGame.getSurvivors()) {
+                            if (s.isValidMove(0, -1, board, ZombieGame.getObstacles())) {
+                                s.move(Direction.UP, this.board);
+                                try {
+                                    ZombieGame.nextRound();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            break;
+                        }
+                    }     // W
+                    case 27 -> {System.exit(42);}                       // ESC
+                    case 69 -> {
+                        for (Survivor s : ZombieGame.getSurvivors()) {
+                            s.activatePowerUp();
+                            board.activatePowerUp();
+                        }
+                    }
+                }
+            }
+            case 4, 5 -> {
+                switch (keyCode) {
+                    case 10 -> startNewGame();
+                    case 27 -> {System.exit(42);}
+                }
+            }
         }
+    }
 
-         */
+    private void startNewGame() {
+        gameState = 0;
+        board = new Board(BOARD_WIDTH, BOARD_HEIGHT, PlayType.WINDOW);
+        ZombieGame = new ZGame(board);
+    }
+
+    private void ckeckWinCondition() {
+        if (ZombieGame.isHasWon()) {
+            gameState = 5;
+        } else if (ZombieGame.isHasLost()) {
+            gameState = 4;
+        }
     }
 
     public static void main(String[] args) {

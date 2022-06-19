@@ -24,4 +24,9 @@ public class Obstacle extends GameElement {
     public String toBoard() { // kann raus
         return "X";
     }
+
+    @Override
+    public String toGameBoard() {
+        return "Obstacle";
+    }
 }

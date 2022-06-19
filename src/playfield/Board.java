@@ -19,6 +19,7 @@ public class Board {
     private Item activatableItem;
     private Item activeItem;
     private PlayType playType;
+    private String message = "";
 
     public Board(final int width, final int height, final PlayType playType) {
         this.width = width;
@@ -29,10 +30,32 @@ public class Board {
         this.activatableItem = activatableItem;
     }
 
+    public Item getActivatableItem() {
+        return activatableItem;
+    }
+
+    public Item getActiveItem() {
+        return activeItem;
+    }
+
+    public int getRoundsActive() {
+        return roundsActive;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public void activatePowerUp() {
-        this.roundsActive = 3;
-        this.activeItem = this.activatableItem;
-        this.activatableItem = null;
+        if (this.activatableItem != null) {
+            this.roundsActive = 3;
+            this.activeItem = this.activatableItem;
+            this.activatableItem = null;
+        }
     }
 
     public int getWidth() {

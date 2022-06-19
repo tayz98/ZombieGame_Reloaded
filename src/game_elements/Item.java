@@ -65,4 +65,9 @@ public class Item extends GameElement {
             }
         }
     }
+
+    @Override
+    public String toGameBoard() {
+        return "Item";
+    }
 }

@@ -29,6 +29,8 @@ public abstract class GameElement extends Point {
 
     public abstract String toBoard();
 
+    public abstract String toGameBoard();
+
     /**
      * With the help of the Random class, all game elements are assigned a random X and Y coordinate.
      * <p>
