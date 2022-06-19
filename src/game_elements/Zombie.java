@@ -16,18 +16,18 @@ import java.util.List;
 
 public class Zombie extends GameCharacter {
 
-    private boolean isAlive = true; // if the zombies dies (because of an item), it will disappear from the board.
-    private int roundsToNextMove = 0;
-    private ZombieTypes type; // different types of zombies exist with different play behaviour
+    private boolean isAlive = true;     // if the zombie dies (because of an item), it will disappear from the board.
+    private int roundsToNextMove = 0;   // rounds until the next move of a zombie.
+    private ZombieTypes type;           // different types of zombies exist with different play behaviour
 
     /**
-     * Zombie Constructor. Adds the object Zombie to the Zombie list.
-     * <p>
-     * Also changes the setting for a zombie depending on its type.
-     * @param zombies
-     * @param allElements
-     * @param board
-     * @param roundsToNextMove
+     * Constructs a Zombie element and gets a list of all instantiated elements and the board. <p>
+     * Adds created item to allElements and zombies. <p>
+     * Sets roundToNextMove.
+     * @param allElements       list of all elements in the game.
+     * @param board             instance of the created board.
+     * @param zombies           list of all zombies.
+     * @param roundsToNextMove  rounds to next move of the zombie.
      */
     public Zombie(List<Zombie> zombies, List<GameElement> allElements, Board board, int roundsToNextMove) {
         super(allElements, board);
@@ -40,6 +40,16 @@ public class Zombie extends GameCharacter {
         }
     }
 
+    /**
+     * Constructs a Zombie element and gets a list of all instantiated elements and the board. <p>
+     * Adds created item to allElements and zombies. <p>
+     * Sets roundToNextMove and gets the zombie type as input.
+     * @param allElements       list of all elements in the game.
+     * @param board             instance of the created board.
+     * @param zombies           list of all zombies.
+     * @param roundsToNextMove  rounds to next move of the zombie.
+     * @param type              type of zombie.
+     */
     public Zombie(List<Zombie> zombies, List<GameElement> allElements, Board board, int roundsToNextMove, ZombieTypes type) {
         super(allElements, board);
         zombies.add(this);
@@ -51,43 +61,65 @@ public class Zombie extends GameCharacter {
         }
     }
 
-    // getter and setter methods:
+    /**
+     * Method to set the type of the zombie.
+     * @param type  type of zombie.
+     */
     public void setType(ZombieTypes type) {
         this.type = type;
     }
 
+    /**
+     * Method returns the type of the zombie.
+     * @return the type of the zombie.
+     */
     public ZombieTypes getType() {
         return type;
     }
 
+    /**
+     * Method returns the rounds to the next move.
+     * @return rounds to next move.
+     */
     public int getRoundsToNextMove() {
         return roundsToNextMove;
     }
 
+    /**
+     * Method sets the number of rounds until the zombie is able to move again.
+     * @param roundsToNextMove  number of rounds the zombie is able to move.
+     */
     public void setRoundsToNextMove(int roundsToNextMove) {
         this.roundsToNextMove = roundsToNextMove;
     }
 
+    /**
+     * Method to return if a zombie is alive
+     * @return true, if zombie is still alive.
+     */
     public boolean isAlive() {
         return isAlive;
     }
 
+    /**
+     * Method decreases the rounds until the zombie is able to move.
+     */
     public void decreaseRoundsToNextMove() {
         this.roundsToNextMove--;
     }
 
     /**
-     * @param survivor
-     * @return the amount of turns needed to reach the survivor.
+     * @param survivor      instance of the survivor.
+     * @return the amount of fields to reach the survivor.
      */
     public int distanceToSurvivor(Survivor survivor) {
         return (int) Math.max(Math.abs(this.getX() - survivor.getX()), Math.abs(this.getY() - survivor.getY()));
     }
 
     /**
-     * distanceToSurvivor() calculates the distance to the survivor
-     * @param survivor
-     * @param direction
+     * distanceToSurvivor() calculates the distance to the survivor depending on the direction (x or y).
+     * @param survivor      object of the survivor.
+     * @param direction     x: calculates distance in x-direction, y: calculates distance in y-direction.
      * @return an integer represented with the amount of turns needed to reach the survivor.
      */
     public int distanceToSurvivor(Survivor survivor, String direction) {
@@ -105,20 +137,10 @@ public class Zombie extends GameCharacter {
     }
 
     /**
-     * The zombie is not allowed to collect GameObjects.
-     * <p>
-     * This method checks if the zombie's position is the same as the one from a GameObject.
-     * @param x
-     * @param y
-     * @param fixedObjects
-     * @return
-     */
-
-    /**
-     * isValidMove() checks if the zombie could move to the location of a fixedObject
-     * @param x
-     * @param y
-     * @param fixedObjects
+     * Method checks if the zombie could move to the location of a fixedObject
+     * @param x             x-location of the wanted move.
+     * @param y             y-location of the wanted move.
+     * @param fixedObjects  list of all fixed objects.
      * @return true if positions are not the same
      */
     private boolean isValidMove(int x, int y, List<GameElement> fixedObjects) {
@@ -133,9 +155,9 @@ public class Zombie extends GameCharacter {
     /**
      * This method moves the zombie. <p>
      * It also checks the type of the zombie and adjusts the movement pattern.
-     * @param survivors
-     * @param fixedObjects
-     * @throws Exception message if something went wrong.
+     * @param survivors     list of all survivors.
+     * @param fixedObjects  list of all fixed objects.
+     * @throws Exception    message if something went wrong.
      */
     public void move(List<Survivor> survivors, List<GameElement> fixedObjects) throws Exception{
         Survivor nearestSurvivor = null;
@@ -152,6 +174,7 @@ public class Zombie extends GameCharacter {
             y = (int) this.getY();
 
             switch (this.type) {
+                // movement for the normal zombie
                 case NORMAL -> {
                     int numPossibilities = 1;
                     if (this.distanceToSurvivor(nearestSurvivor, "x") > 0 && this.distanceToSurvivor(nearestSurvivor, "y") > 0) {
@@ -182,6 +205,7 @@ public class Zombie extends GameCharacter {
                         }
                     }
                 }
+                // movement for the jumper zombie
                 case JUMPER -> {
                     assert nearestSurvivor != null;
                     int deltaX = (int) (nearestSurvivor.getX() - this.getX());
@@ -230,6 +254,10 @@ public class Zombie extends GameCharacter {
         }
     }
 
+    /**
+     * Method returns a String for the game in terminal-use.
+     * @return character to display on the board in terminal-use.
+     */
     @Override
     public String toBoard() {
         switch(this.type) {
@@ -245,15 +273,19 @@ public class Zombie extends GameCharacter {
         }
     }
 
+    /**
+     * Method to return the GameElement type.
+     * @return the GameElement type.
+     */
     @Override
     public GameElements toGameBoard() {
         return GameElements.ZOMBIE;
     }
 
     /**
-     *
-     * @param exit
-     * @return the amount of needed rounds for reaching the exit.
+     * This method calculates the distance to the given exits location.
+     * @param exit  instance of the nearest exit.
+     * @return distance to the given exit.
      */
     @Override
     public int calculateDistanceToExit(Exit exit) {

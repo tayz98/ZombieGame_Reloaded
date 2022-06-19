@@ -16,29 +16,38 @@ import java.awt.*;
 import java.util.List;
 import java.util.Random;
 
-
 public abstract class GameElement extends Point {
 
     /**
-     * The constructor gets a list of all instantiated elements and the board
-     * @params: List<GameElement> allElements, Board board
+     * Constructs a GameElement and gets a list of all instantiated elements and the board. <p>
+     * Adds created item to allElements.
+     * @param allElements   list of all elements in the game.
+     * @param board         instance of the created board.
      */
     public GameElement(List<GameElement> allElements, Board board) {
         this.setRandomLocation(board, allElements);
         allElements.add(this);
     }
 
+    /**
+     * Abstract method returns a String for the game in terminal-use.
+     * @return character to display on the board in terminal-use.
+     */
     public abstract String toBoard();
 
+    /**
+     * Abstract method to return the GameElements type.
+     * @return a GameELements type.
+     */
     public abstract GameElements toGameBoard();
 
     /**
-     * setRandomLocation() sets a point with random x and y coordinates for the suvivor and zombies.
+     * setRandomLocation() sets a point with random x and y coordinates for a game element.
      * <p>
      * This method also prevents giving elements the same coordinates,
-     * by checking if the same coordinate combination already exists.
-     * @param board
-     * @param allElements
+     * by checking if the same coordinate combination already exists for one element in allElements.
+     * @param board         instance fo the game board.
+     * @param allElements   list with all elements of the game.
      */
     public void setRandomLocation(Board board, final List<GameElement> allElements) {
         int x, y;
@@ -51,15 +60,15 @@ public abstract class GameElement extends Point {
                 y = rand.nextInt(board.getHeight() - 1);
                 this.setLocation(x, y);
                 for (GameElement elem : allElements) {
-                    //&& !(elem == this)) {
-                    if (elem.getLocation().equals(this.getLocation())) { // if the determined coordinates from the rand method
-                        isValid = false;                                 // equals an element position -> stop.
+                    // if the determined random coordinates equals an element position -> stop
+                    if (elem.getLocation().equals(this.getLocation())) {
+                        isValid = false;
                         break;
                     }
                 }
             } while(!isValid);
         } catch (Exception e) {
-            System.err.println("Something went wrong! :)"); // was könnte den zu einem Fehler führen, dass wir hier eine Exception brauchen? - Alex
+            System.err.println("Something went wrong! :)");
         }
     }
 }

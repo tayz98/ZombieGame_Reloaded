@@ -22,34 +22,33 @@ import java.util.List;
 
 public class GameBoard extends PApplet {
 
-    public static final int BOARD_HEIGHT = 12;
-    public static final int BOARD_WIDTH = 36;
+    private static final int BOARD_HEIGHT = 12;
+    private static final int BOARD_WIDTH = 36;
 
     Board board = new Board(BOARD_WIDTH, BOARD_HEIGHT, PlayType.WINDOW);
     ZGame ZombieGame = new ZGame(board);
 
     // 0 = start, 1 = info, 2 = setup, 3 = game, 4 = game lost, 5 = game won
-    int gameState = 0;
-    int xSize = board.getWidth();
-    int ySize = board.getHeight();
-    int xField = 30;
-    int yField = 30;
-    int margin = 50;
-    int boxTopHeight = 100;
-    int boxBotHeight = 100;
-    int gridHeight = ySize * yField;
-    int gridWidth = xSize * xField;
-    int difficulty = 1;
-    int difficultyOffset = 0;
-
-    PImage zombieNormalImg;
-    PImage zombieJumperImg;
-    PImage flashImg;
-    PImage exitImg;
-    PImage remedyImg;
-    PImage survivorImg;
-    PImage obstacleImg;
-    PImage portalImg;
+    private int gameState = 0;
+    private final int xSize = board.getWidth();
+    private final int ySize = board.getHeight();
+    private final int xField = 30;
+    private final int yField = 30;
+    private final int margin = 50;
+    private final int boxTopHeight = 100;
+    private final int boxBotHeight = 100;
+    private final int gridHeight = ySize * yField;
+    private final int gridWidth = xSize * xField;
+    private int difficulty = 1;
+    private int difficultyOffset = 0;
+    private PImage zombieNormalImg;
+    private PImage zombieJumperImg;
+    private PImage flashImg;
+    private PImage exitImg;
+    private PImage remedyImg;
+    private PImage survivorImg;
+    private PImage obstacleImg;
+    private PImage portalImg;
 
     private void clearBoard() {
         background(20);
@@ -277,6 +276,20 @@ public class GameBoard extends PApplet {
         text("Press [ESC] to exit or [ENTER] to start new game!", width / 2f, height / 2f + 100);
     }
 
+    private void startNewGame() {
+        gameState = 0;
+        board = new Board(BOARD_WIDTH, BOARD_HEIGHT, PlayType.WINDOW);
+        ZombieGame = new ZGame(board);
+    }
+
+    private void ckeckWinCondition() {
+        if (ZombieGame.isHasWon()) {
+            gameState = 5;
+        } else if (ZombieGame.isHasLost()) {
+            gameState = 4;
+        }
+    }
+
     /**
      * settings() is used for setting up the window size.
      */
@@ -296,7 +309,7 @@ public class GameBoard extends PApplet {
         flashImg = loadImage("playfield/images/flash.png");
         exitImg = loadImage("playfield/images/exit.png");
         remedyImg = loadImage("playfield/images/remedy.png");
-        survivorImg = loadImage("playfield/images/survivor.png");
+        survivorImg = loadImage("playfield/images/survivor2.png");
         portalImg = loadImage("playfield/images/portal.png");
         obstacleImg = loadImage("playfield/images/obstacle.png");
     }
@@ -442,20 +455,6 @@ public class GameBoard extends PApplet {
                     case 27 -> {System.exit(42);}
                 }
             }
-        }
-    }
-
-    private void startNewGame() {
-        gameState = 0;
-        board = new Board(BOARD_WIDTH, BOARD_HEIGHT, PlayType.WINDOW);
-        ZombieGame = new ZGame(board);
-    }
-
-    private void ckeckWinCondition() {
-        if (ZombieGame.isHasWon()) {
-            gameState = 5;
-        } else if (ZombieGame.isHasLost()) {
-            gameState = 4;
         }
     }
 

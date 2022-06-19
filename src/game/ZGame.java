@@ -15,7 +15,6 @@ import enums.Direction;
 import exceptions.UnsupportedInput;
 import game_elements.*;
 import playfield.Board;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -23,52 +22,78 @@ import java.util.Scanner;
 
 public class ZGame {
 
-    private Settings settings;                                      // settings object
-    private Board board;                                            // board object
-    private List<Survivor> survivors = new ArrayList<>();           // survivors list
-    private List<Zombie> zombies = new ArrayList<>();               // zombies list
-    private List<Remedy> remedies = new ArrayList<>();              // remedies list
-    private List<Exit> exits = new ArrayList<>();                   // exits list
-    private List<Portal> portals = new ArrayList<>();               // portals list
-    private List<Item> items = new ArrayList<>();                   // items list
-    private List<Obstacle> obstacles = new ArrayList<>();           // obstacles list
-    private List<GameElement> fixedObjects = new ArrayList<>();     // list with all game objects that are non-movable.
-    private List<GameElement> allGameElements = new ArrayList<>();  // list with all existing elements on the game.
-    private boolean hasWon = false;
-    private boolean hasLost = false;
+    private Settings settings;                                              // settings object
+    private final Board board;                                              // board object
+    private final List<Survivor> survivors = new ArrayList<>();             // survivors list
+    private final List<Zombie> zombies = new ArrayList<>();                 // zombies list
+    private final List<Remedy> remedies = new ArrayList<>();                // remedies list
+    private final List<Exit> exits = new ArrayList<>();                     // exits list
+    private final List<Portal> portals = new ArrayList<>();                 // portals list
+    private final List<Item> items = new ArrayList<>();                     // items list
+    private final List<Obstacle> obstacles = new ArrayList<>();             // obstacles list
+    private final List<GameElement> fixedObjects = new ArrayList<>();       // list with all game objects that are non-movable.
+    private final List<GameElement> allGameElements = new ArrayList<>();    // list with all existing elements on the game.
+    private boolean hasWon = false;                                         // variable to track if the game is won.
+    private boolean hasLost = false;                                        // variable to track if the game is lost.
 
-
-    // getter methods
+    /**
+     * Constructs a zombie game with a board as the parameter.
+     * @param board
+     */
     public ZGame(Board board) {
         this.board = board;
     }
 
+    /**
+     * returns a list of all zombies in the game.
+     * @return list of all zombies in the game.
+     */
     public List<Zombie> getZombies() {
         return zombies;
     }
 
+    /**
+     * returns a list of all survivors in the game.
+     * @return list of all survivors in the game.
+     */
     public List<Survivor> getSurvivors() {
         return survivors;
     }
 
+    /**
+     * returns a list of all fixed objects in the game.
+     * @return list of all fixed objects in the game.
+     */
     public List<GameElement> getFixedObjects() {
         return fixedObjects;
     }
 
+    /**
+     * returns a list of all obstacles in the game.
+     * @return list of all obstacles in the game.
+     */
     public List<Obstacle> getObstacles() {
         return obstacles;
     }
 
+    /**
+     *  method to check if the game is won or still running.
+     * @return true, if the game is won.
+     */
     public boolean isHasWon() {
         return hasWon;
     }
 
+    /**
+     *  method to check if the game is lost or still running.
+     * @return true, if the game is lost.
+     */
     public boolean isHasLost() {
         return hasLost;
     }
 
     /**
-     * constructor adjustGame() asks the user for the difficulty input when called.
+     * method asks the user for the difficulty input when called.
      */
     public void adjustGame() {
         Scanner sc = new Scanner(System.in);
@@ -100,7 +125,8 @@ public class ZGame {
     }
 
     /**
-     * constructor adjustGame(int) sets the difficulty setting to the received argument.
+     * method sets the difficulty setting to the received argument.
+     * @param difficulty 1 = easy, 2 = medium, 3 = hard
      */
     public void adjustGame(int difficulty) {
         switch(difficulty) {
@@ -123,7 +149,7 @@ public class ZGame {
     }
 
     /**
-     * constructor setupGame() creates a winnable game-board.
+     * method creates a winnable game-board.
      */
     public void setupGame() {
         do {
@@ -141,44 +167,37 @@ public class ZGame {
             for (int i = 0; i < this.settings.getNumZombies(); i++) {
                 Zombie tmp = new Zombie(this.zombies, this.allGameElements, this.board, this.settings.getZombieSleep());
             }
-
             for (int i = 0; i < this.settings.getNumPlayers(); i++) {
                 Survivor tmp = new Survivor(this.survivors, this.allGameElements, this.board, "Player 1");
             }
-
             for (int i = 0; i < this.settings.getNumExits(); i++) {
                 Exit tmp = new Exit(this.exits, this.allGameElements, this.fixedObjects, this.board);
             }
-
             for (int i = 0; i < this.settings.getNumRemedies(); i++) {
                 Remedy tmp = new Remedy(this.remedies, this.allGameElements, this.fixedObjects, this.board);
             }
-
             if (this.settings.hasPortals()) {
                 for (int i = 0; i < 2; i++) {
                     Portal tmp = new Portal(this.portals, this.allGameElements, this.fixedObjects, this.board);
                 }
             }
-
             if (this.settings.getNumItems() > 0) {
                 for (int i = 0; i < this.settings.getNumItems(); i++) {
                     Item tmp = new Item(this.items, this.allGameElements, this.fixedObjects, this.board);
                 }
             }
-
             if (this.settings.getNumObstacles() > 0) {
                 for (int i = 0; i < this.settings.getNumObstacles(); i++) {
                     Obstacle tmp = new Obstacle(this.obstacles, this.allGameElements, this.fixedObjects, this.board);
                 }
             }
-
         } while(!isWinnableGame());
     }
 
     /**
-     * isWinnableGame() compares the amount of turns the player and zombie needs to reach the exit.
+     * method compares the amount of turns the player and zombie needs to reach the exit.
      * method doesn't check possible use of items and remedy spawns.
-     * @return true, if the zombie needs more turns, else false
+     * @return true, if the game is winnable for the user
      */
     private boolean isWinnableGame() {
         int minDistancePlayer = 0, minDistanceZombie = 0;
@@ -198,8 +217,8 @@ public class ZGame {
     }
 
     /**
-     * checks if zombies are live.
-     * @return true if they are alive
+     * checks if at least one zombie is live.
+     * @return true if at least one zombie is alive.
      */
     private boolean areZombiesAlive() {
         for (Zombie z : this.zombies) {
@@ -211,9 +230,8 @@ public class ZGame {
     }
 
     /**
-     * nextRound() <p>
      * increases the score for every new round. <br>
-     * checks the locations for every gameElement and will do something(explained in the methods) if positions are equal. <br>
+     * checks the locations for every gameElement and will do something (explained in the methods) if positions are equal. <br>
      * checks if the game has been won or lost.
      * @throws Exception (if an error happened)
      */
@@ -261,7 +279,8 @@ public class ZGame {
                 s.setHasRemedy(true);
             }
         }
-            // checks if zombies can move (for example if they are in a sleep mode)
+
+        // checks if zombies can move (for example if they are in a sleep mode)
         for (Zombie z : this.zombies) {
             if (z.getRoundsToNextMove() > 0) {
                 z.decreaseRoundsToNextMove();
@@ -291,12 +310,11 @@ public class ZGame {
      */
     public void startGame() {
         Scanner sc = new Scanner(System.in);
-        String input; // is used for processing user input
-        boolean isValid = false; // if the user input is valid, this variable will change to true.
+        String input;                           // is used for processing user input
+        boolean isValid = false;                // if the user input is valid, this variable will change to true.
 
         try {
             do {
-                //drawBoard(BOARD_WIDTH, BOARD_HEIGHT, survivor, zombies, exit, remedies, portals, settings);
                 this.board.drawBoard(this.fixedObjects, this.survivors, this.zombies, true);
                 // Here it is checked whether a permitted character has been entered -> if not, repeat until something permitted has been entered.
                 do {
@@ -376,8 +394,6 @@ public class ZGame {
                     }
                 } while (!isValid);
 
-
-                // duplicate code, see nextRound()
                 for (Survivor s : this.survivors) {
 
                     for (Remedy r : this.remedies) {

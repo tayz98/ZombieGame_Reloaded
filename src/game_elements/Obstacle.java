@@ -11,23 +11,37 @@ package game_elements;
 
 import enums.GameElements;
 import playfield.Board;
-
 import java.util.List;
 
 public class Obstacle extends GameElement {
 
-    // an obstacle is added to the list of Obstacles when its constructor is called.
+    /**
+     * Constructs an obstacle element and gets a list of all instantiated elements and the board. <p>
+     * Adds created item to allElements, obstacles and fixedObjects.
+     * @param allElements   list of all elements in the game.
+     * @param board         instance of the created board.
+     * @param obstacles     list of all obstacles.
+     * @param fixedObjects  list of all fixed (non-movable) elements.
+     */
     public Obstacle(List<Obstacle> obstacles, List<GameElement> allElements, List<GameElement> fixedObjects, Board board) {
         super(allElements, board);
         obstacles.add(this);
         fixedObjects.add(this);
     }
 
+    /**
+     * Method returns a String for the game in terminal-use.
+     * @return character to display on the board in terminal-use.
+     */
     @Override
     public String toBoard() {
         return "X";
     }
 
+    /**
+     * Method to return the GameElement type.
+     * @return the GameElement type.
+     */
     @Override
     public GameElements toGameBoard() {
         return GameElements.OBSTACLE;

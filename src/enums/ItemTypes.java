@@ -15,15 +15,12 @@ import java.util.Random;
 
 public enum ItemTypes {
     FLASH;
-    //SHIELD,
-    //STUN_GUN,
-    //FIRE_GUN;
 
-    private static final List<ItemTypes> VALUES = List.of(values()); // VALUES is a list that contains all item types.
-    private static final int SIZE = VALUES.size(); // size contains the amount of items in the values list.
+    private static final List<ItemTypes> VALUES = List.of(values());    // list with all item types.
+    private static final int SIZE = VALUES.size();                      // contains the amount of items in the values list.
     private static final Random RANDOM = new Random();
 
-    // getter for returning a list with random items.
+    // getter for returning a random item.
     public static ItemTypes randomItemType()  {
         return VALUES.get(RANDOM.nextInt(SIZE));
     }

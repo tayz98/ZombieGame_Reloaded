@@ -5,7 +5,7 @@
  * @version 1.0
  * @authors Veronica Zylla, Sören Zacharias, Alexander Nachtigal
  * @email veronica.zylla@student.fh-kiel.de, soeren.zacharias@student.fh-kiel.de, alexander.nachtigal@student.fh-kiel.de
- * @description this class contains the settings of the game.
+ * @description this class contains the settings for a game.
  */
 
 package game;

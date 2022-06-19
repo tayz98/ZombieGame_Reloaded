@@ -5,7 +5,7 @@
  * @version 1.0
  * @authors Veronica Zylla, Sören Zacharias, Alexander Nachtigal
  * @email veronica.zylla@student.fh-kiel.de, soeren.zacharias@student.fh-kiel.de, alexander.nachtigal@student.fh-kiel.de
- * @description self defined exception. it executes when you give wrong inputs.
+ * @description self defined exception. It executes when you give wrong inputs.
  *              Because it inherits from IllegalArgumentException, the programm will stop when the exception is executed.
  */
 
