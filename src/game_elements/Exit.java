@@ -30,7 +30,7 @@ public class Exit extends GameElement {
     }
 
     @Override
-    public String toBoard() { // kann raus
+    public String toBoard() {
         return "#";
     }
 

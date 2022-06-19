@@ -17,19 +17,20 @@ import java.util.List;
 public class Portal extends GameElement {
 
     /**
-     * Portal constructor. It adds itself to the list of portals and GameObjects.
+     * Portal constructor. It adds itself to the list of portals.
      * @param portals
      * @param allElements
      * @param fixedObjects
      * @param board
      */
+
     public Portal(List<Portal> portals, List<GameElement> allElements, List<GameElement> fixedObjects, Board board) {
         super(allElements, board);
         portals.add(this);
         fixedObjects.add(this);
     }
 
-    @Override // kann raus
+    @Override //
     public String toBoard() {
         return "o";
     }
@@ -39,7 +40,6 @@ public class Portal extends GameElement {
         return GameElements.PORTAL;
     }
 
-    // methods:
 
 
     /**
@@ -49,7 +49,7 @@ public class Portal extends GameElement {
      */
     public void teleport(Survivor s, List<Portal> portals) {
         // if the survivor position equals the position of portal 1, port to portal 0.
-        if (s.getLocation().equals(portals.get(0).getLocation())) { // was ist, wenn die survivor position == portals.get(1) position ist?
+        if (s.getLocation().equals(portals.get(0).getLocation())) {
             s.setLocation(portals.get(1).getLocation());
         } else {
             s.setLocation(portals.get(0).getLocation()); // if the position equals portal 1, port to portal 0.

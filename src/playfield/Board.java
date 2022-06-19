@@ -1,3 +1,12 @@
+/**
+ * @package playfield
+ * @file Board.Java
+ * @version 1.0
+ * @authors Veronica Zylla, Sören Zacharias, Alexander Nachtigal
+ * @email veronica.zylla@student.fh-kiel.de, soeren.zacharias@student.fh-kiel.de, alexander.nachtigal@student.fh-kiel.de
+ * @description: The Board class is used as playfield for the game.
+ */
+
 package playfield;
 
 import enums.PlayType;
@@ -25,6 +34,8 @@ public class Board {
         this.width = width;
         this.height = height;
     }
+
+    // getter and setter methods:
 
     public void setActivatableItem(Item activatableItem) {
         this.activatableItem = activatableItem;
@@ -74,6 +85,9 @@ public class Board {
         this.score += points;
     }
 
+    /**
+     * drawStatusBar() draws the score and powerup item
+     */
     public void drawStatusBar() {
         System.out.println("Punkte: " + this.getScore());
         String item = "-";
@@ -86,6 +100,9 @@ public class Board {
         }
     }
 
+    /**
+     * decreaseActiveRounds() decreases the round timer for the powerup.
+     */
     public void decreaseActiveRounds() {
         if (this.roundsActive == 1) {
             this.roundsActive--;
@@ -95,6 +112,10 @@ public class Board {
         }
     }
 
+    /**
+     * drawHorizontalLine(String symbol) draws a horizontal line with the given symbol.
+     * @param symbol
+     */
     private void drawHorizontalLine(String symbol) {
         for (int i = 0; i < this.getWidth() + 2; i++) {
             System.out.print(symbol + "\t");
@@ -102,6 +123,13 @@ public class Board {
         System.out.println();
     }
 
+    /**
+     * drawBoard(...) takes all GameElements and draws their points on the board.
+     * @param fixedObjects
+     * @param survivors
+     * @param zombies
+     * @param nextRound
+     */
     public void drawBoard(final List<GameElement> fixedObjects, final List<Survivor> survivors, final List<Zombie> zombies, boolean nextRound) {
         if (nextRound) {
             this.decreaseActiveRounds();
@@ -140,7 +168,9 @@ public class Board {
         this.drawHorizontalLine("*");
     }
 
-    // Methode zur Ausgabe einer Willkommensnachricht
+    /**
+     * printWelcomeMessage() prints a welcome message.
+     */
     public void printWelcomeMessage() {
         PrintStream printStream = new PrintStream(System.out, true, StandardCharsets.UTF_8); // wird benötigt, um medizinisches Zeichen anzuzeigen
         this.drawHorizontalLine("-");
@@ -160,7 +190,9 @@ public class Board {
         this.drawHorizontalLine("-");
     }
 
-    // Methode zur Ausgabe einer Gewinner-Nachricht
+    /**
+     * printWinMessage() prints a win meesage with the score.
+     */
     public void printWinMessage() {
         this.drawHorizontalLine("-");
         System.out.println(" * CONGRATS! YOU WON!");
@@ -169,7 +201,9 @@ public class Board {
         this.drawHorizontalLine("-");
     }
 
-    // Methode zur Ausgabe einer Verlierer-Nachricht
+    /**
+     * printLoseMessage() prints a lose message.
+     */
     public void printLoseMessage() {
         this.drawHorizontalLine("-");
         System.out.println(" * OH NO!");
@@ -178,6 +212,9 @@ public class Board {
         this.drawHorizontalLine("-");
     }
 
+    /**
+     * printAdjustSettings() prints the queries for adjusting the settings.
+     */
     public void printAdjustSettings() {
         this.drawHorizontalLine("-");
         System.out.println();

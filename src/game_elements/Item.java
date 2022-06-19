@@ -4,7 +4,7 @@
  * @version 1.0
  * @authors Veronica Zylla, Sören Zacharias, Alexander Nachtigal
  * @email veronica.zylla@student.fh-kiel.de, soeren.zacharias@student.fh-kiel.de, alexander.nachtigal@student.fh-kiel.de
- * @description: The Item class contains a possible items in the game. It inherits from GameObject.
+ * @description: The Item class inherits from GameObject. It can be used by the survivor to get an advantage.
  */
 
 
@@ -25,7 +25,7 @@ public class Item extends GameElement {
      */
     ItemTypes type;
 
-    // constructors:
+    // Item adds itself to the list of items, allElements, fixedObjects.
     public Item(List<Item> items, List<GameElement> allElements, List<GameElement> fixedObjects, Board board) {
         super(allElements, board);
         items.add(this);
@@ -43,7 +43,7 @@ public class Item extends GameElement {
     }
 
     @Override
-    public String toBoard() { // kann raus
+    public String toBoard() {
         switch (this.type) {
             /*
             case STUN_GUN -> {

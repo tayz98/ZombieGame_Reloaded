@@ -17,10 +17,10 @@ import java.util.List;
 public class Survivor extends GameCharacter {
 
 
-    private int amountOfPickedRemedies;
+    private int amountOfPickedRemedies; // kann raus?
     private int allPickedRemedies;
     private int speed = 1;
-    private int steps = 0;
+    private int steps = 0; // kann raus?
     private int roundsActive = 0;
     private Item activatableItem;
     private boolean hasRemedy;
@@ -100,12 +100,11 @@ public class Survivor extends GameCharacter {
     }
 
     /**
-     * This method uses the enum (direction) and moves the survivor according to his input.
+     * move() uses the enum (direction) and moves the survivor according to the user input.
      * @param direction
      * @param board
      */
     public void move(Direction direction, Board board) {
-        try {
             switch (direction) {
                 // When the survivor hits the edge of the field, he stops (via min and max method!)
                 case LEFT -> {
@@ -121,42 +120,34 @@ public class Survivor extends GameCharacter {
                     this.setLocation(this.getX(), Math.max(this.getY() - this.getSpeed(), 0));
                 }
                 default -> {
-                    System.out.println("Wrong input"); // evtl. einen rekursiven Aufruf einbauen, sodass der Benutzer nochmal eine Eingabe tätigen kann?
+                    System.out.println("Wrong input");
                 }
             }
-            this.increaseSteps();
-            this.decreaseRoundsActive();
-            this.decreaseSpeedIfNeeded();
-        } catch (Exception e) {
-            System.err.println("Something went wrong!"); // kann mMn. raus. Wir haben beim switch doch ein default.
-
+            this.increaseSteps(); // for tracking the amount of steps
+            this.decreaseRoundsActive(); //
+            this.decreaseSpeedIfNeeded(); // if the flash powerup ran out -> decrease Speed
         }
-    }
 
     /**
      * This method checks if the zombie can eat the survivor by comparing the positions.
-     * @param zombies
+     * @param zombies-list
      * @return true if the position is the same, else false.
      */
     public boolean ateByZombies(List<Zombie> zombies) {
-        try {
             for (Zombie z : zombies) {
                 if (z.getLocation().equals(this.getLocation())) {
-                    // weitere Abfrage einbauen, ob der Survivor ein Schild bzw. Schutz hat?
                     return true;
                 }
             }
-        } catch (Exception e) {
-            System.err.println("Something went wrong!"); // notwendig? mir fällt spontan kein Szenario ein, welche Fehler beim Try entstehen könnten.
-        }
+
         return false;
     }
 
     /**
-     * CHANGE ME
-     * @return
+     * activatePowerUp() returns a boolean depending on if the powerUp was used.
+     * @return true if a powerup was used.
      */
-    public boolean activatePowerUp() { // eine Methode namens "activate" sollte mMn. ein Void sein oder eine andere Methode aufrufen.
+    public boolean activatePowerUp() {
         if (this.activatableItem == null) {
             return false;
         } else {
@@ -177,7 +168,7 @@ public class Survivor extends GameCharacter {
      * @param deltaY
      * @param board
      * @param obstacles
-     * @return CHANGE ME
+     * @return true if the survivor is able to move to the given direction.
      */
     public boolean isValidMove(int deltaX, int deltaY, Board board, List<Obstacle> obstacles) { // vielleicht noch Zombies hinzufügen?
         int xPosition = (int) (this.getX() + deltaX); // needs explanation
@@ -196,7 +187,7 @@ public class Survivor extends GameCharacter {
     }
 
     @Override
-    public String toBoard() { // kann raus
+    public String toBoard() {
         return "S";
     }
 

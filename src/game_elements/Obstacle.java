@@ -15,6 +15,8 @@ import playfield.Board;
 import java.util.List;
 
 public class Obstacle extends GameElement {
+
+    // an obstacle is added to the list of Obstacles when its constructor is called.
     public Obstacle(List<Obstacle> obstacles, List<GameElement> allElements, List<GameElement> fixedObjects, Board board) {
         super(allElements, board);
         obstacles.add(this);
@@ -22,7 +24,7 @@ public class Obstacle extends GameElement {
     }
 
     @Override
-    public String toBoard() { // kann raus
+    public String toBoard() {
         return "X";
     }
 

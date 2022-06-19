@@ -1,6 +1,6 @@
 /**
- * package game_elements
- * file GameElement.Java
+ * @package game_elements
+ * @file GameElement.Java
  * @version 1.0
  * @authors Veronica Zylla, Sören Zacharias, Alexander Nachtigal
  * @email veronica.zylla@student.fh-kiel.de, soeren.zacharias@student.fh-kiel.de, alexander.nachtigal@student.fh-kiel.de
@@ -33,9 +33,9 @@ public abstract class GameElement extends Point {
     public abstract GameElements toGameBoard();
 
     /**
-     * With the help of the Random class, all game elements are assigned a random X and Y coordinate.
+     * setRandomLocation() sets a point with random x and y coordinates for the suvivor and zombies.
      * <p>
-     * This method also prevents giving elements the same coordinates
+     * This method also prevents giving elements the same coordinates,
      * by checking if the same coordinate combination already exists.
      * @param board
      * @param allElements

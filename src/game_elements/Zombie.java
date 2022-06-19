@@ -4,7 +4,7 @@
  * @version 1.0
  * @authors Veronica Zylla, Sören Zacharias, Alexander Nachtigal
  * @email veronica.zylla@student.fh-kiel.de, soeren.zacharias@student.fh-kiel.de, alexander.nachtigal@student.fh-kiel.de
- * @description: The Survivor Class is represented as a point which is used by the AI.
+ * @description: The Zombie Class is represented as a point which is used by the AI.
  */
 
 package game_elements;
@@ -76,7 +76,6 @@ public class Zombie extends GameCharacter {
         this.roundsToNextMove--;
     }
 
-    // overloading Functions:
     /**
      * @param survivor
      * @return the amount of turns needed to reach the survivor.
@@ -86,10 +85,10 @@ public class Zombie extends GameCharacter {
     }
 
     /**
-     * please explain sören senpai.
+     * distanceToSurvivor() calculates the distance to the survivor
      * @param survivor
      * @param direction
-     * @return
+     * @return an integer represented with the amount of turns needed to reach the survivor.
      */
     public int distanceToSurvivor(Survivor survivor, String direction) {
         switch(direction) {
@@ -114,7 +113,15 @@ public class Zombie extends GameCharacter {
      * @param fixedObjects
      * @return
      */
-    private boolean isValidMove(int x, int y, List<GameElement> fixedObjects) { // die Methode gibt es auch in der Survivor Klasse. => entweder in abstrakte Klasse oder Interface packen.
+
+    /**
+     * isValidMove() checks if the zombie could move to the location of a fixedObject
+     * @param x
+     * @param y
+     * @param fixedObjects
+     * @return true if positions are not the same
+     */
+    private boolean isValidMove(int x, int y, List<GameElement> fixedObjects) {
         for (GameElement e : fixedObjects) {
             if (e.getX() == x && e.getY() == y) {
                 return false;
@@ -128,7 +135,7 @@ public class Zombie extends GameCharacter {
      * It also checks the type of the zombie and adjusts the movement pattern.
      * @param survivors
      * @param fixedObjects
-     * @throws Exception
+     * @throws Exception message if something went wrong.
      */
     public void move(List<Survivor> survivors, List<GameElement> fixedObjects) throws Exception{
         Survivor nearestSurvivor = null;
@@ -151,7 +158,7 @@ public class Zombie extends GameCharacter {
                         numPossibilities = 3;
                     }
                     // Movement in horizontal direction
-                    assert nearestSurvivor != null; // hat mir IntellJ vorgeschlagen, um eine NullPointerException zu verhindern. Sinnvoll? - Alex
+                    assert nearestSurvivor != null; //
                     if (x < nearestSurvivor.getX()) {
                         x++;
                     } else if (x > nearestSurvivor.getX()) {
@@ -176,7 +183,7 @@ public class Zombie extends GameCharacter {
                     }
                 }
                 case JUMPER -> {
-                    assert nearestSurvivor != null; // IntelliJ Vorschlag
+                    assert nearestSurvivor != null;
                     int deltaX = (int) (nearestSurvivor.getX() - this.getX());
                     int deltaY = (int) (nearestSurvivor.getY() - this.getY());
 
@@ -219,12 +226,12 @@ public class Zombie extends GameCharacter {
                 }
             }
         } catch (Exception e) {
-            System.err.println(e);
+            System.err.println(e.getMessage());
         }
     }
 
     @Override
-    public String toBoard() { // kann raus
+    public String toBoard() {
         switch(this.type) {
             case NORMAL -> {
                 return "Z";

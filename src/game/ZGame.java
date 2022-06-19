@@ -1,3 +1,13 @@
+/**
+ * @name ZGame
+ * @package game
+ * @file ZGame.java
+ * @version 1.0
+ * @authors Veronica Zylla, Sören Zacharias, Alexander Nachtigal
+ * @email veronica.zylla@student.fh-kiel.de, soeren.zacharias@student.fh-kiel.de, alexander.nachtigal@student.fh-kiel.de
+ * @description this class contains the game logic.
+ */
+
 package game;
 
 import enums.Difficulties;
@@ -13,20 +23,22 @@ import java.util.Scanner;
 
 public class ZGame {
 
-    private Settings settings;                                      // Einstellungen
-    private Board board;                                            // Spielfeld
-    private List<Survivor> survivors = new ArrayList<>();           // Liste mit Survivors
-    private List<Zombie> zombies = new ArrayList<>();               // Liste mit Zombies
-    private List<Remedy> remedies = new ArrayList<>();              // Liste mit Heilmitteln
-    private List<Exit> exits = new ArrayList<>();                   // Liste mit Ausgängen
-    private List<Portal> portals = new ArrayList<>();               // Liste mit Portalen
-    private List<Item> items = new ArrayList<>();                   // Liste mit Items
-    private List<Obstacle> obstacles = new ArrayList<>();           // Liste mit Hindernissen
-    private List<GameElement> fixedObjects = new ArrayList<>();     // Liste mit allen Objekten, die sich nicht bewegen
-    private List<GameElement> allGameElements = new ArrayList<>();  // Liste mit allen Game Elementen
+    private Settings settings;                                      // settings object
+    private Board board;                                            // board object
+    private List<Survivor> survivors = new ArrayList<>();           // survivors list
+    private List<Zombie> zombies = new ArrayList<>();               // zombies list
+    private List<Remedy> remedies = new ArrayList<>();              // remedies list
+    private List<Exit> exits = new ArrayList<>();                   // exits list
+    private List<Portal> portals = new ArrayList<>();               // portals list
+    private List<Item> items = new ArrayList<>();                   // items list
+    private List<Obstacle> obstacles = new ArrayList<>();           // obstacles list
+    private List<GameElement> fixedObjects = new ArrayList<>();     // list with all game objects that are non-movable.
+    private List<GameElement> allGameElements = new ArrayList<>();  // list with all existing elements on the game.
     private boolean hasWon = false;
     private boolean hasLost = false;
 
+
+    // getter methods
     public ZGame(Board board) {
         this.board = board;
     }
@@ -55,6 +67,9 @@ public class ZGame {
         return hasLost;
     }
 
+    /**
+     * constructor adjustGame() asks the user for the difficulty input when called.
+     */
     public void adjustGame() {
         Scanner sc = new Scanner(System.in);
         board.printWelcomeMessage();
@@ -84,6 +99,9 @@ public class ZGame {
         }
     }
 
+    /**
+     * constructor adjustGame(int) sets the difficulty setting to the received argument.
+     */
     public void adjustGame(int difficulty) {
         switch(difficulty) {
             case 1 -> {
@@ -104,8 +122,12 @@ public class ZGame {
         }
     }
 
+    /**
+     * constructor setupGame() creates a winnable game-board.
+     */
     public void setupGame() {
         do {
+            // clear list of GameElements for every iteration.
             this.allGameElements.clear();
             this.zombies.clear();
             this.survivors.clear();
@@ -114,6 +136,8 @@ public class ZGame {
             this.fixedObjects.clear();
             this.portals.clear();
             this.obstacles.clear();
+
+            // try new point positions as long as the game is not winnable.
             for (int i = 0; i < this.settings.getNumZombies(); i++) {
                 Zombie tmp = new Zombie(this.zombies, this.allGameElements, this.board, this.settings.getZombieSleep());
             }
@@ -151,6 +175,11 @@ public class ZGame {
         } while(!isWinnableGame());
     }
 
+    /**
+     * isWinnableGame() compares the amount of turns the player and zombie needs to reach the exit.
+     * method doesn't check possible use of items and remedy spawns.
+     * @return true, if the zombie needs more turns, else false
+     */
     private boolean isWinnableGame() {
         int minDistancePlayer = 0, minDistanceZombie = 0;
         for (Exit e : this.exits) {
@@ -168,6 +197,10 @@ public class ZGame {
         return minDistanceZombie >= minDistancePlayer;
     }
 
+    /**
+     * checks if zombies are live.
+     * @return true if they are alive
+     */
     private boolean areZombiesAlive() {
         for (Zombie z : this.zombies) {
             if (z.isAlive()) {
@@ -177,6 +210,13 @@ public class ZGame {
         return false;
     }
 
+    /**
+     * nextRound() <p>
+     * increases the score for every new round. <br>
+     * checks the locations for every gameElement and will do something(explained in the methods) if positions are equal. <br>
+     * checks if the game has been won or lost.
+     * @throws Exception (if an error happened)
+     */
     public void nextRound() throws Exception {
         board.setMessage("");
         board.decreaseActiveRounds();
@@ -185,7 +225,8 @@ public class ZGame {
         }
 
         for (Survivor s : this.survivors) {
-            // Heilmittel
+            // checks remedy position and increases remedy counter if survivor and remedy positions are equal.
+            // also increases  the score by 50
             for (Remedy r : this.remedies) {
                 if (r.getLocation().equals(s.getLocation())) {
                     for (Survivor su : this.survivors) {
@@ -196,7 +237,7 @@ public class ZGame {
                     r.setLocation(-1, -1);
                 }
             }
-            // Portale
+            // checks portal position and ports the survivor if they are on the same position.
             if (this.settings.hasPortals()) {
                 for (Portal p : this.portals) {
                     if (s.getLocation().equals(p.getLocation())) {
@@ -205,7 +246,8 @@ public class ZGame {
                     }
                 }
             }
-            // Items
+            // checks item position and survivor position.
+            // if they are equal -> increase score by 25 and give the survivor the item as an collectible.
             for (Item i : this.items) {
                 if (i.getLocation().equals(s.getLocation())) {
                     s.setActivatableItem(i);
@@ -214,12 +256,12 @@ public class ZGame {
                     i.setLocation(-1, -1);
                 }
             }
-            // Überprüfung, ob alle Heilmittel eingesammelt wurden
+            // checks if all remedies were picked up.
             if (s.getAllPickedRemedies() == this.settings.getNumRemedies()) {
                 s.setHasRemedy(true);
             }
         }
-
+            // checks if zombies can move (for example if they are in a sleep mode)
         for (Zombie z : this.zombies) {
             if (z.getRoundsToNextMove() > 0) {
                 z.decreaseRoundsToNextMove();
@@ -228,7 +270,7 @@ public class ZGame {
             }
         }
 
-        // Hier wird die Gewinnbedingung überprüft. Der Spieler muss alle Heilmittel eingesammelt haben UND sich in der Position des Ausgangs befinden.
+        // checks the winning requirements and increases the score.
         for (Survivor s : this.survivors) {
             for (Exit e : this.exits) {
                 if (s.getLocation().equals(e.getLocation()) && s.hasRemedy()) {
@@ -243,17 +285,22 @@ public class ZGame {
         }
     }
 
-    public void startGame() throws Exception {
+    /**
+     * startGame() displays the board with its GameElements. <br>
+     * Also takes input for moving the characters etc.
+     */
+    public void startGame() {
         Scanner sc = new Scanner(System.in);
-        String input; // Variable zum Verarbeiten der User-Eingabe
-        boolean isValid = false; // Variabel zum Überprüfen, ob zugelassene Zeichen zum Bewegen etc. eingegeben wurden
+        String input; // is used for processing user input
+        boolean isValid = false; // if the user input is valid, this variable will change to true.
 
         try {
             do {
                 //drawBoard(BOARD_WIDTH, BOARD_HEIGHT, survivor, zombies, exit, remedies, portals, settings);
                 this.board.drawBoard(this.fixedObjects, this.survivors, this.zombies, true);
-                // Hier wird geprüft, ob ein zugelassenes Zeichen eingegeben wurde -> falls nicht, so lange wiederholen, bis etwas Zugelassenes eingegeben wurde
+                // Here it is checked whether a permitted character has been entered -> if not, repeat until something permitted has been entered.
                 do {
+                    // movement:
                     isValid = false;
                     for (Survivor s : this.survivors) {
                         System.out.println(s.getPlayerName() + ", what is your next move? [w = move up | a = move left | s = move down | d = move right | q = exit | Confirm input with ENTER]");
@@ -329,8 +376,10 @@ public class ZGame {
                     }
                 } while (!isValid);
 
+
+                // duplicate code, see nextRound()
                 for (Survivor s : this.survivors) {
-                    // Heilmittel
+
                     for (Remedy r : this.remedies) {
                         if (r.getLocation().equals(s.getLocation())) {
                             for (Survivor su : this.survivors) {
@@ -341,7 +390,7 @@ public class ZGame {
                             r.setLocation(-1, -1);
                         }
                     }
-                    // Portale
+
                     if (this.settings.hasPortals()) {
                         for (Portal p : this.portals) {
                             if (s.getLocation().equals(p.getLocation())) {
@@ -350,7 +399,7 @@ public class ZGame {
                             }
                         }
                     }
-                    // Items
+
                     for (Item i : this.items) {
                         if (i.getLocation().equals(s.getLocation())) {
                             s.setActivatableItem(i);
@@ -359,7 +408,7 @@ public class ZGame {
                             i.setLocation(-1, -1);
                         }
                     }
-                    // Überprüfung, ob alle Heilmittel eingesammelt wurden
+
                     if (s.getAllPickedRemedies() == this.settings.getNumRemedies()) {
                         s.setHasRemedy(true);
                     }
@@ -373,7 +422,6 @@ public class ZGame {
                     }
                 }
 
-                // Hier wird die Gewinnbedingung überprüft. Der Spieler muss alle Heilmittel eingesammelt haben UND sich in der Position des Ausgangs befinden.
                 for (Survivor s : this.survivors) {
                     for (Exit e : this.exits) {
                         if (s.getLocation().equals(e.getLocation()) && s.hasRemedy()) {

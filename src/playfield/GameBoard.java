@@ -1,3 +1,12 @@
+/**
+ * @package playfield
+ * @file GameBoard.java
+ * @version 1.0
+ * @authors Veronica Zylla, Sören Zacharias, Alexander Nachtigal
+ * @email veronica.zylla@student.fh-kiel.de, soeren.zacharias@student.fh-kiel.de, alexander.nachtigal@student.fh-kiel.de
+ * @description: The GameBoard class uses processing to display a graphical playfield.
+ */
+
 package playfield;
 
 import enums.Direction;
@@ -268,12 +277,18 @@ public class GameBoard extends PApplet {
         text("Press [ESC] to exit or [ENTER] to start new game!", width / 2f, height / 2f + 100);
     }
 
+    /**
+     * settings() is used for setting up the window size.
+     */
     public void settings() {
         int x = xSize * xField + 2 * margin;
         int y = ySize * yField + 2 * margin + boxTopHeight + boxBotHeight;
         size(x, y);
     }
 
+    /**
+     * The setup() function is called once when the program starts.
+     */
     public void setup() {
         background(20);
         zombieNormalImg = loadImage("playfield/images/zombieNormal.png");
@@ -286,6 +301,9 @@ public class GameBoard extends PApplet {
         obstacleImg = loadImage("playfield/images/obstacle.png");
     }
 
+    /**
+     *  draw() is called directly after setup() and continuously executes the lines of code contained inside its block until the program is stopped or noLoop() is called.
+     */
     public void draw() {
         switch (gameState) {
             case 0 -> {
@@ -314,6 +332,9 @@ public class GameBoard extends PApplet {
 
     }
 
+    /**
+     * keyPressed() is called each time a single key on the keyboard is pressed.
+     */
     public void keyPressed() {
         switch (gameState) {
             case 0 -> {
@@ -438,6 +459,10 @@ public class GameBoard extends PApplet {
         }
     }
 
+    /**
+     * main method to initialize the GUI.
+     * @param args
+     */
     public static void main(String[] args) {
         PApplet.main("playfield.GameBoard");
     }

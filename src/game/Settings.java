@@ -1,9 +1,18 @@
+/**
+ * @name Settings
+ * @package game
+ * @file Settings.java
+ * @version 1.0
+ * @authors Veronica Zylla, Sören Zacharias, Alexander Nachtigal
+ * @email veronica.zylla@student.fh-kiel.de, soeren.zacharias@student.fh-kiel.de, alexander.nachtigal@student.fh-kiel.de
+ * @description this class contains the settings of the game.
+ */
+
 package game;
 
 import enums.Difficulties;
 import java.util.Scanner;
 
-// this class contains the settings of the game.
 public class Settings {
 
     private int numExits;
@@ -16,6 +25,7 @@ public class Settings {
     private final boolean hasCustomSettings;
     private boolean portals;
 
+    // constructors for difficulty modes (easy, medium, hard and custom):
     public Settings(int numExits, int numPlayers, int numRemedies, int numZombies, int zombieSleep, int numItems, int numObstacles,
                     boolean hasCustomSettings, boolean hasPortals) {
         this.numExits = numExits;
@@ -78,16 +88,16 @@ public class Settings {
         }
     }
 
-    // Konstruktor + fragt den Benutzer zusätzlich nach den Einstellungen.
+    // constructor for custom settings (currently only working in the terminal):
     public Settings() {
         Scanner sc = new Scanner(System.in);
         boolean isValid = true;
         int inputInt;
         this.hasCustomSettings = true;
         try {
-            // Falls "[2] Custom mode" ausgewählt wurde, geht er die kommenden Game-Settings-Abfragen durch
+            // if "[2] Custom mode" is chosen, the programm will go through the following queries.
             if (this.hasCustomSettings) {
-                // Abfrage zu Heilmitteln
+                // queries for remedies
                 do {
                     if (!isValid) {
                         System.out.println("Wrong input! Go again!");
@@ -95,14 +105,14 @@ public class Settings {
                     System.out.println("How many remedies does the player need? (1-5)");
                     inputInt = sc.nextInt();
                     sc.nextLine();
-                    // Einstellung für Remedies
+                    // settings for remedies
                     isValid = (inputInt > 0 && inputInt <= 5);
                     if (isValid) {
                         this.numRemedies = inputInt;
                     }
                 } while (!isValid);
 
-                // Abfrage zu Zombies
+                // queries for zombies
                 do {
                     if (!isValid) {
                         System.out.println("Wrong input! Go again!");
@@ -110,13 +120,14 @@ public class Settings {
                     System.out.println("How many zombies do you want to escape? (1-5)");
                     inputInt = sc.nextInt();
                     sc.nextLine();
-                    // Einstellung für Zombies
+                    // settings for zombies
                     isValid = (inputInt > 0 && inputInt <= 5);
                     if (isValid) {
                         this.numZombies = inputInt;
                     }
                 } while (!isValid);
 
+                // queries for items
                 do {
                     if (!isValid) {
                         System.out.println("Wrong input! Go again!");
@@ -124,13 +135,14 @@ public class Settings {
                     System.out.println("How many items should be on the board? (0-10)");
                     inputInt = sc.nextInt();
                     sc.nextLine();
-                    // Einstellung für Items
+                    // settings for items
                     isValid = (inputInt >= 0 && inputInt <= 10);
                     if (isValid) {
                         this.numItems = inputInt;
                     }
                 } while (!isValid);
 
+                // queries for obstacles
                 do {
                     if (!isValid) {
                         System.out.println("Wrong input! Go again!");
@@ -138,14 +150,14 @@ public class Settings {
                     System.out.println("How many obstacles should be on the board? (0-25)");
                     inputInt = sc.nextInt();
                     sc.nextLine();
-                    // Einstellung für Hindernisse
+                    // settings for obstacles
                     isValid = (inputInt >= 0 && inputInt <= 25);
                     if (isValid) {
                         this.numObstacles = inputInt;
                     }
                 } while (!isValid);
 
-                // Abfrage zu Portalen
+                // queries for portals
                 do {
                     if (!isValid) {
                         System.out.println("Wrong input! Go again!");
@@ -155,19 +167,19 @@ public class Settings {
                     System.out.println("[2] portals");
                     inputInt = sc.nextInt();
                     sc.nextLine();
-                    // Einstellung für Portale
+                    // settings for portals
                     isValid = (inputInt == 1 || inputInt == 2);
                     if (isValid && inputInt == 2) {
                         this.portals = true;
                     }
                 } while (!isValid);
 
-                // Abfrage zum "Sleep-Modus"
+                // queries for sleep mode
                 do {
                     if (!isValid) {
                         System.out.println("Wrong input! Go again!");
                     }
-                    // Einstellung für den Zombie-Sleep-Modus
+                    // settings for sleep mode
                     System.out.println("Should the zombies sleep for certain turns? (0-99 Turns)");
                     inputInt = sc.nextInt();
                     sc.nextLine();
@@ -178,11 +190,13 @@ public class Settings {
                 } while (!isValid);
             }
         } catch (Exception e) {
-            System.err.println("Wrong input, program ends here!");
+            System.err.println("Wrong input, program ends here with exit code 2!");
             System.exit(2);
         }
     }
 
+
+    // getter methods
     public int getNumExits() {
         return numExits;
     }
