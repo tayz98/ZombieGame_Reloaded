@@ -1,5 +1,5 @@
 # Dokumentation
-___
+
 ## Autoren:
 Alexander Nachtigal<br>
 Sören Zacharias <br>
@@ -7,7 +7,7 @@ Veronica Zylla </p>
 
 ___
 ## Natürlich sprachliche Beschreibung des Programms
-___
+
 ___
 ## Spielkonzept
 ___
@@ -28,8 +28,8 @@ Es können auch Custom Settings benutzt werden.
 * Einsammeln eines Heilmittels: 50 Punkte
 * Erreichen des Ausgangs: 100 Punkte
 ___
-## Spielsymbole: 
-___
+
+## Spielsymbole:
 
 ### Konsole: 
 * Survivor: **S**
@@ -63,7 +63,6 @@ ___
 
 
 ## Steuerung
-___
 
 ### Bewegung:
 * Nach oben: **W**
@@ -76,7 +75,7 @@ ___
 * Spiel verlassen: **Q**
 
 
-
+___
 ## Erfahrungsbericht
 Erfahrungsbericht zur Portierung des schon vorhandenen Programmes
 ___
@@ -95,12 +94,11 @@ Die deklarierten Methoden wurden den Objekten zugeordnet, bei denen die Methoden
 
 
 ## UML
-___
 [Link zur Datei](changeme)
 
+___
 
 ## Anforderungen
-<hr>
 
 * Pflicht-Anforderungen
     * Dokumentation des Programms [x]
@@ -133,6 +131,7 @@ ___
 ___
 
 
+ignorieren(GITHUB erlaubt kein CSS): 
 
 <style type="text/css" rel="stylesheet">
 img { width: 100px;
