@@ -14,53 +14,83 @@ import game_elements.GameElement;
 import game_elements.Item;
 import game_elements.Survivor;
 import game_elements.Zombie;
-
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class Board {
 
-    private int width;
-    private int height;
-    private int score = 0;
-    private int roundsActive = 0;
-    private Item activatableItem;
-    private Item activeItem;
-    private PlayType playType;
-    private String message = "";
+    private int width;              // width of board
+    private int height;             // height of board
+    private int score = 0;          // score of the player
+    private int roundsActive = 0;   // rounds that an item is active
+    private Item activatableItem;   // item that is collected by the player
+    private Item activeItem;        // activated item by the player.
+    private PlayType playType;      // variable to determine if the game will be a terminal or window game.
+    private String message = "";    // message for status updates.
 
+    /**
+     * Constructs a Board element depending on the given size.
+     * @param width     amount of field in x-direction.
+     * @param height    amount of field in y-direction.
+     * @param playType  variable to declare if the game will be a terminal or window game.
+     */
     public Board(final int width, final int height, final PlayType playType) {
         this.width = width;
         this.height = height;
     }
 
-    // getter and setter methods:
-
+    /**
+     * Method to set the item that is collected.
+     * @param activatableItem   Item that is collected.
+     */
     public void setActivatableItem(Item activatableItem) {
         this.activatableItem = activatableItem;
     }
 
+    /**
+     * Method ro return the item that is activatable.
+     * @return the item that is activatable.
+     */
     public Item getActivatableItem() {
         return activatableItem;
     }
 
+    /**
+     * Method to return the active item.
+     * @return the active item in use.
+     */
     public Item getActiveItem() {
         return activeItem;
     }
 
+    /**
+     * Method to return the amount of rounds that the item is still active.
+     * @return the amount of rounds that the item is still active.
+     */
     public int getRoundsActive() {
         return roundsActive;
     }
 
+    /**
+     * Method to get status-message.
+     * @return status-message.
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * Method to set the status-message.
+     * @param message   message to display as information.
+     */
     public void setMessage(String message) {
         this.message = message;
     }
 
+    /**
+     * Method to activate a power-up.
+     */
     public void activatePowerUp() {
         if (this.activatableItem != null) {
             this.roundsActive = 3;
@@ -69,24 +99,40 @@ public class Board {
         }
     }
 
+    /**
+     * Method to return the width.
+     * @return the width of the board.
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Method to return the height.
+     * @return the height of the board.
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Method to get the score
+     * @return the active score.
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * Method to increase the active score.
+     * @param points    amount of points to increase.
+     */
     public void increaseScore(int points) {
         this.score += points;
     }
 
     /**
-     * drawStatusBar() draws the score and powerup item
+     * Method draws the score and powerup item
      */
     public void drawStatusBar() {
         System.out.println("Punkte: " + this.getScore());
@@ -101,7 +147,7 @@ public class Board {
     }
 
     /**
-     * decreaseActiveRounds() decreases the round timer for the powerup.
+     * Method decreases the round timer for the powerup.
      */
     public void decreaseActiveRounds() {
         if (this.roundsActive == 1) {
@@ -113,8 +159,8 @@ public class Board {
     }
 
     /**
-     * drawHorizontalLine(String symbol) draws a horizontal line with the given symbol.
-     * @param symbol
+     * Method draws a horizontal line with the given symbol.
+     * @param symbol    smybold to display as a line.
      */
     private void drawHorizontalLine(String symbol) {
         for (int i = 0; i < this.getWidth() + 2; i++) {
@@ -124,11 +170,11 @@ public class Board {
     }
 
     /**
-     * drawBoard(...) takes all GameElements and draws their points on the board.
-     * @param fixedObjects
-     * @param survivors
-     * @param zombies
-     * @param nextRound
+     * Method takes all GameElements and draws their points on the board.
+     * @param fixedObjects  list of all fixed objects.
+     * @param survivors     list of all survivors.
+     * @param zombies       list of all zombies.
+     * @param nextRound     true, if a new round has begun.
      */
     public void drawBoard(final List<GameElement> fixedObjects, final List<Survivor> survivors, final List<Zombie> zombies, boolean nextRound) {
         if (nextRound) {
@@ -169,7 +215,7 @@ public class Board {
     }
 
     /**
-     * printWelcomeMessage() prints a welcome message.
+     * Method prints a welcome message.
      */
     public void printWelcomeMessage() {
         PrintStream printStream = new PrintStream(System.out, true, StandardCharsets.UTF_8); // wird benötigt, um medizinisches Zeichen anzuzeigen
@@ -191,7 +237,7 @@ public class Board {
     }
 
     /**
-     * printWinMessage() prints a win meesage with the score.
+     * Method prints a win message with the score.
      */
     public void printWinMessage() {
         this.drawHorizontalLine("-");
@@ -202,7 +248,7 @@ public class Board {
     }
 
     /**
-     * printLoseMessage() prints a lose message.
+     * Method prints a loss message.
      */
     public void printLoseMessage() {
         this.drawHorizontalLine("-");
@@ -213,7 +259,7 @@ public class Board {
     }
 
     /**
-     * printAdjustSettings() prints the queries for adjusting the settings.
+     * Method prints the queries for adjusting the settings.
      */
     public void printAdjustSettings() {
         this.drawHorizontalLine("-");

@@ -28,32 +28,37 @@ public class GameBoard extends PApplet {
     Board board = new Board(BOARD_WIDTH, BOARD_HEIGHT, PlayType.WINDOW);
     ZGame ZombieGame = new ZGame(board);
 
-    // 0 = start, 1 = info, 2 = setup, 3 = game, 4 = game lost, 5 = game won
-    private int gameState = 0;
-    private final int xSize = board.getWidth();
-    private final int ySize = board.getHeight();
-    private final int xField = 30;
-    private final int yField = 30;
-    private final int margin = 50;
-    private final int boxTopHeight = 100;
-    private final int boxBotHeight = 100;
-    private final int gridHeight = ySize * yField;
-    private final int gridWidth = xSize * xField;
-    private int difficulty = 1;
-    private int difficultyOffset = 0;
-    private PImage zombieNormalImg;
-    private PImage zombieJumperImg;
-    private PImage flashImg;
-    private PImage exitImg;
-    private PImage remedyImg;
-    private PImage survivorImg;
-    private PImage obstacleImg;
-    private PImage portalImg;
+    private int gameState = 0;                          // 0 = start, 1 = info, 2 = setup, 3 = game, 4 = game lost, 5 = game won
+    private final int xSize = board.getWidth();         // amount of fields in x-direction.
+    private final int ySize = board.getHeight();        // amount of fields in y-direction.
+    private final int xField = 30;                      // width of a field.
+    private final int yField = 30;                      // height of a field.
+    private final int margin = 50;                      // margin around the grid.
+    private final int boxTopHeight = 100;               // height of the status bar on top.
+    private final int boxBotHeight = 100;               // height of the status bar in the bottom.
+    private final int gridHeight = ySize * yField;      // height of the grid.
+    private final int gridWidth = xSize * xField;       // width of the grid.
+    private int difficulty = 1;                         // 1 = easy, 2 = medium, 3 = hard
+    private int difficultyOffset = 0;                   // variable to draw the elements.
+    private PImage zombieNormalImg;                     // image of normal zombie.
+    private PImage zombieJumperImg;                     // image of jumper zombie.
+    private PImage flashImg;                            // image of flash item.
+    private PImage exitImg;                             // image of exit.
+    private PImage remedyImg;                           // image of remedy.
+    private PImage survivorImg;                         // image of survivor.
+    private PImage obstacleImg;                         // image of obstacle.
+    private PImage portalImg;                           // image of portals.
 
+    /**
+     * Method to clear the board.
+     */
     private void clearBoard() {
         background(20);
     }
 
+    /**
+     * Method to draw the continue button.
+     */
     private void drawContinue() {
         fill(100, 50);
         textSize(20);
@@ -61,6 +66,9 @@ public class GameBoard extends PApplet {
         text("[ENTER] to continue", width - 20, height - 20);
     }
 
+    /**
+     * Method to draw the exit button.
+     */
     private void drawExit() {
         fill(100, 50);
         textSize(20);
@@ -68,6 +76,9 @@ public class GameBoard extends PApplet {
         text("[ESC] to exit", 20, 30);
     }
 
+    /**
+     * Method to draw the back button.
+     */
     private void drawBack() {
         fill(100, 50);
         textSize(20);
@@ -75,30 +86,39 @@ public class GameBoard extends PApplet {
         text("[BACKSPACE] to go back", 20, height - 20);
     }
 
+    /**
+     * Method to draw the board
+     * @param zombies       list of all zombies.
+     * @param survivors     list of all survivors.
+     * @param fixedObjects  list of all fixed objects.
+     */
     private void drawBoard(List<Zombie> zombies, List<Survivor> survivors, List<GameElement> fixedObjects) {
         fill(20);
         stroke(40);
+        float x, y;
         for (int i = 0; i < ySize; i++) {
             for (int j = 0; j < xSize; j++) {
                 rect(margin + j * xField, margin + boxTopHeight + i * xField, xField, yField);
+                x = margin + j * xField + 0.1f * xField;
+                y = margin + boxTopHeight + i * xField + 0.1f * yField;
                 
                 for (GameElement e : fixedObjects) {
                     if (e.getX() == j && e.getY() == i) {
                         switch (e.toGameBoard()) {
                             case EXIT -> {
-                                image(exitImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
+                                image(exitImg, x, y, xField * 0.8f, yField * 0.8f);
                             }
                             case ITEM -> {
-                                image(flashImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
+                                image(flashImg, x, y, xField * 0.8f, yField * 0.8f);
                             }
                             case OBSTACLE -> {
-                                image(obstacleImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
+                                image(obstacleImg, x, y, xField * 0.8f, yField * 0.8f);
                             }
                             case PORTAL -> {
-                                image(portalImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
+                                image(portalImg, x, y, xField * 0.8f, yField * 0.8f);
                             }
                             case REMEDY -> {
-                                image(remedyImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
+                                image(remedyImg, x, y, xField * 0.8f, yField * 0.8f);
                             }
                             default -> {
                             }
@@ -108,16 +128,16 @@ public class GameBoard extends PApplet {
                 
                 for (Survivor s : survivors) {
                     if (s.getX() == j && s.getY() == i) {
-                        image(survivorImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
+                        image(survivorImg, x, y, xField * 0.8f, yField * 0.8f);
                     }
                 }
 
                 for (Zombie z : zombies) {
                     if (z.getX() == j && z.getY() == i) {
                         if (z.getType() == ZombieTypes.NORMAL) {
-                            image(zombieNormalImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
+                            image(zombieNormalImg, x, y, xField * 0.8f, yField * 0.8f);
                         } else {
-                            image(zombieJumperImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
+                            image(zombieJumperImg, x, y, xField * 0.8f, yField * 0.8f);
                         }
 
                     }
@@ -127,6 +147,10 @@ public class GameBoard extends PApplet {
         drawExit();
     }
 
+    /**
+     * Method to draw the status bar on top. <p>
+     * Includes the activatable item, active item and the score.
+     */
     private void drawStatusBar() {
         stroke(0,0,0,0);
         fill(20);
@@ -165,6 +189,9 @@ public class GameBoard extends PApplet {
         }
     }
 
+    /**
+     * Method to draw a bottom bar for in-game messages.
+     */
     private void drawBottomBar() {
         stroke(0,0,0,0);
         fill(20);
@@ -175,6 +202,9 @@ public class GameBoard extends PApplet {
         text(board.getMessage(), width / 2f, margin + boxTopHeight + gridHeight + 50);
     }
 
+    /**
+     * Method to draw the main menu.
+     */
     private void drawMainMenu() {
         background(20);
         fill(255, random(50));
@@ -185,6 +215,9 @@ public class GameBoard extends PApplet {
         drawExit();
     }
 
+    /**
+     * Method to draw the infors about the elements and the controls.
+     */
     private void drawInfo() {
         background(20);
         int size = xField;
@@ -234,6 +267,9 @@ public class GameBoard extends PApplet {
         drawExit();
     }
 
+    /**
+     * Method to draw a window for choosing the difficulty.
+     */
     private void drawDifficulty() {
         background(20);
         fill(100, 100);
@@ -257,6 +293,9 @@ public class GameBoard extends PApplet {
         drawExit();
     }
 
+    /**
+     * Method to draw a message after win or loss.
+     */
     private void drawEndMessage() {
         fill(20, 10);
         rect(0,0,width, height);
@@ -276,12 +315,18 @@ public class GameBoard extends PApplet {
         text("Press [ESC] to exit or [ENTER] to start new game!", width / 2f, height / 2f + 100);
     }
 
+    /**
+     * Method to start a new game.
+     */
     private void startNewGame() {
         gameState = 0;
         board = new Board(BOARD_WIDTH, BOARD_HEIGHT, PlayType.WINDOW);
         ZombieGame = new ZGame(board);
     }
 
+    /**
+     * Method to check if the game is won or lost.
+     */
     private void ckeckWinCondition() {
         if (ZombieGame.isHasWon()) {
             gameState = 5;
@@ -291,7 +336,7 @@ public class GameBoard extends PApplet {
     }
 
     /**
-     * settings() is used for setting up the window size.
+     * Method is used for setting up the window size.
      */
     public void settings() {
         int x = xSize * xField + 2 * margin;
@@ -315,7 +360,7 @@ public class GameBoard extends PApplet {
     }
 
     /**
-     *  draw() is called directly after setup() and continuously executes the lines of code contained inside its block until the program is stopped or noLoop() is called.
+     *  Method is called directly after setup() and continuously executes the lines of code contained inside its block until the program is stopped or noLoop() is called.
      */
     public void draw() {
         switch (gameState) {
@@ -341,12 +386,15 @@ public class GameBoard extends PApplet {
         }
     }
 
+    /**
+     * Method is called each time the mouse is clicked.
+     */
     public void mousePressed() {
 
     }
 
     /**
-     * keyPressed() is called each time a single key on the keyboard is pressed.
+     * Method is called each time a single key on the keyboard is pressed.
      */
     public void keyPressed() {
         switch (gameState) {
@@ -460,10 +508,9 @@ public class GameBoard extends PApplet {
 
     /**
      * main method to initialize the GUI.
-     * @param args
+     * @param args args
      */
     public static void main(String[] args) {
         PApplet.main("playfield.GameBoard");
     }
-
 }

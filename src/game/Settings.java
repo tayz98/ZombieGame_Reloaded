@@ -15,17 +15,28 @@ import java.util.Scanner;
 
 public class Settings {
 
-    private int numExits;
-    private int numPlayers;
-    private int numRemedies;
-    private int numZombies;
-    private int zombieSleep = 0;
-    private int numItems;
-    private int numObstacles;
-    private final boolean hasCustomSettings;
-    private boolean portals;
+    private int numExits;                       // amount of exits.
+    private int numPlayers;                     // amount of players.
+    private int numRemedies;                    // amount of remedies.
+    private int numZombies;                     // amount of zombies.
+    private int zombieSleep = 0;                // rounds that the zombies sleep until first move.
+    private int numItems;                       // amount of items.
+    private int numObstacles;                   // amount of obstacles.
+    private final boolean hasCustomSettings;    // true if game has custom settings.
+    private boolean portals;                    // true if game enables portals.
 
-    // constructors for difficulty modes (easy, medium, hard and custom):
+    /**
+     * Constructs a Settings element depending on input.
+     * @param numExits          amount of exits.
+     * @param numPlayers        amount of players.
+     * @param numRemedies       amount of remedies.
+     * @param numZombies        amount of zombies.
+     * @param zombieSleep       rounds that the zombies will sleep.
+     * @param numItems          amount of items.
+     * @param numObstacles      amount of obstacles.
+     * @param hasCustomSettings true, if game has custom settings.
+     * @param hasPortals        true, if game has portals.
+     */
     public Settings(int numExits, int numPlayers, int numRemedies, int numZombies, int zombieSleep, int numItems, int numObstacles,
                     boolean hasCustomSettings, boolean hasPortals) {
         this.numExits = numExits;
@@ -39,6 +50,10 @@ public class Settings {
         this.portals = hasPortals;
     }
 
+    /**
+     * Constructs a Settings element depending on the chosen difficulty.
+     * @param difficulty    chosen difficulty (easy, medium or hard).
+     */
     public Settings(Difficulties difficulty) {
         switch (difficulty) {
             case EASY -> {
@@ -195,36 +210,66 @@ public class Settings {
         }
     }
 
-
-    // getter methods
+    /**
+     * Method to return amount of exits.
+     * @return amount of exits.
+     */
     public int getNumExits() {
         return numExits;
     }
 
+    /**
+     * Method to return amount of players.
+     * @return amount of players.
+     */
     public int getNumPlayers() {
         return numPlayers;
     }
 
+    /**
+     * Method to return amount of remedies.
+     * @return amount of remedies.
+     */
     public int getNumRemedies() {
         return numRemedies;
     }
 
+    /**
+     * Method to return amount of zombies.
+     * @return amount of zombies.
+     */
     public int getNumZombies() {
         return numZombies;
     }
 
+    /**
+     * Method to return rounds of sleep for the zombies.
+     * @return rounds of sleep for the zombies.
+     */
     public int getZombieSleep() {
         return zombieSleep;
     }
 
+    /**
+     * Method to return amount of items.
+     * @return amount of items.
+     */
     public int getNumItems() {
         return numItems;
     }
 
+    /**
+     * Method to return amount of obstacles.
+     * @return amount of obstacles.
+     */
     public int getNumObstacles() {
         return numObstacles;
     }
 
+    /**
+     * Method to return if the game will have portals.
+     * @return true, if game contains portals.
+     */
     public boolean hasPortals() {
         return portals;
     }
