@@ -12,7 +12,7 @@ ___
 ## Spielkonzept
 ___
 In einem von vier verschiedenen Schwierigkeitsgraden ist es Ziel des Spiels Heilmittel bzw. „Remedy“ einzusammeln und im Anschluss den Ausgang zu erreichen,  ohne dabei von den Zombies oder Jumper Zombies gefressen zu werden.  
-Wird man von einem Zombie gefangen und verspeist hat man das Spiel verloren.
+Wird man von einem Zombie gefangen und verspeist hat man das Spiel verloren.  
 Man bewegt die Spielfigur, den sogenannten „Survivor“ über ein Spielfeld (mit vorab definierter Größe) und umgeht dabei die Hindernisse.  
 Man kann die Spielfigur auf dem Spielfeld in vier verschiedene Richtungen bewegen und außerdem die Portale nutzen um zu einem anderen Portal und somit zu einem anderen Punkt auf dem Spielfeld zu gelangen.  
 Um den Zombies zu entkommen, welche sich ebenfalls auf dem Spielfeld bewegen, kann man zudem das Flash-Item einsammeln und aktivieren und dadurch die Geschwindigkeit des Survivors temporär erhöhen.  
@@ -44,28 +44,20 @@ ___
 ### Grafisch: 
 
 * Survivor: 
-
 ![Survivor](/playfield/images/survivor.png)
 * Zombie:
-
 ![Zombie](/playfield/images/zombieNormal.png)
 * Jumper: 
-
 ![Jumper](/playfield/images/ZombieJumper.png)
 * Remedy: 
-
 ![Remedy](/playfield/images/remedy.png)
 * Exit: 
-
-* ![Exit](/playfield/images/exit.png)
-* Portal: 
-
+![Exit](/playfield/images/exit.png)
+* Portal:
 ![Portal](/playfield/images/portal.png)
-* Flash: 
-
+* Flash:
 ![Flash](/playfield/images/flash.png)
-* Obstacle: 
-
+* Obstacle:
 ![Obstacle](/playfield/images/obstacle.png)
 
 
