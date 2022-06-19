@@ -9,6 +9,7 @@
 
 package game_elements;
 
+import enums.GameElements;
 import playfield.Board;
 
 import java.util.List;
@@ -29,18 +30,13 @@ public class Portal extends GameElement {
     }
 
     @Override // kann raus
-    public String toString() {
-        return "\uD83C\uDF00"; // https://emojipedia.org/cyclone/
-    }
-
-    @Override // kann raus
     public String toBoard() {
         return "o";
     }
 
     @Override
-    public String toGameBoard() {
-        return "Portal";
+    public GameElements toGameBoard() {
+        return GameElements.PORTAL;
     }
 
     // methods:

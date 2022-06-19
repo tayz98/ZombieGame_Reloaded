@@ -10,6 +10,7 @@
 package game_elements;
 
 import enums.Direction;
+import enums.GameElements;
 import playfield.Board;
 import java.util.List;
 
@@ -200,8 +201,8 @@ public class Survivor extends GameCharacter {
     }
 
     @Override
-    public String toGameBoard() {
-        return "Survivor";
+    public GameElements toGameBoard() {
+        return GameElements.SURVIVOR;
     }
 
     /**

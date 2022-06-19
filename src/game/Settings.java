@@ -13,7 +13,7 @@ public class Settings {
     private int zombieSleep = 0;
     private int numItems;
     private int numObstacles;
-    private boolean hasCustomSettings;
+    private final boolean hasCustomSettings;
     private boolean portals;
 
     public Settings(int numExits, int numPlayers, int numRemedies, int numZombies, int zombieSleep, int numItems, int numObstacles,

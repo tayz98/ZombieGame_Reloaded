@@ -10,6 +10,7 @@
 
 package game_elements;
 
+import enums.GameElements;
 import playfield.Board;
 import java.awt.*;
 import java.util.List;
@@ -29,7 +30,7 @@ public abstract class GameElement extends Point {
 
     public abstract String toBoard();
 
-    public abstract String toGameBoard();
+    public abstract GameElements toGameBoard();
 
     /**
      * With the help of the Random class, all game elements are assigned a random X and Y coordinate.

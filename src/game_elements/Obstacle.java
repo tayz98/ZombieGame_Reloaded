@@ -9,6 +9,7 @@
 
 package game_elements;
 
+import enums.GameElements;
 import playfield.Board;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class Obstacle extends GameElement {
     }
 
     @Override
-    public String toGameBoard() {
-        return "Obstacle";
+    public GameElements toGameBoard() {
+        return GameElements.OBSTACLE;
     }
 }

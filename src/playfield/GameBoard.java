@@ -9,7 +9,6 @@ import game_elements.Survivor;
 import game_elements.Zombie;
 import processing.core.PApplet;
 import processing.core.PImage;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameBoard extends PApplet {
@@ -78,19 +77,19 @@ public class GameBoard extends PApplet {
                 for (GameElement e : fixedObjects) {
                     if (e.getX() == j && e.getY() == i) {
                         switch (e.toGameBoard()) {
-                            case "Exit" -> {
+                            case EXIT -> {
                                 image(exitImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
                             }
-                            case "Item" -> {
+                            case ITEM -> {
                                 image(flashImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
                             }
-                            case "Obstacle" -> {
+                            case OBSTACLE -> {
                                 image(obstacleImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
                             }
-                            case "Portal" -> {
+                            case PORTAL -> {
                                 image(portalImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
                             }
-                            case "Remedy" -> {
+                            case REMEDY -> {
                                 image(remedyImg, margin + j * xField + 0.1f * xField, margin + boxTopHeight + i * xField + 0.1f * yField, xField * 0.8f, yField * 0.8f);
                             }
                             default -> {

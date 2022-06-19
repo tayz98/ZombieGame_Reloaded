@@ -10,6 +10,7 @@
 
 package game_elements;
 
+import enums.GameElements;
 import enums.ItemTypes;
 import playfield.Board;
 import java.util.List;
@@ -25,7 +26,6 @@ public class Item extends GameElement {
     ItemTypes type;
 
     // constructors:
-
     public Item(List<Item> items, List<GameElement> allElements, List<GameElement> fixedObjects, Board board) {
         super(allElements, board);
         items.add(this);
@@ -34,11 +34,9 @@ public class Item extends GameElement {
     }
 
     // getter and setter methods:
-
     public ItemTypes getType() {
         return type;
     }
-
 
     public void setType(ItemTypes type) {
         this.type = type;
@@ -67,7 +65,7 @@ public class Item extends GameElement {
     }
 
     @Override
-    public String toGameBoard() {
-        return "Item";
+    public GameElements toGameBoard() {
+        return GameElements.ITEM;
     }
 }

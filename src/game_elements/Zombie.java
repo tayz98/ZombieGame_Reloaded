@@ -9,6 +9,7 @@
 
 package game_elements;
 
+import enums.GameElements;
 import enums.ZombieTypes;
 import playfield.Board;
 import java.util.List;
@@ -238,8 +239,8 @@ public class Zombie extends GameCharacter {
     }
 
     @Override
-    public String toGameBoard() {
-        return "Zombie";
+    public GameElements toGameBoard() {
+        return GameElements.ZOMBIE;
     }
 
     /**
