@@ -386,11 +386,24 @@ public class GameBoard extends PApplet {
         }
     }
 
+    private void drawTest() {
+        fill(255, 0, 0 , 20);
+        rect(width - 200, height - 40, 200, 30);
+    }
+
     /**
      * Method is called each time the mouse is clicked.
      */
     public void mousePressed() {
-
+        switch (gameState) {
+            case 0 -> {
+                if (mouseX >= 20 && mouseX <= 120 && mouseY >= 10 && mouseY <= 40) {
+                    System.exit(42);
+                } else if (mouseX >= width - 200 && mouseX <= width && mouseY >= height - 40 && mouseY <= height - 10) {
+                    gameState++;
+                }
+            }
+        }
     }
 
     /**
