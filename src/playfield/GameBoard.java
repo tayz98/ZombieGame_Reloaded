@@ -60,7 +60,7 @@ public class GameBoard extends PApplet {
      * Method to draw the continue button.
      */
     private void drawContinue() {
-        fill(100, 50);
+        fill(200, 75);
         textSize(20);
         textAlign(RIGHT);
         text("[ENTER] to continue", width - 20, height - 20);
@@ -70,7 +70,7 @@ public class GameBoard extends PApplet {
      * Method to draw the exit button.
      */
     private void drawExit() {
-        fill(100, 50);
+        fill(200, 75);
         textSize(20);
         textAlign(LEFT);
         text("[ESC] to exit", 20, 30);
@@ -80,7 +80,7 @@ public class GameBoard extends PApplet {
      * Method to draw the back button.
      */
     private void drawBack() {
-        fill(100, 50);
+        fill(200, 75);
         textSize(20);
         textAlign(LEFT);
         text("[BACKSPACE] to go back", 20, height - 20);
@@ -157,7 +157,7 @@ public class GameBoard extends PApplet {
         rect(margin, margin, gridWidth, boxTopHeight);
 
         textSize(30);
-        fill(100, 100);
+        fill(200, 100);
         textAlign(LEFT);
         // Score
         text("Score: " + board.getScore(), width - margin - 150, margin + boxTopHeight / 2f);
@@ -175,7 +175,7 @@ public class GameBoard extends PApplet {
         if (board.getActivatableItem() != null) {
             image(flashImg, margin + 150, margin, 30, 30);
             textSize(30);
-            fill(100, 100);
+            fill(200, 100);
             textAlign(LEFT);
             text("[E] to activate", margin + 200, margin + 25);
         }
@@ -183,7 +183,7 @@ public class GameBoard extends PApplet {
         if (board.getActiveItem() != null) {
             image(flashImg, margin + 150, margin + 50, 30, 30);
             textSize(30);
-            fill(100, 100);
+            fill(200, 100);
             textAlign(LEFT);
             text(board.getRoundsActive() + " rounds left", margin + 200, margin + 75);
         }
@@ -228,7 +228,7 @@ public class GameBoard extends PApplet {
         int controlStart = width - 450;
         int yOffset = 100;
 
-        fill(100, 100);
+        fill(200, 100);
         textSize(50);
         textAlign(CENTER);
         text("information and controls", width / 2f, 60);
@@ -272,14 +272,14 @@ public class GameBoard extends PApplet {
      */
     private void drawDifficulty() {
         background(20);
-        fill(100, 100);
+        fill(200, 100);
         textSize(50);
         textAlign(CENTER);
         text("choose difficulty", width / 2f, 60);
         textSize(20);
         text("(see manual for details, choose with UP and DOWN)", width / 2f, 85);
 
-        fill(100, 100);
+        fill(200, 100);
         stroke(0,0,0,0);
         triangle(width / 2f - 50, 170 + difficultyOffset, width / 2f - 50, 200 + difficultyOffset, width / 2f - 20, 185 + difficultyOffset);
 
