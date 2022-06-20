@@ -38,7 +38,7 @@ public class ZGame {
 
     /**
      * Constructs a zombie game with a board as the parameter.
-     * @param board
+     * @param board     instance ob the board object.
      */
     public ZGame(Board board) {
         this.board = board;

@@ -31,7 +31,7 @@ Durch Processing wird das Spielfeld permanent neu gezeichnet. Durch die Variable
 Gewinnt oder verliert man das Spiel, erscheint eine Nachricht auf dem Bildschirm und das Spiel ist vorbei. Man hat dort nun die Möglichkeit, das Programm zu beenden oder das Spiel von vorne zu starten.
 ___
 ## Spielanleitung
-siehe externe Datei **_Spielanleitung_**.
+siehe Datei **_Spielanleitung_**.
 ___
 ## Erfahrungsbericht
 Erfahrungsbericht zur Portierung des schon vorhandenen Programmes
@@ -49,7 +49,7 @@ Alles in allem haben wir die Funktionalitäten und Strukturen unseres alten Prog
 Die deklarierten Methoden wurden den Objekten zugeordnet, bei denen die Methoden Sinn ergeben und der gesamte Ablauf der main-Methode wurde in eine eigene Instanz vom Spielobjekt **ZGame** verlagert.
 ---
 ## UML
-siehe externe Datei **_UML_Diagramm_**
+siehe Datei **_UML_Diagramm_**
 ___
 ## Anforderungen
 
