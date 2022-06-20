@@ -18,6 +18,8 @@ import game_elements.Survivor;
 import game_elements.Zombie;
 import processing.core.PApplet;
 import processing.core.PImage;
+
+import java.awt.image.TileObserver;
 import java.util.List;
 
 public class GameBoard extends PApplet {
@@ -336,6 +338,27 @@ public class GameBoard extends PApplet {
     }
 
     /**
+     * Method to draw the controls in the game.
+     */
+    private void drawControls() {
+        fill(20);
+        stroke(100);
+        textSize(20);
+        rect(margin + 100, margin + boxTopHeight + gridHeight + 50, 30, 30, 10);
+        rect(margin + 60, margin + boxTopHeight + gridHeight + 90, 30, 30, 10);
+        rect(margin + 100, margin + boxTopHeight + gridHeight + 90, 30, 30, 10);
+        rect(margin + 140, margin + boxTopHeight + gridHeight + 90, 30, 30, 10);
+        rect(margin + 140, margin + boxTopHeight + gridHeight + 50, 30, 30, 10);
+        fill(100);
+        textAlign(CENTER, TOP);
+        text("W", margin + 115, margin + boxTopHeight + gridHeight + 50);
+        text("A", margin + 75, margin + boxTopHeight + gridHeight + 90);
+        text("S", margin + 115, margin + boxTopHeight + gridHeight + 90);
+        text("D", margin + 155, margin + boxTopHeight + gridHeight + 90);
+        text("E", margin + 155, margin + boxTopHeight + gridHeight + 50);
+    }
+
+    /**
      * Method is used for setting up the window size.
      */
     public void settings() {
@@ -378,17 +401,13 @@ public class GameBoard extends PApplet {
                 clearBoard();
                 drawStatusBar();
                 drawBottomBar();
+                drawControls();
                 drawBoard(ZombieGame.getZombies(), ZombieGame.getSurvivors(), ZombieGame.getFixedObjects());
             }
             case 4, 5 -> {
                 drawEndMessage();
             }
         }
-    }
-
-    private void drawTest() {
-        fill(255, 0, 0 , 20);
-        rect(width - 200, height - 40, 200, 30);
     }
 
     /**
@@ -401,6 +420,112 @@ public class GameBoard extends PApplet {
                     System.exit(42);
                 } else if (mouseX >= width - 200 && mouseX <= width && mouseY >= height - 40 && mouseY <= height - 10) {
                     gameState++;
+                }
+            }
+            case 1 -> {
+                if (mouseX >= 20 && mouseX <= 120 && mouseY >= 10 && mouseY <= 40) {
+                    System.exit(42);
+                } else if (mouseX >= width - 200 && mouseX <= width && mouseY >= height - 40 && mouseY <= height - 10) {
+                    gameState++;
+                } else if (mouseX >= 20 && mouseX <= 220 && mouseY >= height - 40 && mouseY <= height - 10) {
+                    gameState--;
+                }
+            }
+            case 2 -> {
+                if (mouseX >= 20 && mouseX <= 120 && mouseY >= 10 && mouseY <= 40) {
+                    System.exit(42);
+                } else if (mouseX >= width - 200 && mouseX <= width && mouseY >= height - 40 && mouseY <= height - 10) {
+                    gameState++;
+                    ZombieGame.adjustGame(difficulty);
+                    ZombieGame.setupGame();
+                } else if (mouseX >= 20 && mouseX <= 220 && mouseY >= height - 40 && mouseY <= height - 10) {
+                    gameState--;
+                } else if (mouseX >= width / 2f && mouseX <= width / 2f + 200 && mouseY >= 160 && mouseY <= 200) {
+                    difficulty = 1;
+                    gameState++;
+                    ZombieGame.adjustGame(difficulty);
+                    ZombieGame.setupGame();
+                } else if (mouseX >= width / 2f && mouseX <= width / 2f + 200 && mouseY >= 260 && mouseY <= 300) {
+                    difficulty = 2;
+                    gameState++;
+                    ZombieGame.adjustGame(difficulty);
+                    ZombieGame.setupGame();
+                } else if (mouseX >= width / 2f && mouseX <= width / 2f + 200 && mouseY >= 360 && mouseY <= 400) {
+                    difficulty = 3;
+                    gameState++;
+                    ZombieGame.adjustGame(difficulty);
+                    ZombieGame.setupGame();
+                }
+            }
+            case 3 -> {
+                if (mouseX >= 20 && mouseX <= 120 && mouseY >= 10 && mouseY <= 40) {
+                    // ESC
+                    System.exit(42);
+                } else if (mouseX >= margin + 100 && mouseX <= margin + 130 && mouseY >= margin + boxTopHeight + gridHeight + 50 && mouseY <= margin + boxTopHeight + gridHeight + 80) {
+                    // UP
+                    for (Survivor s : ZombieGame.getSurvivors()) {
+                        if (s.isValidMove(0, -1, board, ZombieGame.getObstacles())) {
+                            s.move(Direction.UP, this.board);
+                            try {
+                                ZombieGame.nextRound();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        break;
+                    }
+                } else if (mouseX >= margin + 100 && mouseX <= margin + 130 && mouseY >= margin + boxTopHeight + gridHeight + 90 && mouseY <= margin + boxTopHeight + gridHeight + 120) {
+                    // DOWN
+                    for (Survivor s : ZombieGame.getSurvivors()) {
+                        if (s.isValidMove(0, 1, board, ZombieGame.getObstacles())) {
+                            s.move(Direction.DOWN, this.board);
+                            try {
+                                ZombieGame.nextRound();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        break;
+                    }
+                } else if (mouseX >= margin + 60 && mouseX <= margin + 90 && mouseY >= margin + boxTopHeight + gridHeight + 90 && mouseY <= margin + boxTopHeight + gridHeight + 120) {
+                    // LEFT
+                    for (Survivor s : ZombieGame.getSurvivors()) {
+                        if (s.isValidMove(-1, 0, board, ZombieGame.getObstacles())) {
+                            s.move(Direction.LEFT, this.board);
+                            try {
+                                ZombieGame.nextRound();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        break;
+                    }
+                } else if (mouseX >= margin + 140 && mouseX <= margin + 170 && mouseY >= margin + boxTopHeight + gridHeight + 90 && mouseY <= margin + boxTopHeight + gridHeight + 120) {
+                    // RIGHT
+                    for (Survivor s : ZombieGame.getSurvivors()) {
+                        if (s.isValidMove(1, 0, board, ZombieGame.getObstacles())) {
+                            s.move(Direction.RIGHT, this.board);
+                            try {
+                                ZombieGame.nextRound();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        break;
+                    }
+                } else if (mouseX >= margin + 140 && mouseX <= margin + 170 && mouseY >= margin + boxTopHeight + gridHeight + 50 && mouseY <= margin + boxTopHeight + gridHeight + 80) {
+                    // ITEM
+                    for (Survivor s : ZombieGame.getSurvivors()) {
+                        s.activatePowerUp();
+                        board.activatePowerUp();
+                    }
+                }
+            }
+            case 4, 5 -> {
+                if (mouseX >= 210 && mouseX <= 320 && mouseY >= 390 && mouseY <= 440) {
+                    System.exit(42);
+                } else if (mouseX >= 525 && mouseX <= 695 && mouseY >= 390 && mouseY <= 440) {
+                    startNewGame();
                 }
             }
         }
@@ -502,7 +627,7 @@ public class GameBoard extends PApplet {
                         }
                     }     // W
                     case 27 -> {System.exit(42);}                       // ESC
-                    case 69 -> {
+                    case 69 -> {                                                // E
                         for (Survivor s : ZombieGame.getSurvivors()) {
                             s.activatePowerUp();
                             board.activatePowerUp();

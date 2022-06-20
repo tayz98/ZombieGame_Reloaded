@@ -77,7 +77,7 @@ ___
   * Einsammelbares Powerup mit hilfreicher Funktionalität für den Spieler [x] (Flash-Item)
   * Einstellbarer Schwierigkeitsgrad [x] (EASY, MEDIUM und HARD)
   * Hindernisse, z.B. Felsen oder Mauern [x] (Hindernisse sind im Spiel)
-  * Zweispielermodus [] (stattdessen Portale im Spiel)
+  * Zweispielermodus [] (stattdessen Portale im Spiel + Maussteuerung)
   * Punktestand [x] (Punktestand oberhalb des Spielfeldes)
   * Grafische Oberfläche [x] (umgesetzt in GameBoard.java)
   * ~~Sinnvoller Einsatz zweier Design Patterns~~
